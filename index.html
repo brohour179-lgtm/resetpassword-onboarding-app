@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lenovo Tab M11 — Sathapana Onboarding Simulator</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Khmer:wght@400;600;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans Khmer', 'sans-serif'],
+                        khmer: ['Noto Sans Khmer', 'sans-serif']
+                    },
+                    colors: {
+                        sathapana: {
+                            blue: '#0F4C81',
+                            lightBlue: '#1D70B8',
+                            darkBlue: '#0A3359',
+                            bgGray: '#F5F7FA'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+
+
+
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <!-- =======================================================
+     SIMULATOR HEADER
+======================================================= -->
+    <header class="simulator-header">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+
+            <div class="flex items-center gap-3 simulator-title">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500
+                        flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-tablet-screen-button text-white text-lg"></i>
+                </div>
+
+                <div>
+                    <h1 class="text-sm sm:text-base font-bold text-white tracking-wide">
+                        Lenovo Tab M11
+                        <span class="text-[9px] bg-slate-700 text-blue-300 px-2 py-1 rounded-full">
+                            Simulator
+                        </span>
+                    </h1>
+                    <p class="text-[10px] text-slate-400">
+                        Sathapana Bank — Onboarding App Interactive Simulator
+                    </p>
+                </div>
+            </div>
+
+            <div class="toolbar">
+
+                <button id="toggleMotionBtn" class="toolbar-btn flex items-center gap-2 active" type="button"
+                    title="Toggle dynamic animations & motion (ចលនា)">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i>
+                    <span id="motionBtnText">Effects: ON</span>
+                </button>
+
+                <button id="toggleGuideBtn" class="toolbar-btn flex items-center gap-2" type="button"
+                    title="Toggle teaching guide pointer for video tutorials (ការណែនាំ)">
+                    <i class="fa-solid fa-hand-pointer text-cyan-300"></i>
+                    <span id="guideBtnText">Guide: ON</span>
+                </button>
+
+                <button id="toggleScaleBtn" class="toolbar-btn flex items-center gap-2" type="button"
+                    title="Toggle resolution scale for HD / 4K video recording (ទំហំ HD / 4K)">
+                    <i class="fa-solid fa-up-right-and-down-left-from-center text-purple-300"></i>
+                    <span id="scaleBtnText">Size: 100%</span>
+                </button>
+
+                <button id="toggleOrientationBtn" class="toolbar-btn flex items-center gap-2" type="button"
+                    title="Rotate tablet">
+                    <i class="fa-solid fa-rotate text-blue-400"></i>
+                    <span id="orientationText">Portrait</span>
+                </button>
+
+                <button id="toggleFrameBtn" class="toolbar-btn flex items-center gap-2" type="button"
+                    title="Change frame">
+                    <i class="fa-solid fa-palette text-amber-400"></i>
+                    <span id="frameColorText">Titanium</span>
+                </button>
+
+                <div class="brightness-control">
+                    <i class="fa-regular fa-sun text-slate-400 text-[10px]"></i>
+                    <input id="brightnessSlider" type="range" min="30" max="100" value="100">
+                    <i class="fa-solid fa-sun text-amber-400 text-[10px]"></i>
+                </div>
+
+                <button id="resetDemoBtn" class="toolbar-btn primary flex items-center gap-2" type="button">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>Reset</span>
+                </button>
+
+                <button id="toggleFullscreenBtn" class="toolbar-btn flex items-center gap-2" type="button"
+                    title="Toggle full screen">
+                    <i class="fa-solid fa-expand text-emerald-400"></i>
+                    <span id="fullscreenText">Full Screen</span>
+                </button>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- =======================================================
+     TABLET
+======================================================= -->
+    <main class="tablet-stage">
+
+        <div id="tabletChassis" class="tablet-chassis frame-titanium portrait">
+
+            <!-- Hardware -->
+            <button id="powerBtn" class="hardware-button power-button" type="button" aria-label="Power button"></button>
+
+            <button id="volUpBtn" class="hardware-button volume-up" type="button" aria-label="Volume up"></button>
+
+            <button id="volDownBtn" class="hardware-button volume-down" type="button" aria-label="Volume down"></button>
+
+            <div class="device-camera">
+                <div class="device-camera-main"></div>
+                <div class="device-camera-dot"></div>
+            </div>
+
+            <div class="device-speaker top"></div>
+            <div class="device-speaker bottom"></div>
+
+
+            <!-- ===================================================
+         SCREEN
+    ==================================================== -->
+            <div id="screenContainer" class="screen-bezel">
+
+                <div class="screen-glare"></div>
+
+                <!-- STATUS BAR -->
+                <div id="statusBar">
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.9)] animate-pulse"
+                            title="Screen Recording Indicator"></span>
+                        <span id="currentTime" class="font-semibold">10:57 AM</span>
+                    </div>
+
+                    <div id="statusIcons">
+                        <i class="fa-solid fa-signal"></i>
+                        <i class="fa-solid fa-wifi"></i>
+                        <div class="battery">
+                            <i class="fa-solid fa-battery-three-quarters"></i>
+                            <span class="font-mono">65%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =================================================
+             SCROLLABLE APPLICATION AREA
+        ================================================== -->
+                <div id="screenContent">
+
+                    <!-- ================= ANDROID TABLET HOME SCREEN ================= -->
+                    <section id="tabletHomeView"
+                        class="app-view relative flex flex-col justify-between w-full h-full min-h-full select-none overflow-hidden">
+
+                        <!-- Dynamic Ambient Live Wallpaper Waves (មានចលនា / Dynamic Motion) -->
+                        <div class="live-wallpaper-ambient pointer-events-none" aria-hidden="true">
+                            <div class="ambient-glow glow-1"></div>
+                            <div class="ambient-glow glow-2"></div>
+                            <div class="ambient-glow glow-3"></div>
+                            <div class="ambient-shimmer"></div>
+                        </div>
+
+                        <!-- Top Widget Area (Digital Clock & Date & Search) -->
+                        <div class="px-5 pt-8 pb-3 text-white relative z-10">
+                            <div class="text-left drop-shadow-md">
+                                <div id="homeDigitalTime" class="text-4xl font-light tracking-tight text-white/95">
+                                    12<span class="clock-colon">:</span>50</div>
+                                <div id="homeDigitalDate"
+                                    class="text-xs font-medium text-white/80 tracking-wide mt-0.5">Saturday, September
+                                    27</div>
+                            </div>
+
+                            <!-- Google Search Bar Pill -->
+                            <div
+                                class="mt-4 flex items-center justify-between px-3.5 py-2 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white shadow-lg cursor-pointer hover:bg-white/25 transition relative overflow-hidden search-bar-container">
+                                <div class="search-sheen"></div>
+                                <div class="flex items-center gap-2.5 relative z-10">
+                                    <i class="fa-brands fa-google text-white text-sm"></i>
+                                    <span class="text-xs text-white/85">Search or type web address</span>
+                                </div>
+                                <div class="flex items-center gap-2.5 text-white/80 text-xs relative z-10">
+                                    <i class="fa-solid fa-microphone"></i>
+                                    <i class="fa-solid fa-camera"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main App Icons Grid (Office Apps + Sathapana Onboarding App) -->
+                        <div class="flex-1 px-4 py-2 flex flex-col justify-center relative z-10">
+                            <!-- 4-column Android App Grid -->
+                            <div class="grid grid-cols-4 gap-y-4 gap-x-2 text-center max-w-sm mx-auto w-full">
+                                <!-- App 1: Sathapana Onboarding App (Hero App with Motion & Attention Guide) -->
+                                <button id="appIconOnboarding"
+                                    class="home-app-item hero-app flex flex-col items-center group relative"
+                                    type="button" title="Open Onboarding App">
+
+                                    <!-- Animated Teaching Guide Pointer (Khmer & English) -->
+                                    <div id="teachingGuideHint" class="teaching-guide-pointer"
+                                        title="ចុចត្រង់នេះដើម្បីចាប់ផ្តើម (Tap here to open)">
+                                        <div class="guide-bubble shadow-xl">
+                                            <span class="guide-txt font-khmer">ចុចត្រង់នេះ</span>
+                                            <span class="guide-sub font-mono">Tap here</span>
+                                        </div>
+                                        <div class="guide-arrow">
+                                            <i class="fa-solid fa-hand-pointer text-amber-300 drop-shadow-md"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- Expanding pulsating radar beacon rings -->
+                                    <div class="hero-beacon-ring"></div>
+                                    <div class="hero-beacon-ring-2"></div>
+
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-xl flex items-center justify-center p-2.5 transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/50 relative overflow-hidden app-icon-box">
+                                        <img src="sathapana-logo-clean.png" alt="Onboarding App"
+                                            class="w-full h-full object-contain drop-shadow">
+
+                                        <!-- Diagonal Light Sheen Sweep Effect -->
+                                        <div class="icon-sheen-sweep"></div>
+
+                                        <!-- Enhanced Animated Notification Badge with Radar Ping -->
+                                        <span class="absolute -top-1 -right-1 flex h-4 w-4">
+                                            <span
+                                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                            <span
+                                                class="relative inline-flex rounded-full h-4 w-4 bg-red-500 border-2 border-white shadow-sm"></span>
+                                        </span>
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Onboarding</span>
+                                </button>
+
+                                <!-- App 2: Microsoft Outlook -->
+                                <button id="appIconOutlook" class="home-app-item flex flex-col items-center group"
+                                    type="button" title="Outlook">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#005a9e] to-[#0078d4] shadow-xl flex items-center justify-center text-white transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        <i class="fa-solid fa-envelope text-xl"></i>
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Outlook</span>
+                                </button>
+
+                                <!-- App 3: Microsoft Word -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Word">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#103f91] to-[#185abd] shadow-xl flex items-center justify-center text-white font-extrabold text-xl transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        W
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Word</span>
+                                </button>
+
+                                <!-- App 4: Microsoft Excel -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Excel">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#0e5c2f] to-[#107c41] shadow-xl flex items-center justify-center text-white font-extrabold text-xl transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        X
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Excel</span>
+                                </button>
+
+                                <!-- App 5: Microsoft PowerPoint -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="PowerPoint">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#a4260e] to-[#c43e1c] shadow-xl flex items-center justify-center text-white font-extrabold text-xl transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        P
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">PowerPoint</span>
+                                </button>
+
+                                <!-- App 6: Microsoft Teams -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Teams">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#464eb8] to-[#6264a7] shadow-xl flex items-center justify-center text-white text-xl transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        <i class="fa-solid fa-users"></i>
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Teams</span>
+                                </button>
+
+                                <!-- App 7: Microsoft OneDrive -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="OneDrive">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#005a9e] to-[#0078d4] shadow-xl flex items-center justify-center text-white text-lg transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        <i class="fa-solid fa-cloud"></i>
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">OneDrive</span>
+                                </button>
+
+                                <!-- App 8: Microsoft 365 -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Office 365">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#d83b01] via-[#eb3c00] to-[#f25022] shadow-xl flex items-center justify-center text-white text-lg transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        <i class="fa-solid fa-cubes"></i>
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Office
+                                        365</span>
+                                </button>
+
+                                <!-- App 9: Google Chrome -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Chrome">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-xl flex items-center justify-center text-xl transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        <i class="fa-brands fa-chrome text-amber-500"></i>
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Chrome</span>
+                                </button>
+
+                                <!-- App 10: Files -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Files">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#1976d2] to-[#42a5f5] shadow-xl flex items-center justify-center text-white text-lg transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        <i class="fa-solid fa-folder"></i>
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Files</span>
+                                </button>
+
+                                <!-- App 11: Settings -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Settings">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-slate-600 to-slate-500 shadow-xl flex items-center justify-center text-white text-lg transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        <i class="fa-solid fa-gear"></i>
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Settings</span>
+                                </button>
+
+                                <!-- App 12: Google Play -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Play Store">
+                                    <div
+                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-xl flex items-center justify-center text-emerald-500 text-lg transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                    <span
+                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Play
+                                        Store</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Indicator Chevron and Dock -->
+                        <div class="px-4 pb-3">
+                            <!-- Chevron Up (App Drawer Handle) -->
+                            <div class="flex justify-center mb-2 animate-bounce">
+                                <i class="fa-solid fa-chevron-up text-white/70 text-xs"></i>
+                            </div>
+
+                            <!-- Android Bottom App Dock -->
+                            <div
+                                class="flex items-center justify-around py-2.5 px-3 rounded-3xl bg-white/15 backdrop-blur-xl border border-white/20 shadow-2xl max-w-sm mx-auto w-full">
+                                <!-- Dock 1: Phone -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Phone">
+                                    <div
+                                        class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-emerald-400 shadow-lg flex items-center justify-center text-white text-base transition-transform group-hover:scale-110">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                </button>
+
+                                <!-- Dock 2: Outlook -->
+                                <button id="dockIconOutlook" class="home-app-item flex flex-col items-center group"
+                                    type="button" title="Outlook">
+                                    <div
+                                        class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#005a9e] to-[#0078d4] shadow-lg flex items-center justify-center text-white text-base transition-transform group-hover:scale-110">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                </button>
+
+                                <!-- Dock 3: Sathapana Onboarding (Quick Launch) -->
+                                <button id="dockIconOnboarding"
+                                    class="home-app-item hero-dock-app flex flex-col items-center group relative"
+                                    type="button" title="Onboarding App">
+                                    <div class="dock-beacon-ring"></div>
+                                    <div
+                                        class="w-11 h-11 rounded-2xl bg-white shadow-lg flex items-center justify-center p-2 transition-transform group-hover:scale-110 border border-white/60 relative overflow-hidden">
+                                        <img src="sathapana-logo-clean.png" alt="Onboarding App"
+                                            class="w-full h-full object-contain">
+                                        <div class="icon-sheen-sweep"></div>
+                                    </div>
+                                </button>
+
+                                <!-- Dock 4: Chrome -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Chrome">
+                                    <div
+                                        class="w-11 h-11 rounded-2xl bg-white shadow-lg flex items-center justify-center text-base transition-transform group-hover:scale-110">
+                                        <i class="fa-brands fa-chrome text-amber-500"></i>
+                                    </div>
+                                </button>
+
+                                <!-- Dock 5: Camera -->
+                                <button class="home-app-item flex flex-col items-center group" type="button"
+                                    data-app-name="Camera">
+                                    <div
+                                        class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-slate-700 to-slate-900 shadow-lg flex items-center justify-center text-white text-base transition-transform group-hover:scale-110">
+                                        <i class="fa-solid fa-camera"></i>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ================= ONBOARDING APP SPLASH / LOADING SCREEN ================= -->
+                    <section id="splashLoadingView"
+                        class="app-view hidden relative flex flex-col justify-between w-full h-full min-h-full select-none overflow-hidden bg-[#0F4C81] text-white">
+
+                        <!-- Splash ambient background glow -->
+                        <div class="splash-ambient-glow pointer-events-none" aria-hidden="true"></div>
+
+                        <!-- Top Brand Lockup -->
+                        <div class="pt-16 sm:pt-20 px-8 flex items-center justify-center relative z-10">
+                            <div class="flex items-center gap-3">
+                                <img src="sathapana-logo-clean.png" alt="SATHAPANA BANK"
+                                    class="w-11 h-11 object-contain drop-shadow-md select-none pointer-events-none splash-logo-pulse">
+                                <div class="text-left text-white leading-tight">
+                                    <p class="text-base font-bold font-khmer">ធនាគារ ស្ថាបនា</p>
+                                    <p class="text-[10px] font-extrabold tracking-[.18em]">SATHAPANA BANK</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Center App Title & Animated Loader -->
+                        <div class="my-auto text-center px-6 relative z-10">
+                            <h1
+                                class="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-sm splash-title-fade">
+                                Onboarding App
+                            </h1>
+                            <!-- Smooth elegant loader with progress track -->
+
+                        </div>
+
+                        <!-- Bottom Version -->
+                        <div class="pb-8 text-center relative z-10">
+                            <span class="text-sm font-semibold tracking-wider text-white/90 font-mono">3.0.4</span>
+                        </div>
+                    </section>
+
+                    <!-- ================= LOGIN ================= -->
+                    <section id="loginView" class="app-view hidden flex flex-col justify-center p-5 sm:p-6">
+
+                        <div class="w-full max-w-sm mx-auto">
+
+                            <div class="text-center">
+
+                                <div class="flex justify-center mb-2">
+                                    <img src="sathapana-logo-clean.png" alt="SATHAPANA BANK"
+                                        class="w-12 h-12 object-contain drop-shadow-sm select-none pointer-events-none">
+                                </div>
+
+                                <p class="text-sm font-bold text-sathapana-blue font-khmer">
+                                    ធនាគារ ស្ថាបនា
+                                </p>
+
+                                <p class="text-[9px] font-extrabold tracking-[.16em] text-sathapana-blue">
+                                    SATHAPANA BANK
+                                </p>
+
+                                <h2 class="text-2xl font-extrabold text-sathapana-blue mt-2">
+                                    ONBOARDING
+                                    <span class="font-normal text-sathapana-lightBlue">App</span>
+                                </h2>
+
+                                <p id="lblSelectLanguage"
+                                    class="text-xs sm:text-[13px] font-medium text-slate-500 mt-1 select-none"
+                                    data-en="Select Language" data-kh="ជ្រើសរើសភាសា">
+                                    Select Language
+                                </p>
+                            </div>
+
+                            <!-- Language -->
+                            <div class="language-switcher" aria-label="Language selection">
+
+                                <button id="langEnBtn" class="lang-btn active" type="button"
+                                    aria-label="Switch to English" aria-pressed="true">
+                                    <span class="lang-code">EN</span>
+                                    <span class="lang-flag" aria-hidden="true">
+                                        <svg viewBox="0 0 60 40" focusable="false">
+                                            <clipPath id="uk-clip-en">
+                                                <rect width="60" height="40" rx="3" />
+                                            </clipPath>
+                                            <g clip-path="url(#uk-clip-en)">
+                                                <rect width="60" height="40" fill="#012169" />
+                                                <path d="M0 0L60 40M60 0L0 40" stroke="#ffffff" stroke-width="8" />
+                                                <path d="M0 0L30 20M60 40L30 20" stroke="#C8102E" stroke-width="2.6" />
+                                                <path d="M60 0L30 20M0 40L30 20" stroke="#C8102E" stroke-width="2.6" />
+                                                <path d="M30 0v40M0 20h60" stroke="#ffffff" stroke-width="13" />
+                                                <path d="M30 0v40M0 20h60" stroke="#C8102E" stroke-width="8" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="lang-name">English</span>
+                                </button>
+
+                                <button id="langKhBtn" class="lang-btn" type="button" aria-label="ប្តូរទៅភាសាខ្មែរ"
+                                    aria-pressed="false">
+                                    <span class="lang-code">KH</span>
+                                    <span class="lang-flag" aria-hidden="true">
+                                        <svg viewBox="0 0 64 42" focusable="false">
+                                            <clipPath id="kh-clip-kh">
+                                                <rect width="64" height="42" rx="3" />
+                                            </clipPath>
+                                            <g clip-path="url(#kh-clip-kh)">
+                                                <rect width="64" height="42" fill="#032EA1" />
+                                                <rect y="10.5" width="64" height="21" fill="#ED1B24" />
+                                                <g fill="#FFFFFF">
+                                                    <rect x="15" y="27.5" width="34" height="2.5" rx="0.5" />
+                                                    <rect x="18" y="25" width="28" height="2.5" rx="0.5" />
+                                                    <rect x="21" y="23" width="22" height="2" />
+                                                    <path
+                                                        d="M32 12.5 C31 14.5 29.5 16 29.5 18 L29.5 23 L34.5 23 L34.5 18 C34.5 16 33 14.5 32 12.5 Z" />
+                                                    <polygon points="32,11 31,13 33,13" />
+                                                    <path
+                                                        d="M26 15.5 C25.2 17 24.2 18.2 24.2 20 L24.2 23 L27.8 23 L27.8 20 C27.8 18.2 26.8 17 26 15.5 Z" />
+                                                    <polygon points="26,14.2 25.2,16 26.8,16" />
+                                                    <path
+                                                        d="M38 15.5 C37.2 17 36.2 18.2 36.2 20 L36.2 23 L39.8 23 L39.8 20 C39.8 18.2 38.8 17 38 15.5 Z" />
+                                                    <polygon points="38,14.2 37.2,16 38.8,16" />
+                                                    <path
+                                                        d="M20.5 19 C20 20 19.5 21 19.5 22 L19.5 23 L22.5 23 L22.5 22 C22.5 21 22 20 21.5 19 Z" />
+                                                    <path
+                                                        d="M43.5 19 C43 20 42.5 21 42.5 22 L42.5 23 L45.5 23 L45.5 22 C45.5 21 45 20 44.5 19 Z" />
+                                                    <rect x="20" y="22" width="24" height="1.5" />
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="lang-name font-khmer">ខ្មែរ</span>
+                                </button>
+
+                            </div>
+
+                            <!-- Login -->
+                            <form id="loginForm" class="space-y-3">
+
+                                <div>
+
+
+                                    <div class="app-input px-3">
+                                        <i class="fa-solid fa-id-badge text-slate-500 w-5 text-center text-xs"></i>
+                                        <input id="userIdInput" type="text" value="" required class="w-full px-2 text-sm text-slate-800 font-bold
+                                              focus:outline-none bg-transparent" placeholder="Staff ID (5 digits)">
+                                    </div>
+                                </div>
+
+                                <div>
+
+                                    <div class="app-input px-3 relative">
+                                        <i class="fa-solid fa-lock text-slate-500 w-5 text-center text-xs"></i>
+
+                                        <input id="passwordInput" type="password" value="" required class="w-full px-2 pr-8 text-sm text-slate-800 font-bold
+                                              focus:outline-none bg-transparent" placeholder="Password">
+
+                                        <button id="togglePasswordBtn" class="password-toggle-icon" type="button"
+                                            class="absolute right-3 text-slate-500 hover:text-sathapana-blue">
+                                            <i id="eyeIcon" class="fa-regular fa-eye text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button id="forgotPasswordBtn" type="button" class="text-[11px] font-bold text-sathapana-blue hover:text-sathapana-lightBlue
+                                       transition-colors">
+                                    Reset Password?
+                                </button>
+
+                                <button id="btnLogin" type="submit" class="modern-action bg-sathapana-blue hover:bg-sathapana-darkBlue
+                                       text-white font-bold shadow-lg
+                                       flex items-center justify-center gap-2 text-sm tracking-wider">
+                                    <span id="txtLoginBtn">LOGIN</span>
+                                </button>
+                            </form>
+
+                            <!-- ================= QUICK SERVICE ================= -->
+                            <div class="my-4 flex items-center justify-center">
+                                <div class="flex-grow border-t border-slate-300"></div>
+                                <span
+                                    class="px-3 text-[11px] font-bold tracking-wider text-slate-400 uppercase select-none"
+                                    id="txtQuickService">QUICK SERVICE</span>
+                                <div class="flex-grow border-t border-slate-300"></div>
+                            </div>
+
+                            <div class="flex justify-center">
+                                <button id="btnPrintTutortKhqr" type="button"
+                                    class="quick-service-card group flex flex-col items-center justify-center w-[114px] h-[106px] bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-sathapana-blue/40 active:scale-95 transition-all p-2.5 cursor-pointer">
+                                    <i
+                                        class="fa-solid fa-qrcode text-3xl text-slate-800 group-hover:text-sathapana-blue transition-colors mb-1"></i>
+                                    <span
+                                        class="text-[11px] font-semibold text-slate-800 leading-tight text-center">Print
+                                        Tutort</span>
+                                    <span
+                                        class="text-[10px] font-bold text-slate-600 leading-tight text-center">KHQR</span>
+                                </button>
+                            </div>
+
+                            <div class="mt-5 text-center">
+                                <button id="gpsContainer" type="button"
+                                    class="inline-flex items-center gap-1.5 text-emerald-600 text-[13px] font-bold hover:opacity-85 transition-opacity">
+                                    <span id="txtGps" data-en="GPS is working" data-kh="GPS ដំណើរការធម្មតា">GPS is
+                                        working</span>
+                                    <i id="gpsIcon" class="fa-solid fa-arrows-rotate text-[10px] opacity-75"></i>
+                                </button>
+
+                                <p class="text-[13px] font-bold text-slate-700 mt-1">
+                                    Version 3.0.4
+                                </p>
+                            </div>
+
+                        </div>
+                    </section>
+
+
+                    <!-- ================= FORGOT PASSWORD ================= -->
+                    <section id="forgotPwView" class="app-view hidden bg-slate-50">
+
+                        <div class="bg-sathapana-blue text-white px-4 py-3
+                            flex items-center shadow-sm">
+                            <button id="forgotPwHeaderBackBtn" type="button"
+                                class="w-8 h-8 rounded-full hover:bg-white/10 transition">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+
+                            <h2 class="ml-2 text-sm font-semibold">
+                                Reset Password
+                            </h2>
+                        </div>
+
+                        <div class="p-5 sm:p-6 max-w-md mx-auto">
+
+                            <div class="space-y-4">
+
+                                <div>
+
+
+                                    <div class="app-input px-3">
+                                        <i class="fa-solid fa-id-badge text-slate-600 w-5"></i>
+                                        <input id="forgotUserIdInput" type="text" value="15273" class="w-full px-2 text-sm text-slate-800 font-semibold
+                                              focus:outline-none bg-transparent">
+                                    </div>
+                                </div>
+
+                                <div>
+
+
+                                    <div class="app-input px-3">
+                                        <i class="fa-solid fa-envelope text-slate-600 w-5"></i>
+                                        <input id="forgotEmailInput" type="email" value="na.lyhuo@sathapana.com.kh"
+                                            class="w-full px-2 text-xs text-slate-800 font-medium
+                                              focus:outline-none bg-transparent">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="space-y-2 mt-8">
+
+                                <button id="forgotPwSubmitBtn" type="button" class="modern-action bg-sathapana-blue hover:bg-sathapana-darkBlue
+                                       text-white font-semibold shadow-md text-sm">
+                                    Submit
+                                </button>
+
+                                <button id="forgotPwCancelBtn">
+
+                                </button>
+
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- ================= SUCCESS ================= -->
+                    <section id="forgotPwSuccessView" class="app-view hidden flex flex-col justify-center
+                            p-6 text-center">
+
+                        <div class="max-w-sm mx-auto">
+
+                            <div class="w-16 h-16 bg-emerald-500 text-white rounded-full
+                                flex items-center justify-center mx-auto shadow-lg">
+                                <i class="fa-solid fa-check text-2xl"></i>
+                            </div>
+
+                            <h3 class="text-lg font-bold text-slate-900 mt-5 leading-snug">
+                                Your password reset request has been sent successfully!
+                            </h3>
+
+                            <p class="text-xs text-slate-600 leading-relaxed mt-3">
+                                An email has been sent to your registered email address
+                                with instructions to reset your password.
+                            </p>
+
+                            <p id="submittedEmailDisplay"
+                                class="text-[10px] font-semibold text-slate-700 font-mono mt-3 break-all">
+                                (na.lyhuo@sathapana.com.kh)
+                            </p>
+
+                            <button id="openOutlookBtn" type="button" class="modern-action bg-sathapana-blue hover:bg-sathapana-darkBlue
+                                   text-white font-semibold shadow-md text-sm mt-7">
+                                Open Outlook
+                            </button>
+
+                        </div>
+                    </section>
+
+
+                    <!-- ================= OUTLOOK ================= -->
+                    <section id="outlookEmailView" class="app-view hidden bg-white">
+
+                        <div class="bg-[#0078D4] text-white px-3 py-2.5
+                            flex items-center justify-between">
+
+                            <button id="outlookBackBtn" type="button" class="w-8 h-8 rounded-full hover:bg-white/10">
+                                <i class="fa-solid fa-chevron-left text-sm"></i>
+                            </button>
+
+                            <div class="flex items-center gap-4 text-xs">
+                                <button type="button" class="icon-button-clean" title="Archive"><i
+                                        class="fa-regular fa-folder-closed"></i></button>
+                                <button type="button" class="icon-button-clean" title="Delete"><i
+                                        class="fa-regular fa-trash-can"></i></button>
+                                <button type="button" class="icon-button-clean" title="Mark unread"><i
+                                        class="fa-regular fa-envelope"></i></button>
+                                <button type="button" class="icon-button-clean" title="More options"><i
+                                        class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="p-4 border-b border-slate-200 bg-slate-50">
+
+                            <div class="flex items-start gap-3">
+
+                                <div class="w-9 h-9 rounded-full bg-purple-700 text-white
+                                    text-[10px] font-bold flex items-center justify-center shrink-0">
+                                    SB
+                                </div>
+
+                                <div class="flex-1 min-w-0">
+
+                                    <div class="flex justify-between gap-2">
+                                        <h4 class="font-semibold text-slate-800 text-xs truncate">
+                                            app.alert@sathapana.com.kh
+                                        </h4>
+
+                                        <span class="text-[9px] text-slate-500 shrink-0">
+                                            14:47
+                                        </span>
+                                    </div>
+
+                                    <p class="text-[10px] text-slate-500 truncate">
+                                        To: na.lyhuo@sathapana.com.kh
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-5 text-xs text-slate-800 leading-relaxed">
+
+                            <p class="font-medium text-slate-900">
+                                Dear Sir/Ms,
+                            </p>
+
+                            <p class="mt-3">
+                                Be informed that your password has been reset to
+                            </p>
+
+                            <div class="mt-3 inline-block px-3.5 py-2 rounded-lg bg-slate-100
+                                   border border-slate-300
+                                   font-mono font-bold text-slate-900 select-text cursor-text"
+                                style="user-select: text !important; -webkit-user-select: text !important;">
+                                <span id="resetPasswordText" class="select-text cursor-text"
+                                    style="user-select: text !important; -webkit-user-select: text !important;">b9tTd3pb</span>
+                            </div>
+
+                            <p class="text-slate-600 mt-4">
+                                This is an auto generating email. Do not reply.
+                            </p>
+
+                            <div class="pt-4">
+                                <p>Thanks and best regards,</p>
+                                <p class="font-semibold text-slate-900">Sathapana Bank</p>
+                            </div>
+
+                            <p class="pt-4 text-[10px] text-slate-500">
+                                If you did not request a password reset,
+                                please contact IT Helpdesk immediately.
+                            </p>
+
+                            
+
+                        </div>
+                    </section>
+
+
+                    <!-- ================= RESET PASSWORD LOGIN ================= -->
+                    <section id="loginScreenPasswordResetView"
+                        class="app-view hidden flex flex-col justify-center p-5 sm:p-6">
+
+                        <div class="w-full max-w-sm mx-auto">
+
+                            <div class="text-center">
+
+                                <div class="flex justify-center mb-2">
+                                    <img src="sathapana-logo-clean.png" alt="SATHAPANA BANK"
+                                        class="w-12 h-12 object-contain drop-shadow-sm select-none pointer-events-none">
+                                </div>
+
+                                <p class="text-sm font-bold text-sathapana-blue font-khmer">
+                                    ធនាគារ ស្ថាបនា
+                                </p>
+
+                                <p class="text-[9px] font-extrabold tracking-[.16em] text-sathapana-blue">
+                                    SATHAPANA BANK
+                                </p>
+
+                                <h2 class="text-2xl font-extrabold text-sathapana-blue mt-2">
+                                    ONBOARDING
+                                    <span class="font-normal text-sathapana-lightBlue">App</span>
+                                </h2>
+
+                                <p id="lblSelectLanguageReset"
+                                    class="text-xs sm:text-[13px] font-medium text-slate-500 mt-1 select-none"
+                                    data-en="Select Language" data-kh="ជ្រើសរើសភាសា">
+                                    Select Language
+                                </p>
+                            </div>
+
+                            <div class="language-switcher" aria-label="Language selection">
+
+                                <button id="langEnBtnReset" class="lang-btn active" type="button"
+                                    aria-label="Switch to English" aria-pressed="true">
+                                    <span class="lang-code">EN</span>
+                                    <span class="lang-flag" aria-hidden="true">
+                                        <svg viewBox="0 0 60 40" focusable="false">
+                                            <clipPath id="uk-clip-reset">
+                                                <rect width="60" height="40" rx="3" />
+                                            </clipPath>
+                                            <g clip-path="url(#uk-clip-reset)">
+                                                <rect width="60" height="40" fill="#012169" />
+                                                <path d="M0 0L60 40M60 0L0 40" stroke="#ffffff" stroke-width="8" />
+                                                <path d="M0 0L30 20M60 40L30 20" stroke="#C8102E" stroke-width="2.6" />
+                                                <path d="M60 0L30 20M0 40L30 20" stroke="#C8102E" stroke-width="2.6" />
+                                                <path d="M30 0v40M0 20h60" stroke="#ffffff" stroke-width="13" />
+                                                <path d="M30 0v40M0 20h60" stroke="#C8102E" stroke-width="8" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="lang-name">English</span>
+                                </button>
+
+                                <button id="langKhBtnReset" class="lang-btn" type="button" aria-label="ប្តូរទៅភាសាខ្មែរ"
+                                    aria-pressed="false">
+                                    <span class="lang-code">KH</span>
+                                    <span class="lang-flag" aria-hidden="true">
+                                        <svg viewBox="0 0 64 42" focusable="false">
+                                            <clipPath id="kh-clip-reset">
+                                                <rect width="64" height="42" rx="3" />
+                                            </clipPath>
+                                            <g clip-path="url(#kh-clip-reset)">
+                                                <rect width="64" height="42" fill="#032EA1" />
+                                                <rect y="10.5" width="64" height="21" fill="#ED1B24" />
+                                                <g fill="#FFFFFF">
+                                                    <rect x="15" y="27.5" width="34" height="2.5" rx="0.5" />
+                                                    <rect x="18" y="25" width="28" height="2.5" rx="0.5" />
+                                                    <rect x="21" y="23" width="22" height="2" />
+                                                    <path
+                                                        d="M32 12.5 C31 14.5 29.5 16 29.5 18 L29.5 23 L34.5 23 L34.5 18 C34.5 16 33 14.5 32 12.5 Z" />
+                                                    <polygon points="32,11 31,13 33,13" />
+                                                    <path
+                                                        d="M26 15.5 C25.2 17 24.2 18.2 24.2 20 L24.2 23 L27.8 23 L27.8 20 C27.8 18.2 26.8 17 26 15.5 Z" />
+                                                    <polygon points="26,14.2 25.2,16 26.8,16" />
+                                                    <path
+                                                        d="M38 15.5 C37.2 17 36.2 18.2 36.2 20 L36.2 23 L39.8 23 L39.8 20 C39.8 18.2 38.8 17 38 15.5 Z" />
+                                                    <polygon points="38,14.2 37.2,16 38.8,16" />
+                                                    <path
+                                                        d="M20.5 19 C20 20 19.5 21 19.5 22 L19.5 23 L22.5 23 L22.5 22 C22.5 21 22 20 21.5 19 Z" />
+                                                    <path
+                                                        d="M43.5 19 C43 20 42.5 21 42.5 22 L42.5 23 L45.5 23 L45.5 22 C45.5 21 45 20 44.5 19 Z" />
+                                                    <rect x="20" y="22" width="24" height="1.5" />
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="lang-name font-khmer">ខ្មែរ</span>
+                                </button>
+
+                            </div>
+
+                            <form id="finalLoginForm" class="space-y-3">
+
+                                <div>
+
+
+                                    <div class="app-input px-3">
+                                        <i class="fa-solid fa-id-badge text-slate-500 w-5"></i>
+                                        <input type="text" value="15273" readonly class="w-full px-2 text-sm text-slate-800 font-bold
+                                              focus:outline-none bg-transparent">
+                                    </div>
+                                </div>
+
+                                <div>
+
+
+                                    <div class="app-input px-3 relative">
+                                        <i class="fa-solid fa-lock text-slate-500 w-5"></i>
+
+                                        <input id="resetPwInput" type="text" value="b9tTd3pb" required class="w-full px-2 pr-8 text-sm text-slate-800 font-bold
+                                              focus:outline-none bg-transparent select-text cursor-text"
+                                            style="user-select: text !important; -webkit-user-select: text !important;">
+
+                                        <button id="toggleResetPwBtn" type="button"
+                                            class="absolute right-3 text-slate-500 hover:text-sathapana-blue transition-colors">
+                                            <i id="resetEyeIcon"
+                                                class="fa-regular fa-eye-slash text-xs text-sathapana-blue"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button id="btnHighlightedLogin" type="submit" class="modern-action bg-sathapana-blue hover:bg-sathapana-darkBlue
+                                       text-white font-bold shadow-lg text-sm mt-3 tracking-wider">
+                                    LOGIN
+                                </button>
+
+                                <button id="resetForgotBtn" type="button" class="hidden">
+
+                                </button>
+
+                            </form>
+
+                            <!-- ================= QUICK SERVICE (RESET VIEW) ================= -->
+                            <div class="my-4 flex items-center justify-center">
+                                <div class="flex-grow border-t border-slate-300"></div>
+                                <span
+                                    class="px-3 text-[11px] font-bold tracking-wider text-slate-400 uppercase select-none">QUICK
+                                    SERVICE</span>
+                                <div class="flex-grow border-t border-slate-300"></div>
+                            </div>
+
+                            <div class="flex justify-center">
+                                <button id="btnPrintTutortKhqrReset" type="button"
+                                    class="quick-service-card group flex flex-col items-center justify-center w-[114px] h-[106px] bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-sathapana-blue/40 active:scale-95 transition-all p-2.5 cursor-pointer">
+                                    <i
+                                        class="fa-solid fa-qrcode text-3xl text-slate-800 group-hover:text-sathapana-blue transition-colors mb-1"></i>
+                                    <span
+                                        class="text-[11px] font-semibold text-slate-800 leading-tight text-center">Print
+                                        Tutort</span>
+                                    <span
+                                        class="text-[10px] font-bold text-slate-600 leading-tight text-center">KHQR</span>
+                                </button>
+                            </div>
+
+                            <div class="text-center mt-5">
+                                <p
+                                    class="text-[13px] text-emerald-600 font-bold flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-circle-check text-[11px]"></i>
+                                    <span>GPS is working</span>
+                                </p>
+                                <p class="text-[13px] font-bold text-slate-700 mt-1">
+                                    Version 3.0.4
+                                </p>
+                            </div>
+
+                        </div>
+                    </section>
+
+
+                    <!-- ================= DASHBOARD: ONBOARDING APP LOAN-RM-000 ================= -->
+                    <section id="dashboardView" class="app-view hidden relative flex flex-col flex-1 min-h-full w-full">
+                        <main class="onboarding-dashboard" lang="en">
+                            <!-- Top Header Bar -->
+                            <header class="onboarding-topbar">
+                                <button id="dashboardMenuBtn" class="onboarding-menu-btn" type="button"
+                                    aria-label="Toggle menu" title="Menu">
+                                    <i class="fa-solid fa-bars"></i>
+                                </button>
+                                <h2 class="onboarding-topbar-title" id="onboardingAppTitle">
+                                    Onboarding App <span id="dashLoanRmId">LOAN-RM-000</span>
+                                </h2>
+                            </header>
+
+                            <!-- Subheader: Working Hour & Check In -->
+                            <div class="onboarding-subbar">
+                                <div class="onboarding-subbar-row">
+                                    <!-- Working Hour Toggle -->
+                                    <div class="working-hour-group">
+                                        <span class="working-hour-label" id="lblWorkingHour">Working Hour:</span>
+                                        <button id="workingHourToggle" type="button" role="switch" aria-checked="false"
+                                            class="onboarding-toggle" title="Toggle working hour check-in">
+                                            <span class="onboarding-toggle-thumb"></span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Check In & Location status -->
+                                    <div class="checkin-info">
+                                        <div id="checkInStatusText">Check In: <span id="checkInStatusVal"
+                                                class="status-val">Not yet check in</span></div>
+                                        <div id="locationStatusText">Location: <span id="locationCoordsVal"
+                                                class="status-val">0.00, 0.00</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="onboarding-divider"></div>
+
+                            <!-- Section 1: Onboarding -->
+                            <section class="onboarding-section" aria-labelledby="secOnboardingTitle">
+                                <h3 class="onboarding-section-title" id="secOnboardingTitle">Onboarding</h3>
+                                <div class="section-divider"></div>
+
+                                <div class="onboarding-grid">
+                                    <!-- Card 1: Create New Customer -->
+                                    <button class="onboarding-card" id="cardCreateCustomer" type="button">
+                                        <span class="onboarding-card-icon">
+                                            <i class="fa-solid fa-user-plus"></i>
+                                        </span>
+                                        <strong class="onboarding-card-title" id="lblCreateCustomer">
+                                            Create New<br>Customer
+                                        </strong>
+                                    </button>
+
+                                    <!-- Card 2: Create New Account Existing Customer -->
+                                    <button class="onboarding-card" id="cardCreateAccount" type="button">
+                                        <span class="onboarding-card-icon">
+                                            <i class="fa-solid fa-file-circle-plus"></i>
+                                        </span>
+                                        <strong class="onboarding-card-title" id="lblCreateAccount">
+                                            Create New Account<br>Existing Customer
+                                        </strong>
+                                    </button>
+
+                                    <!-- Card 3: Loan Collection -->
+                                    <button class="onboarding-card" id="cardLoanCollection" type="button">
+                                        <span class="onboarding-card-icon">
+                                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                                        </span>
+                                        <strong class="onboarding-card-title" id="lblLoanCollection">
+                                            Loan Collection
+                                        </strong>
+                                    </button>
+                                </div>
+                            </section>
+
+                            <!-- Section 2: Phone Information -->
+                            <section class="onboarding-section" aria-labelledby="secPhoneInfoTitle">
+                                <h3 class="onboarding-section-title" id="secPhoneInfoTitle">Phone Information</h3>
+                                <div class="section-divider"></div>
+
+                                <div class="onboarding-grid">
+                                    <!-- Card 4: Update Secondary Number -->
+                                    <button class="onboarding-card" id="cardUpdateSecondaryPhone" type="button">
+                                        <span class="onboarding-card-icon">
+                                            <i class="fa-solid fa-id-card"></i>
+                                        </span>
+                                        <strong class="onboarding-card-title" id="lblUpdateSecondary">
+                                            Update Secondary<br>Number
+                                        </strong>
+                                    </button>
+                                </div>
+                            </section>
+
+                            <!-- Side Navigation Drawer (Faithful to Image 2) -->
+                            <div id="drawerBackdrop" class="onboarding-drawer-backdrop" aria-hidden="true">
+                                <aside class="onboarding-drawer" role="dialog" aria-label="App Navigation">
+                                    <!-- Sathapana Bank Brand Header -->
+                                    <div class="drawer-brand-header text-center pt-6 pb-3 px-4 bg-white">
+                                        <div class="flex justify-center mb-2">
+                                            <img src="sathapana-logo-clean.png" alt="SATHAPANA BANK"
+                                                class="w-12 h-12 object-contain drop-shadow-sm select-none pointer-events-none">
+                                        </div>
+                                        <p class="text-sm font-bold text-sathapana-blue font-khmer">
+                                            ធនាគារ ស្ថាបនា
+                                        </p>
+                                        <p class="text-[9px] font-extrabold tracking-[.16em] text-sathapana-blue">
+                                            SATHAPANA BANK
+                                        </p>
+                                    </div>
+
+                                    <!-- User Profile Row -->
+                                    <div
+                                        class="drawer-user-card px-4 py-3 bg-white flex items-center justify-between border-t border-slate-100 cursor-pointer hover:bg-slate-50 transition">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-full bg-[#0066cc] text-white font-bold flex items-center justify-center text-sm shadow-sm"
+                                                id="drawerAvatarInitials">
+                                                NL
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-bold text-slate-800 leading-tight"
+                                                    id="drawerUserName">NA LYHUO</div>
+                                                <div class="text-xs text-slate-500 font-medium" id="drawerUserId">000
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
+                                    </div>
+
+                                    <div class="h-[1px] bg-slate-200 w-full"></div>
+
+                                    <!-- Navigation Links -->
+                                    <nav class="drawer-menu-list flex-1 px-3 py-2 space-y-0.5 bg-white">
+                                        <button class="drawer-menu-item" type="button" id="drawerBtnHome">
+                                            <i class="fa-solid fa-house"></i>
+                                            <span id="txtDrawerHome">Home</span>
+                                        </button>
+                                        <button class="drawer-menu-item" type="button" id="drawerBtnCheckInOut">
+                                            <i class="fa-solid fa-hourglass-half"></i>
+                                            <span id="txtDrawerCheckInOut">My Check In/Out</span>
+                                        </button>
+                                        <button class="drawer-menu-item" type="button" id="drawerBtnSignature">
+                                            <i class="fa-solid fa-file-signature"></i>
+                                            <span id="txtDrawerSignature">Staff Signature</span>
+                                        </button>
+                                        <button class="drawer-menu-item" type="button" id="drawerBtnChangePassword">
+                                            <i class="fa-solid fa-lock"></i>
+                                            <span id="txtDrawerChangePassword">Change Password</span>
+                                        </button>
+                                        <button class="drawer-menu-item" type="button" id="drawerBtnLanguage">
+                                            <i class="fa-solid fa-language"></i>
+                                            <span id="txtDrawerLanguage">Language</span>
+                                        </button>
+                                    </nav>
+
+                                    <!-- Bottom Logout -->
+                                    <div class="p-4 bg-white border-t border-slate-100">
+                                        <button
+                                            class="drawer-logout-btn flex items-center gap-3 text-red-600 font-semibold text-sm hover:opacity-85 transition"
+                                            type="button" id="logoutBtn">
+                                            <span
+                                                class="w-6 h-6 rounded bg-red-600 text-white flex items-center justify-center text-xs shadow-sm">
+                                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                            </span>
+                                            <span id="txtDrawerLogout">Logout</span>
+                                        </button>
+                                    </div>
+                                </aside>
+                            </div>
+
+                            <!-- Interactive Modal Container -->
+                            <div id="onboardingModalBackdrop" class="onboarding-modal-backdrop" aria-hidden="true">
+                                <div class="onboarding-modal" role="dialog" aria-modal="true"
+                                    aria-labelledby="modalHeading">
+                                    <div class="modal-header">
+                                        <div class="modal-title" id="modalHeading">
+                                            <i id="modalIcon" class="fa-solid fa-circle-info"></i>
+                                            <span id="modalTitleText">Action Title</span>
+                                        </div>
+                                        <button id="modalCloseBtn" class="modal-close-btn" type="button"
+                                            aria-label="Close dialog">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="modalBodyContent">
+                                        <!-- Dynamic modal content inserted via JS -->
+                                    </div>
+                                    <div class="modal-footer" id="modalFooterActions">
+                                        <button id="modalCancelBtn" type="button"
+                                            class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-slate-700 font-medium text-xs hover:bg-slate-100 transition">
+                                            Close
+                                        </button>
+                                        <button id="modalConfirmBtn" type="button"
+                                            class="px-4 py-1.5 rounded-lg bg-sathapana-blue text-white font-medium text-xs hover:bg-sathapana-darkBlue shadow transition">
+                                            Confirm
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                    </section>
+
+
+                    <!-- ================= CHANGE PASSWORD SCREEN (Faithful to Image 3) ================= -->
+                    <section id="changePasswordView"
+                        class="app-view hidden relative flex flex-col min-h-full w-full bg-[#f1f4f8]">
+                        <!-- Top Header Bar -->
+                        <header
+                            class="h-[52px] bg-[#0066cc] text-white flex items-center px-3 shadow-sm z-10 flex-shrink-0">
+                            <button id="changePwBackBtn" type="button"
+                                class="w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center transition text-base active:scale-95"
+                                aria-label="Back">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+                            <h2 class="ml-2 font-medium text-base tracking-wide" id="lblChangePwTitle">
+                                Change Password
+                            </h2>
+                        </header>
+
+                        <!-- Form Content -->
+                        <form id="changePasswordForm" class="flex-1 flex flex-col justify-between" novalidate>
+                            <div class="space-y-3 max-w-lg mx-auto w-full p-4 sm:p-5 pt-4 flex-1">
+                                <!-- Field 1: Current Password -->
+                                <div class="change-pw-field flex items-center px-3.5 py-3">
+                                    <i class="fa-solid fa-lock text-slate-500 w-5 text-center text-sm mr-2.5"></i>
+                                    <input id="currentPwInput" type="password" required
+                                        class="w-full bg-transparent text-sm text-slate-800 font-medium placeholder-slate-500 focus:outline-none"
+                                        placeholder="Current Password" autocomplete="current-password">
+                                </div>
+
+                                <!-- Field 2: New Password -->
+                                <div class="change-pw-field flex items-center px-3.5 py-3">
+                                    <i class="fa-solid fa-lock text-slate-500 w-5 text-center text-sm mr-2.5"></i>
+                                    <input id="newPwInput" type="password" required
+                                        class="w-full bg-transparent text-sm text-slate-800 font-medium placeholder-slate-500 focus:outline-none"
+                                        placeholder="New Password" autocomplete="new-password">
+                                </div>
+
+                                <!-- Field 3: Confirm Password -->
+                                <div class="change-pw-field flex items-center px-3.5 py-3">
+                                    <i class="fa-solid fa-lock text-slate-500 w-5 text-center text-sm mr-2.5"></i>
+                                    <input id="confirmPwInput" type="password" required
+                                        class="w-full bg-transparent text-sm text-slate-800 font-medium placeholder-slate-500 focus:outline-none"
+                                        placeholder="Confirm Password" autocomplete="new-password">
+                                </div>
+
+                                <!-- Checkbox: Show Password -->
+                                <div class="pt-1">
+                                    <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+                                        <input id="showPwCheckbox" type="checkbox"
+                                            class="w-4 h-4 rounded border-slate-400 text-[#0066cc] focus:ring-[#0066cc]">
+                                        <span class="text-xs font-medium text-slate-700" id="lblShowPassword">Show
+                                            Password</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Bottom Button Docked at Bottom (Identical to Image 3) -->
+                            <div class="w-full mt-auto">
+                                <button id="btnSubmitChangePw" type="submit"
+                                    class="w-full bg-[#0066cc] hover:bg-[#0052a3] text-white font-semibold py-3.5 px-4 flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wider uppercase shadow-md transition active:bg-[#004d99]">
+                                    <i class="fa-solid fa-square-check text-base"></i>
+                                    <span id="txtBtnChangePw">CHANGE PASSWORD</span>
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!--
+                    <div id="appToast"
+                        class="absolute top-4 left-1/2 -translate-x-1/2 z-[90] pointer-events-none transition-all duration-300 opacity-0 -translate-y-2 hidden">
+                        <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-slate-900/90 text-white shadow-2xl text-xs font-semibold backdrop-blur-md border border-white/10"
+                            id="appToastInner">
+                            <i id="appToastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+                            <span id="appToastMsg">Message</span>
+                        </div>
+                    </div>-->
+
+
+                </div>
+
+                <!-- ================= SATHAPANA TUTORT KHQR MODAL ================= -->
+                <div id="tutortKhqrModalBackdrop" class="onboarding-modal-backdrop" aria-hidden="true">
+                    <div class="onboarding-modal max-w-sm" role="dialog" aria-modal="true"
+                        aria-labelledby="khqrHeading">
+                        <div
+                            class="modal-header bg-sathapana-blue text-white px-4 py-3 flex items-center justify-between">
+                            <div class="flex items-center gap-2" id="khqrHeading">
+                                <i class="fa-solid fa-qrcode text-lg text-amber-300"></i>
+                                <div>
+                                    <h3 class="font-bold text-sm leading-tight">Sathapana Tutort KHQR</h3>
+                                    <p class="text-[10px] text-blue-200">Merchant Payment QR Stand</p>
+                                </div>
+                            </div>
+                            <button id="closeTutortKhqrBtn"
+                                class="w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition text-white"
+                                type="button" aria-label="Close dialog">
+                                <i class="fa-solid fa-xmark text-sm"></i>
+                            </button>
+                        </div>
+
+                        <div
+                            class="modal-body p-4 bg-slate-100 flex flex-col items-center overflow-y-auto max-h-[70vh]">
+                            <!-- Authentic KHQR Merchant Card/Stand -->
+                            <div id="printableKhqrCard"
+                                class="w-full max-w-[270px] bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden flex flex-col items-center">
+                                <!-- KHQR Red Banner Header -->
+                                <div class="w-full bg-[#E1251B] py-2 px-3 flex items-center justify-between text-white">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="font-extrabold text-sm tracking-wider">KHQR</span>
+                                    </div>
+                                    <div class="text-[10px] font-semibold bg-white/20 px-2 py-0.5 rounded-full">
+                                        Bakong Accepted
+                                    </div>
+                                </div>
+
+                                <!-- Merchant Name & Details -->
+                                <div class="pt-3 pb-1 px-3 text-center w-full">
+                                    <p class="text-xs font-bold text-slate-800 uppercase tracking-wide truncate">
+                                        Sathapana Tutort Merchant</p>
+                                    <p class="text-[10px] text-slate-500 font-mono">TID: 8829-1045 • KHR / USD</p>
+                                </div>
+
+                                <!-- QR Code Display -->
+                                <div class="p-3 bg-white flex flex-col items-center">
+                                    <div
+                                        class="p-2 border-2 border-slate-900 rounded-xl bg-white shadow-inner flex items-center justify-center">
+                                        <svg class="w-40 h-40 text-slate-900" viewBox="0 0 100 100" fill="currentColor">
+                                            <!-- Corner 1 (Top Left) -->
+                                            <rect x="5" y="5" width="28" height="28" fill="none" stroke="currentColor"
+                                                stroke-width="4" rx="2" />
+                                            <rect x="11" y="11" width="16" height="16" rx="1" />
+                                            <!-- Corner 2 (Top Right) -->
+                                            <rect x="67" y="5" width="28" height="28" fill="none" stroke="currentColor"
+                                                stroke-width="4" rx="2" />
+                                            <rect x="73" y="11" width="16" height="16" rx="1" />
+                                            <!-- Corner 3 (Bottom Left) -->
+                                            <rect x="5" y="67" width="28" height="28" fill="none" stroke="currentColor"
+                                                stroke-width="4" rx="2" />
+                                            <rect x="11" y="73" width="16" height="16" rx="1" />
+                                            <!-- Center Emblem -->
+                                            <circle cx="50" cy="50" r="10" fill="#0F4C81" />
+                                            <text x="50" y="54" font-size="11" font-weight="bold" fill="white"
+                                                text-anchor="middle">S</text>
+                                            <!-- Data blocks -->
+                                            <rect x="38" y="8" width="6" height="6" />
+                                            <rect x="48" y="8" width="6" height="12" />
+                                            <rect x="58" y="8" width="5" height="5" />
+                                            <rect x="38" y="24" width="10" height="6" />
+                                            <rect x="54" y="22" width="8" height="8" />
+                                            <rect x="8" y="38" width="6" height="10" />
+                                            <rect x="18" y="44" width="8" height="6" />
+                                            <rect x="30" y="38" width="6" height="6" />
+                                            <rect x="66" y="38" width="8" height="8" />
+                                            <rect x="78" y="42" width="14" height="6" />
+                                            <rect x="38" y="66" width="6" height="14" />
+                                            <rect x="48" y="72" width="12" height="6" />
+                                            <rect x="48" y="84" width="8" height="8" />
+                                            <rect x="66" y="66" width="8" height="8" />
+                                            <rect x="78" y="66" width="6" height="12" />
+                                            <rect x="88" y="74" width="6" height="18" />
+                                            <rect x="68" y="82" width="14" height="8" />
+                                            <rect x="38" y="86" width="6" height="6" />
+                                        </svg>
+                                    </div>
+                                    <p class="text-[9px] text-slate-500 font-medium mt-1.5 flex items-center gap-1">
+                                        <i class="fa-solid fa-qrcode text-slate-400"></i> Scan to pay with any KHQR /
+                                        Bakong app
+                                    </p>
+                                </div>
+
+                                <!-- Footer with Sathapana Brand -->
+                                <div
+                                    class="w-full bg-slate-50 border-t border-slate-100 py-2 px-3 flex items-center justify-between text-[10px] text-slate-600">
+                                    <span class="font-bold text-sathapana-blue flex items-center gap-1">
+                                        <img src="sathapana-logo-clean.png" alt="Sathapana"
+                                            class="w-4 h-4 object-contain inline">
+                                        SATHAPANA BANK
+                                    </span>
+                                    <span class="text-[9px] text-slate-400">Tutort POS</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="modal-footer p-3 bg-white border-t border-slate-200 flex items-center justify-between gap-2">
+                            <button id="cancelTutortKhqrBtn" type="button"
+                                class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-slate-700 font-medium text-xs hover:bg-slate-100 transition">
+                                Close
+                            </button>
+                            <button id="printKhqrActionBtn" type="button"
+                                class="px-4 py-1.5 rounded-lg bg-sathapana-blue text-white font-medium text-xs hover:bg-sathapana-darkBlue shadow flex items-center gap-1.5 transition active:scale-95">
+                                <i class="fa-solid fa-print"></i>
+                                <span>Print KHQR</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =================================================
+             FIXED ANDROID FOOTER
+        ================================================== -->
+                <div id="androidNavigationBar" class="android-navigation">
+
+                    <div class="android-navigation-inner">
+
+                        <button id="navBackBtn" class="android-nav-button" type="button" aria-label="Back" title="Back">
+                            <span class="android-back-icon" aria-hidden="true"></span>
+                        </button>
+
+
+
+                        <button id="navHomeBtn" class="android-home-button" type="button" aria-label="Home"
+                            title="Home">
+                            <span class="android-home-pill"></span>
+                        </button>
+
+                        <button id="navRecentsBtn" class="android-nav-button" type="button" aria-label="Recent apps"
+                            title="Recent apps">
+                            <span class="android-recents-icon"></span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js" defer></script>
+
+</body>
+
+</html>

@@ -1,0 +1,1818 @@
+/* =========================================================
+   GLOBAL
+========================================================= */
+* {
+    box-sizing: border-box;
+}
+
+/* Keep view switching functional even when the external utility CSS is offline. */
+.hidden {
+    display: none !important;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: #0f7401;
+    color: #e2e8f0;
+    font-family: 'Inter', 'Noto Sans Khmer', sans-serif;
+    user-select: none;
+    overflow-x: hidden;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   CLEAN MODERN ICON SYSTEM
+========================================================= */
+i[class*="fa-"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    vertical-align: middle;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+}
+
+/* Icons inside interactive controls stay crisp and gently animated. */
+button i[class*="fa-"],
+a i[class*="fa-"],
+[role="button"] i[class*="fa-"] {
+    transform: translateZ(0);
+    transform-origin: center;
+    transition:
+        transform .22s cubic-bezier(.2, .8, .2, 1),
+        color .22s ease,
+        opacity .22s ease,
+        filter .22s ease;
+}
+
+button:hover i[class*="fa-"],
+a:hover i[class*="fa-"],
+[role="button"]:hover i[class*="fa-"] {
+    transform: scale(1.08);
+    filter: drop-shadow(0 2px 5px rgba(15, 76, 129, .18));
+}
+
+button:active i[class*="fa-"],
+a:active i[class*="fa-"],
+[role="button"]:active i[class*="fa-"] {
+    transform: scale(.88);
+}
+
+/* Small icon buttons: clean glass surface instead of harsh icon blocks. */
+.icon-button-clean {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid rgba(148, 163, 184, .18);
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, .72);
+    color: #475569;
+    box-shadow: 0 3px 10px rgba(15, 23, 42, .06);
+}
+
+.icon-button-clean:hover {
+    color: #0F4C81;
+    background: #fff;
+    border-color: rgba(15, 76, 129, .24);
+    box-shadow: 0 6px 16px rgba(15, 76, 129, .12);
+}
+
+/* Form icons: subtle, centered and never visually heavier than the field. */
+.app-input>i[class*="fa-"] {
+    flex: 0 0 20px;
+    width: 20px;
+    color: #64748b;
+    opacity: .9;
+    transition: color .2s ease, transform .2s ease;
+}
+
+.app-input:focus-within>i[class*="fa-"] {
+    color: #0F4C81;
+    transform: scale(1.05);
+}
+
+/* Eye / password icon */
+.password-toggle-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+}
+
+.password-toggle-icon:hover {
+    color: #0F4C81;
+    background: rgba(15, 76, 129, .07);
+}
+
+/* Status icons remain quiet and stable. */
+#statusIcons i[class*="fa-"] {
+    transition: color .2s ease, opacity .2s ease;
+}
+
+/* Modern Android navigation icons */
+.android-nav-button i {
+    font-size: 10px;
+    font-weight: 500;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .25));
+}
+
+.android-nav-button:hover i {
+    transform: scale(1.12);
+}
+
+/* Toast icons */
+
+/* =========================================================
+   MODERN LANGUAGE SWITCHER
+========================================================= */
+.language-switcher {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 14px 0 16px;
+}
+
+.lang-btn {
+    position: relative;
+    width: 92px;
+    height: 68px;
+    padding: 7px 8px;
+    border: 1px solid #dbe3ec;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, .92);
+    color: #475569;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, .06),
+        inset 0 1px 0 rgba(255, 255, 255, .9);
+    transition:
+        transform .22s cubic-bezier(.2, .8, .2, 1),
+        border-color .22s ease,
+        background .22s ease,
+        box-shadow .22s ease,
+        color .22s ease;
+}
+
+.lang-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(29, 112, 184, .12), transparent 65%);
+    opacity: 0;
+    transition: opacity .22s ease;
+    pointer-events: none;
+}
+
+.lang-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(15, 76, 129, .35);
+    box-shadow:
+        0 8px 20px rgba(15, 76, 129, .12),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
+}
+
+.lang-btn:hover::before {
+    opacity: 1;
+}
+
+.lang-btn:active {
+    transform: translateY(0) scale(.97);
+}
+
+.lang-btn.active {
+    border-color: #0F4C81 !important;
+    background: linear-gradient(180deg, #eef7ff 0%, #e4f1fb 100%) !important;
+    color: #0F4C81;
+    box-shadow:
+        0 0 0 3px rgba(15, 76, 129, .10),
+        0 8px 20px rgba(15, 76, 129, .13);
+}
+
+.lang-btn .lang-flag {
+    width: 32px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+    line-height: 1;
+    box-shadow:
+        0 2px 7px rgba(15, 23, 42, .10),
+        0 0 0 1px rgba(148, 163, 184, .14);
+    transition: transform .22s cubic-bezier(.2, .8, .2, 1);
+}
+
+.lang-btn .lang-flag svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.lang-btn:hover .lang-flag {
+    transform: scale(1.08);
+}
+
+.lang-btn .lang-name {
+    position: relative;
+    z-index: 1;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: .01em;
+}
+
+.lang-btn .lang-code {
+    position: absolute;
+    top: 6px;
+    right: 7px;
+    font-size: 7px;
+    line-height: 1;
+    font-weight: 800;
+    color: #94a3b8;
+    letter-spacing: .08em;
+}
+
+.lang-btn.active .lang-code {
+    color: #1D70B8;
+}
+
+@media (max-width: 480px) {
+    .language-switcher {
+        gap: 8px;
+        margin-top: 10px;
+        margin-bottom: 13px;
+    }
+
+    .lang-btn {
+        width: 86px;
+        height: 64px;
+        border-radius: 15px;
+    }
+
+    .lang-btn .lang-flag {
+        width: 30px;
+        height: 20px;
+    }
+}
+
+/* =========================================================
+   TOP SIMULATOR HEADER
+========================================================= */
+.simulator-header {
+    width: min(1180px, calc(100% - 24px));
+    margin: 14px auto 0;
+    padding: 12px 14px;
+    border: 1px solid rgba(148, 163, 184, .18);
+    border-radius: 18px;
+    background: rgba(15, 23, 42, .72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 16px 45px rgba(0, 0, 0, .25);
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.toolbar-btn {
+    min-height: 34px;
+    padding: 0 12px;
+    border: 1px solid rgba(148, 163, 184, .18);
+    border-radius: 10px;
+    background: rgba(51, 65, 85, .72);
+    color: #f8fafc;
+    cursor: pointer;
+    transition:
+        transform .18s cubic-bezier(.2, .8, .2, 1),
+        background .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.toolbar-btn:hover {
+    background: rgba(71, 85, 105, .9);
+    border-color: rgba(148, 163, 184, .35);
+    transform: translateY(-1px);
+}
+
+.toolbar-btn:active {
+    transform: scale(.96);
+}
+
+.toolbar-btn.primary {
+    background: #1769a8;
+    border-color: rgba(255, 255, 255, .08);
+}
+
+.toolbar-btn.primary:hover {
+    background: #1d78bb;
+}
+
+.brightness-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 0 10px;
+    border: 1px solid rgba(148, 163, 184, .14);
+    border-radius: 10px;
+    background: rgba(2, 6, 23, .42);
+}
+
+.brightness-control input {
+    width: 76px;
+    accent-color: #1d70b8;
+    cursor: pointer;
+}
+
+/* =========================================================
+   TABLET FRAME  
+   tablet-chassis 
+   box-shadow:
+        0 30px 75px rgba(0,0,0,.55),
+        0 0 0 1px rgba(255,255,255,.07),
+        inset 0 1px 1px rgba(255,255,255,.16);
+========================================================= */
+.tablet-stage {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 0;
+    padding: 18px 12px 24px;
+}
+
+.tablet-chassis {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    transition:
+        width .45s cubic-bezier(.22, .8, .22, 1),
+        height .45s cubic-bezier(.22, .8, .22, 1),
+        border-color .3s ease,
+        background .3s ease,
+        box-shadow .3s ease;
+
+}
+
+.portrait {
+    width: 480px;
+    height: 800px;
+}
+
+.landscape {
+    width: 820px;
+    height: 520px;
+}
+
+.frame-titanium {
+    background: linear-gradient(135deg, #2b3038 0%, #181c22 50%, #2b3038 100%);
+    border: 12px solid #1d2228;
+    border-radius: 40px;
+}
+
+.frame-silver {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
+    border: 12px solid #cbd5e1;
+    border-radius: 40px;
+}
+
+.hardware-button {
+    position: absolute;
+    right: -15px;
+    width: 4px;
+    border-radius: 0 6px 6px 0;
+    background: #566170;
+    border-left: 1px solid #202630;
+    cursor: pointer;
+    transition: background .18s ease, transform .15s ease;
+    z-index: 80;
+}
+
+.hardware-button:hover {
+    background: #94a3b8;
+}
+
+.hardware-button:active {
+    background: #3b82f6;
+    transform: scaleX(1.35);
+}
+
+.power-button {
+    top: 76px;
+    height: 46px;
+}
+
+.volume-up {
+    top: 132px;
+    height: 28px;
+}
+
+.volume-down {
+    top: 170px;
+    height: 28px;
+}
+
+.device-camera {
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    z-index: 90;
+}
+
+.device-camera-main {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #080b10;
+    border: 1px solid #334155;
+    display: grid;
+    place-items: center;
+}
+
+.device-camera-main::after {
+    content: "";
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #173d72;
+}
+
+.device-camera-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #202734;
+}
+
+.device-speaker {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 72px;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(71, 85, 105, .75);
+    z-index: 70;
+}
+
+.device-speaker.top {
+    top: -7px;
+}
+
+.device-speaker.bottom {
+    bottom: -7px;
+}
+
+.lenovo-mark {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(100, 116, 139, .5);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .2em;
+    z-index: 70;
+}
+
+/* =========================================================
+   SCREEN
+========================================================= */
+.screen-bezel {
+    width: 100%;
+    height: auto;
+    flex: 1 1 0;
+    min-height: 0;
+    position: relative;
+    overflow: hidden;
+    border: 18px solid #07090d;
+    border-radius: 27px;
+    background: #f8fafc;
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, .85);
+    display: flex;
+    flex-direction: column;
+}
+
+.screen-glare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    background:
+        linear-gradient(135deg,
+            rgba(255, 255, 255, .055) 0%,
+            rgba(255, 255, 255, 0) 38%,
+            rgba(255, 255, 255, .018) 100%);
+}
+
+/* Status bar never scrolls */
+#statusBar {
+    flex: 0 0 23px;
+    height: 23px;
+    min-height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 12px 1px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, .09), transparent);
+    color: #475569;
+    font-size: 9px;
+    z-index: 50;
+}
+
+#statusIcons {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+#statusIcons i {
+    font-size: 8px;
+}
+
+#statusIcons .battery {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+/* =========================================================
+   SCROLLABLE APP AREA
+========================================================= */
+#screenContent {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    background: #f8fafc;
+    filter: brightness(100%);
+    transition: opacity .25s ease, filter .2s ease;
+}
+
+#screenContent::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Ensure no scrollbars ever show inside the tablet screen */
+.screen-bezel,
+.screen-bezel *,
+#screenContent,
+#screenContent * {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+.screen-bezel::-webkit-scrollbar,
+.screen-bezel *::-webkit-scrollbar,
+#screenContent::-webkit-scrollbar,
+#screenContent *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Keep every view inside available scrolling area */
+.app-view {
+    min-height: 100%;
+}
+
+/* =========================================================
+   MODERN FORM ELEMENTS
+========================================================= */
+.app-input {
+    min-height: 39px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .95);
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+}
+
+.app-input:focus-within {
+    border-color: #1769a8;
+    box-shadow: 0 0 0 3px rgba(23, 105, 168, .11);
+}
+
+.app-input input {
+    min-width: 0;
+}
+
+.modern-action {
+    width: 100%;
+    min-height: 40px;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition:
+        transform .18s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.modern-action:hover {
+    transform: translateY(-1px);
+}
+
+.modern-action:active {
+    transform: scale(.975);
+}
+
+/* No red annotation borders anywhere */
+.no-red-outline,
+.border-red-500 {
+    border-color: transparent !important;
+}
+
+/* =========================================================
+   LANGUAGE BUTTONS
+========================================================= */
+.lang-btn {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition:
+        transform .2s cubic-bezier(.2, .8, .2, 1),
+        border-color .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.lang-btn:hover {
+    transform: translateY(-2px);
+}
+
+.lang-btn:active {
+    transform: scale(.95);
+}
+
+.lang-btn::after {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(.2);
+    border-radius: 50%;
+    background: rgba(15, 76, 129, .08);
+    opacity: 0;
+    transition: transform .4s ease, opacity .3s ease;
+    pointer-events: none;
+}
+
+.lang-btn:hover::after {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 1;
+}
+
+/* =========================================================
+   MODERN ANDROID NAVIGATION FOOTER
+   FIXED AT THE REAL BOTTOM OF THE SCREEN
+========================================================= */
+.android-navigation {
+    position: relative;
+    flex: 0 0 48px;
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+    background: linear-gradient(180deg, rgba(13, 19, 31, .98), rgba(5, 8, 15, .99));
+    border-top: 1px solid rgba(148, 163, 184, .16);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .025),
+        0 -2px 8px rgba(0, 0, 0, .18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 110;
+    isolation: isolate;
+}
+
+.android-navigation-inner {
+    position: static;
+    width: 174px;
+    max-width: calc(100% - 24px);
+    height: 36px;
+    padding: 2px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid rgba(148, 163, 184, .14);
+    border-radius: 999px;
+    background: rgba(148, 163, 184, .07);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 5px 16px rgba(0, 0, 0, .18);
+}
+
+.footer-year {
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(226, 232, 240, .55);
+    font-size: 7px;
+    line-height: 1;
+    letter-spacing: .03em;
+    pointer-events: none;
+}
+
+.android-nav-button,
+.android-home-button {
+    position: relative;
+    flex: 0 0 44px;
+    width: 44px;
+    min-width: 44px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #aeb8c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 999px;
+    transition:
+        color .18s ease,
+        background .18s ease,
+        transform .16s cubic-bezier(.2, .8, .2, 1);
+}
+
+.android-nav-button:hover,
+.android-home-button:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, .055);
+}
+
+.android-nav-button:active,
+.android-home-button:active {
+    transform: scale(.82);
+}
+
+.android-nav-button:focus-visible,
+.android-home-button:focus-visible {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, .15);
+}
+
+.android-back-icon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    display: block;
+    color: currentColor;
+    transition: transform .18s ease;
+}
+
+.android-back-icon::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 7px;
+    height: 7px;
+    border-left: 1.7px solid currentColor;
+    border-bottom: 1.7px solid currentColor;
+    transform: rotate(45deg);
+}
+
+.android-back-icon::after {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 4px;
+    width: 10px;
+    height: 1.7px;
+    border-radius: 2px;
+    background: currentColor;
+}
+
+.android-nav-button:hover .android-back-icon {
+    transform: translateX(-1px);
+}
+
+.android-home-pill {
+    width: 25px;
+    height: 3px;
+    display: block;
+    border-radius: 999px;
+    background: #aeb8c7;
+    transition: width .2s ease, background .2s ease, transform .18s ease;
+}
+
+.android-home-button:hover .android-home-pill {
+    width: 28px;
+    background: #fff;
+}
+
+.android-home-button:active .android-home-pill {
+    width: 20px;
+}
+
+.android-recents-icon {
+    width: 12px;
+    height: 12px;
+    display: block;
+    border: 1.4px solid currentColor;
+    border-radius: 2.5px;
+    opacity: .9;
+    transition: transform .18s ease;
+}
+
+.android-nav-button:hover .android-recents-icon {
+    transform: scale(1.08);
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.gps-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes viewIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.97) translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.view-enter {
+    animation: viewIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes appLaunchZoomIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.88) translateY(24px);
+        filter: blur(5px);
+    }
+
+    50% {
+        opacity: 0.95;
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+.app-launch-enter {
+    animation: appLaunchZoomIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes homeScreenIn {
+    0% {
+        opacity: 0.45;
+        transform: scale(1.06);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.home-screen-enter {
+    animation: homeScreenIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 700px) {
+    .simulator-header {
+        width: calc(100% - 16px);
+        margin-top: 8px;
+        padding: 9px;
+    }
+
+    .simulator-title {
+        display: none;
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .tablet-stage {
+        padding: 10px 5px 14px;
+    }
+
+    .portrait {
+        width: min(480px, calc(100vw - 22px));
+        height: min(800px, calc(100vh - 105px));
+        min-height: 520px;
+    }
+
+    .landscape {
+        width: min(820px, calc(100vw - 22px));
+        height: min(520px, calc(100vh - 105px));
+        min-height: 340px;
+    }
+
+    .frame-titanium,
+    .frame-silver {
+        border-width: 10px;
+        border-radius: 32px;
+    }
+
+    .screen-bezel {
+        border-width: 14px;
+        border-radius: 23px;
+    }
+}
+
+@media (max-width: 420px) {
+    .toolbar-btn {
+        padding: 0 9px;
+    }
+
+    .brightness-control {
+        padding: 0 7px;
+    }
+
+    .brightness-control input {
+        width: 55px;
+    }
+
+    .portrait {
+        height: calc(100vh - 90px);
+        min-height: 500px;
+    }
+
+    .android-navigation {
+        height: 44px;
+        min-height: 44px;
+        flex-basis: 44px;
+    }
+
+    .android-navigation-inner {
+        gap: 4px;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 650px) {
+    .simulator-header {
+        margin-top: 5px;
+        padding: 6px 9px;
+    }
+
+    .tablet-stage {
+        padding: 7px;
+    }
+
+    .landscape {
+        height: calc(100vh - 82px);
+    }
+
+    .android-navigation {
+        height: 42px;
+        min-height: 42px;
+        flex-basis: 42px;
+    }
+
+    .android-navigation-inner {
+        gap: 4px;
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITY / MOTION
+========================================================= */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* ===== MODERN CURSOR + CLICK MICRO-INTERACTIONS ===== */
+html,
+body,
+button,
+a,
+input,
+select,
+textarea {
+    cursor: none;
+}
+
+#customCursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, .18), 0 4px 16px rgba(185, 28, 28, .32);
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%) scale(1);
+    transition: width .16s ease, height .16s ease, background .16s ease, box-shadow .16s ease;
+    will-change: transform;
+}
+
+#customCursor::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, .95);
+}
+
+#customCursor.cursor-hover {
+    width: 24px;
+    height: 24px;
+    background: rgba(220, 38, 38, .16);
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, .62), 0 0 24px rgba(220, 38, 38, .28);
+}
+
+#customCursor.cursor-down {
+    width: 10px;
+    height: 10px;
+    background: #b91c1c;
+    box-shadow: 0 0 0 7px rgba(220, 38, 38, .17), 0 0 22px rgba(220, 38, 38, .42);
+}
+
+.cursor-click-ring {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(220, 38, 38, .78);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%) scale(.35);
+    opacity: 1;
+    animation: cursorClick .55s cubic-bezier(.2, .8, .2, 1) forwards;
+}
+
+.cursor-click-dot {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #dc2626;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%) scale(1);
+    animation: cursorDot .42s ease-out forwards;
+}
+
+@keyframes cursorClick {
+    0% {
+        opacity: .85;
+        transform: translate(-50%, -50%) scale(.35);
+    }
+
+    65% {
+        opacity: .45;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.8);
+    }
+}
+
+@keyframes cursorDot {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.8);
+    }
+}
+
+/* Subtle press animation for interactive controls */
+button,
+a,
+[role="button"],
+input[type="range"] {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled),
+a,
+[role="button"] {
+    transition: transform .16s cubic-bezier(.2, .8, .2, 1), box-shadow .2s ease, filter .2s ease;
+}
+
+button:not(:disabled):hover,
+a:hover,
+[role="button"]:hover {
+    transform: translateY(-1px);
+}
+
+button:not(:disabled):active,
+a:active,
+[role="button"]:active {
+    transform: translateY(1px) scale(.975);
+}
+
+.cursor-ripple {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .38);
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+    animation: localRipple .55s ease-out forwards;
+    z-index: 100;
+}
+
+@keyframes localRipple {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(7);
+    }
+}
+
+@media (pointer: coarse) {
+
+    html,
+    body,
+    button,
+    a,
+    input,
+    select,
+    textarea {
+        cursor: auto;
+    }
+
+    #customCursor {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    #customCursor,
+    .cursor-click-ring,
+    .cursor-click-dot,
+    .cursor-ripple {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+@font-face {
+    font-family: 'Khmer OS Battambang';
+    src: local('Khmer OS Battambang'),
+        local('Battambang');
+    font-display: swap;
+}
+
+html[lang="kh"] body,
+body.khmer-mode,
+.font-khmer,
+.khmer-text,
+[lang="km"] {
+    font-family: 'Khmer OS Battambang', 'Battambang', 'Noto Sans Khmer', sans-serif !important;
+}
+
+/* =========================================================
+   FULL SCREEN SIMULATOR STYLES
+========================================================= */
+.tablet-chassis.fullscreen-mode {
+    width: 100% !important;
+    max-width: 520px !important;
+    height: calc(100vh - 16px) !important;
+    max-height: calc(100vh - 16px) !important;
+    margin: 0 auto;
+}
+
+:fullscreen .tablet-stage,
+:-webkit-full-screen .tablet-stage {
+    padding: 6px 0 !important;
+    height: 100vh !important;
+}
+
+/* =========================================================
+   ANDROID TABLET HOME SCREEN STYLES
+========================================================= */
+#tabletHomeView {
+    background-image: url('lenovo_home_bg.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    user-select: none;
+}
+
+.home-app-item {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.home-app-item:hover {
+    transform: translateY(-2px);
+}
+
+.home-app-item:active {
+    transform: scale(0.92);
+}
+
+@keyframes appIconPress {
+    0% {
+        transform: scale(1);
+    }
+
+    35% {
+        transform: scale(0.85);
+    }
+
+    75% {
+        transform: scale(1.06);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.home-app-item.launching {
+    animation: appIconPress 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.home-app-item.launching>div {
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.7), 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+    filter: brightness(1.18);
+}
+
+/* =========================================================
+   QUICK SERVICE & GPS STYLES
+========================================================= */
+.quick-service-card {
+    transition: transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.16s ease,
+        border-color 0.16s ease;
+}
+
+.quick-service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(15, 76, 129, 0.12);
+}
+
+.quick-service-card:active {
+    transform: scale(0.95);
+}
+
+@keyframes gpsSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.gps-spin {
+    display: inline-block;
+    animation: gpsSpin 0.7s linear infinite;
+}
+
+input.select-text,
+#resetPwInput {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    cursor: text !important;
+}
+
+/* =========================================================
+   DYNAMIC MOTION & VIDEO TEACHING EFFECTS (មានចលនា)
+========================================================= */
+
+/* Toolbar Active Buttons */
+.toolbar-btn.active {
+    background: rgba(15, 76, 129, 0.72) !important;
+    border-color: rgba(56, 189, 248, 0.55) !important;
+    box-shadow: 0 0 12px rgba(15, 76, 129, 0.45);
+}
+
+/* 1. Dynamic Ambient Live Wallpaper Waves */
+.live-wallpaper-ambient {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.ambient-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(55px);
+    opacity: 0.38;
+    mix-blend-mode: screen;
+    animation: ambientFloat 10s ease-in-out infinite alternate;
+}
+
+.ambient-glow.glow-1 {
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(15, 76, 129, 0.85) 0%, rgba(29, 112, 184, 0.4) 60%, transparent 80%);
+    top: 10%;
+    left: -15%;
+    animation-duration: 9s;
+}
+
+.ambient-glow.glow-2 {
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(220, 38, 38, 0.5) 0%, rgba(239, 68, 68, 0.2) 50%, transparent 80%);
+    bottom: 20%;
+    right: -12%;
+    animation-duration: 11s;
+    animation-delay: -3s;
+}
+
+.ambient-glow.glow-3 {
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.6) 0%, rgba(56, 189, 248, 0.2) 60%, transparent 80%);
+    top: 50%;
+    left: 20%;
+    animation-duration: 13s;
+    animation-delay: -5s;
+}
+
+.ambient-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 40%, rgba(255, 255, 255, 0.04) 70%, transparent 100%);
+    background-size: 200% 200%;
+    animation: ambientShimmer 12s linear infinite;
+}
+
+@keyframes ambientFloat {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate3d(24px, -24px, 0) scale(1.12);
+    }
+
+    100% {
+        transform: translate3d(-18px, 20px, 0) scale(0.96);
+    }
+}
+
+@keyframes ambientShimmer {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 200% 200%;
+    }
+}
+
+/* 2. Live Digital Clock Colon Pulse */
+.clock-colon {
+    display: inline-block;
+    animation: colonBreathe 1s ease-in-out infinite;
+    font-weight: 300;
+}
+
+@keyframes colonBreathe {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.25;
+    }
+}
+
+/* 3. Search Bar Periodic Sheen */
+.search-bar-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.search-sheen {
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+    transform: skewX(-20deg);
+    animation: searchSheenSweep 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    pointer-events: none;
+}
+
+@keyframes searchSheenSweep {
+
+    0%,
+    70% {
+        left: -120%;
+    }
+
+    100% {
+        left: 200%;
+    }
+}
+
+/* 4. Hero App Pulsing Beacon & Radar Rings (Onboarding) */
+.hero-app {
+    position: relative;
+}
+
+.hero-beacon-ring,
+.hero-beacon-ring-2 {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    width: 58px;
+    height: 58px;
+    border-radius: 20px;
+    border: 2px solid rgba(56, 189, 248, 0.75);
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 1;
+}
+
+.hero-beacon-ring {
+    animation: beaconPulse 2.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+}
+
+.hero-beacon-ring-2 {
+    animation: beaconPulse 2.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite 1.4s;
+    border-color: rgba(239, 68, 68, 0.65);
+}
+
+.dock-beacon-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 48px;
+    height: 48px;
+    border-radius: 18px;
+    border: 2px solid rgba(56, 189, 248, 0.65);
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(1);
+    animation: beaconPulse 2.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite 0.7s;
+    z-index: 1;
+}
+
+@keyframes beaconPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.92);
+        opacity: 0.95;
+        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
+    }
+
+    50% {
+        opacity: 0.55;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.68);
+        opacity: 0;
+        box-shadow: 0 0 25px 8px rgba(15, 76, 129, 0);
+    }
+}
+
+/* 5. Diagonal Sheen Sweep across Onboarding Icon Tile */
+.icon-sheen-sweep {
+    position: absolute;
+    top: -50%;
+    left: -120%;
+    width: 70%;
+    height: 200%;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.65) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: rotate(30deg);
+    animation: iconSheenSweep 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    pointer-events: none;
+}
+
+@keyframes iconSheenSweep {
+
+    0%,
+    40% {
+        left: -120%;
+    }
+
+    75%,
+    100% {
+        left: 200%;
+    }
+}
+
+/* 6. Teaching Guide Pointer (Khmer & English) for Video Recording */
+.teaching-guide-pointer {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 40;
+    animation: guideBob 2s ease-in-out infinite;
+    white-space: nowrap;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.teaching-guide-pointer.guide-hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateX(-50%) translateY(8px) scale(0.85) !important;
+}
+
+.guide-bubble {
+    background: linear-gradient(135deg, #0F4C81 0%, #1D70B8 100%);
+    color: #ffffff;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 4px 14px rgba(15, 76, 129, 0.5), 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.guide-txt {
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.guide-sub {
+    font-size: 9px;
+    color: #ffd166;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 1px 5px;
+    border-radius: 9999px;
+}
+
+.guide-arrow {
+    margin-top: 1px;
+    font-size: 13px;
+    animation: guideHandWiggle 1.4s ease-in-out infinite;
+}
+
+@keyframes guideBob {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-6px);
+    }
+}
+
+@keyframes guideHandWiggle {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(3px) rotate(-6deg);
+    }
+}
+
+/* 7. Android High-Visibility Touch Feedback Circle for Screen Recording */
+.screen-touch-ripple {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(56, 189, 248, 0.45) 45%, rgba(14, 165, 233, 0) 75%);
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.85), inset 0 0 10px rgba(255, 255, 255, 0.7);
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.3);
+    animation: screenTapRipple 0.5s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    z-index: 9999;
+}
+
+@keyframes screenTapRipple {
+    0% {
+        transform: translate(-50%, -50%) scale(0.3);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.65);
+        opacity: 0;
+    }
+}
+
+/* App launch ripple burst */
+.app-launch-burst {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid rgba(56, 189, 248, 0.85);
+    box-shadow: 0 0 30px rgba(56, 189, 248, 0.9);
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.8);
+    animation: launchBurst 0.6s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    z-index: 9998;
+}
+
+@keyframes launchBurst {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(2.6);
+        opacity: 0;
+    }
+}
+
+/* 8. Splash Screen Ambient Glow & Loader Track */
+.splash-ambient-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center 40%, rgba(29, 112, 184, 0.4) 0%, transparent 65%);
+    animation: ambientFloat 8s ease-in-out infinite alternate;
+}
+
+.splash-logo-pulse {
+    animation: logoGlowPulse 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes logoGlowPulse {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+    }
+
+    100% {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 22px rgba(56, 189, 248, 0.9));
+    }
+}
+
+.splash-progress-track {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #38bdf8, #ffffff);
+    border-radius: 9999px;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+    animation: splashProgressTrack 1.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes splashProgressTrack {
+    0% {
+        width: 0%;
+    }
+
+    40% {
+        width: 55%;
+    }
+
+    80% {
+        width: 88%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+/* Disable loop motions when toggled OFF */
+.motion-disabled .ambient-glow,
+.motion-disabled .ambient-shimmer,
+.motion-disabled .clock-colon,
+.motion-disabled .search-sheen,
+.motion-disabled .hero-beacon-ring,
+.motion-disabled .hero-beacon-ring-2,
+.motion-disabled .dock-beacon-ring,
+.motion-disabled .icon-sheen-sweep,
+.motion-disabled .teaching-guide-pointer,
+.motion-disabled .splash-ambient-glow,
+.motion-disabled .splash-logo-pulse {
+    animation: none !important;
+}
+
+.motion-disabled .hero-beacon-ring,
+.motion-disabled .hero-beacon-ring-2,
+.motion-disabled .dock-beacon-ring {
+    display: none !important;
+}
+
+/* HD & 4K Recording Scale Presets */
+.tablet-chassis.scale-hd {
+    transform: scale(1.22);
+    transform-origin: center center;
+    margin: 45px auto;
+}
+
+.tablet-chassis.scale-4k {
+    transform: scale(1.48);
+    transform-origin: center center;
+    margin: 110px auto;
+}
