@@ -1,0 +1,94 @@
+:root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #070B16;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(0, 92, 230, 0.18) 0%, transparent 45%),
+        linear-gradient(180deg, #070B16 0%, #03060E 100%);
+    }
+
+    .ios-safe-pt {
+      padding-top: max(22px, calc(env(safe-area-inset-top, 0px) + 16px));
+    }
+    .ios-safe-pb {
+      padding-bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 14px));
+    }
+    .ios-safe-nav-pb {
+      padding-bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 10px));
+    }
+
+    .bg-splash-silk {
+      background: radial-gradient(140% 100% at 50% 25%, #1884FF 0%, #005CE6 44%, #0036A8 78%, #001854 100%);
+    }
+
+    .bg-login-gradient {
+      background: linear-gradient(180deg, #F0F6FF 0%, #FFFFFF 26%, #FFFFFF 100%);
+    }
+
+    .bg-stepper-clean {
+      background: linear-gradient(180deg, #F4F8FF 0%, #FFFFFF 34%, #FFFFFF 68%, #EDF5FF 100%);
+    }
+
+    .bg-card-hero-grad {
+      background:
+        radial-gradient(90% 130% at 0% 0%, rgba(92, 183, 255, 0.32) 0%, transparent 62%),
+        linear-gradient(128deg, #167FFF 0%, #0868F0 38%, #0756D7 72%, #0648BE 100%);
+    }
+
+    .logo-gradient {
+      background: linear-gradient(145deg, #67BEFF 0%, #268BFA 30%, #0864E9 68%, #0647B8 100%);
+      box-shadow: 0 10px 24px rgba(0, 82, 198, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .glass-frozen {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    @keyframes radarPulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 92, 230, 0.50); }
+      70% { box-shadow: 0 0 0 10px rgba(0, 92, 230, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 92, 230, 0); }
+    }
+    .radar-pulse-node {
+      animation: radarPulse 1.9s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+
+    @keyframes laserSweep {
+      0% { top: 6%; opacity: 0.3; }
+      50% { top: 92%; opacity: 1; }
+      100% { top: 6%; opacity: 0.3; }
+    }
+    .faceid-laser-sweep {
+      animation: laserSweep 2.2s ease-in-out infinite;
+    }
+
+    .screen-fade-enter {
+      animation: screenFade 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes screenFade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
