@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Optimized for iPhone 12 Pro Max viewport with iOS safe area bleed -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>HUO - Your Finance, Simplified</title>
 
   <!-- Google Fonts: Plus Jakarta Sans -->
@@ -21,7 +22,7 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
           },
           colors: {
             brand: {
@@ -38,12 +39,12 @@
             }
           },
           boxShadow: {
-            'card-hero': '0 12px 30px -4px rgba(0, 92, 230, 0.42)',
-            'pill-blue': '0 8px 20px -3px rgba(0, 92, 230, 0.38)',
-            'subtle-card': '0 2px 10px rgba(0, 0, 0, 0.03)',
-            'app-elevated': '0 24px 60px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(226, 232, 240, 0.7)',
-            'logo-squircle': '0 12px 28px -6px rgba(0, 92, 230, 0.35)',
-            'track-glow': '0 2px 8px rgba(0, 92, 230, 0.15)',
+            'card-hero': '0 14px 34px -4px rgba(0, 92, 230, 0.40)',
+            'pill-blue': '0 10px 24px -4px rgba(0, 92, 230, 0.38)',
+            'subtle-card': '0 2px 8px rgba(15, 23, 42, 0.04)',
+            'app-elevated': '0 25px 65px -12px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(226, 232, 240, 0.65)',
+            'logo-squircle': '0 12px 28px -6px rgba(0, 92, 230, 0.36)',
+            'track-glow': '0 2px 10px rgba(0, 92, 230, 0.18)',
           }
         }
       }
@@ -51,60 +52,84 @@
   </script>
 
   <style>
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+      --sal: env(safe-area-inset-left, 0px);
+      --sar: env(safe-area-inset-right, 0px);
+    }
+
     * {
       -webkit-tap-highlight-color: transparent;
       box-sizing: border-box;
     }
-    body {
-      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #0F172A;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(12, 122, 255, 0.16) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.12) 0%, transparent 40%),
-        linear-gradient(180deg, #0F172A 0%, #090D16 100%);
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
     }
 
-    /* Frosted glass utility for pinned headers */
-    .glass-frozen {
-      background: rgba(255, 255, 255, 0.90);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0B1120;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(0, 92, 230, 0.18) 0%, transparent 45%),
+        linear-gradient(180deg, #0B1120 0%, #060911 100%);
+    }
+
+    /* iOS safe-area responsive padding classes */
+    .ios-safe-pt {
+      padding-top: max(20px, calc(env(safe-area-inset-top, 0px) + 12px));
+    }
+    .ios-safe-pb {
+      padding-bottom: max(18px, calc(env(safe-area-inset-bottom, 0px) + 10px));
+    }
+    .ios-safe-nav-pb {
+      padding-bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 8px));
     }
 
     /* Silk wave gradient background for Splash */
     .bg-splash-silk {
-      background: radial-gradient(130% 90% at 50% 25%, #1884FF 0%, #005CE6 42%, #0036A8 75%, #001A5C 100%);
+      background: radial-gradient(140% 100% at 50% 25%, #1884FF 0%, #005CE6 44%, #0036A8 78%, #001854 100%);
     }
 
     .bg-login-gradient {
-      background: linear-gradient(180deg, #F0F6FF 0%, #FFFFFF 26%, #FFFFFF 100%);
+      background: linear-gradient(180deg, #F0F6FF 0%, #FFFFFF 28%, #FFFFFF 100%);
     }
 
-    /* Clean, soft stepped background */
     .bg-stepper-clean {
-      background: linear-gradient(180deg, #F5F9FF 0%, #FFFFFF 35%, #FFFFFF 65%, #F0F6FF 100%);
+      background: linear-gradient(180deg, #F4F8FF 0%, #FFFFFF 34%, #FFFFFF 68%, #EDF5FF 100%);
     }
 
     .bg-card-hero-grad {
-      background: linear-gradient(135deg, #0A73FF 0%, #0056DE 52%, #0038A8 100%);
+      background: linear-gradient(135deg, #0E77FF 0%, #0057DE 52%, #0038A8 100%);
+    }
+
+    /* Glass frosted backdrop for top and bottom navigations */
+    .glass-frozen {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
 
     /* Active radar pulsing ring for current stepper node */
     @keyframes radarStep {
-      0% { box-shadow: 0 0 0 0 rgba(0, 92, 230, 0.45); }
-      70% { box-shadow: 0 0 0 9px rgba(0, 92, 230, 0); }
+      0% { box-shadow: 0 0 0 0 rgba(0, 92, 230, 0.50); }
+      70% { box-shadow: 0 0 0 10px rgba(0, 92, 230, 0); }
       100% { box-shadow: 0 0 0 0 rgba(0, 92, 230, 0); }
     }
     .radar-pulse-node {
-      animation: radarStep 1.8s infinite;
+      animation: radarStep 1.9s cubic-bezier(0.24, 0, 0.38, 1) infinite;
     }
 
     /* Laser scanner beam animation */
     @keyframes scanBeam {
       0% { transform: translateY(0); opacity: 0.9; }
-      50% { transform: translateY(160px); opacity: 1; }
+      50% { transform: translateY(170px); opacity: 1; }
       100% { transform: translateY(0); opacity: 0.9; }
     }
     .laser-scan-line {
@@ -116,7 +141,7 @@
       animation: screenFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     @keyframes screenFade {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -124,29 +149,30 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="min-h-screen text-slate-800 antialiased flex flex-col items-center justify-center p-0 sm:p-4 select-none">
 
-  <!-- Toast Notification -->
-  <div id="toastNotification" class="fixed top-5 z-50 transition-all duration-300 transform -translate-y-16 opacity-0 pointer-events-none bg-slate-900/90 text-white backdrop-blur-md px-4 py-2.5 rounded-full text-xs font-semibold shadow-2xl flex items-center gap-2 border border-slate-700/80">
+<body class="min-h-[100dvh] text-slate-800 antialiased flex flex-col items-center justify-center p-0 sm:p-4 select-none">
+
+  <!-- Floating Toast Notification -->
+  <div id="toastNotification" class="fixed top-6 z-50 transition-all duration-300 transform -translate-y-20 opacity-0 pointer-events-none bg-slate-900/90 text-white backdrop-blur-md px-5 py-3 rounded-full text-xs font-semibold shadow-2xl flex items-center gap-2.5 border border-slate-700/80">
     <i id="toastIcon" data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
     <span id="toastMessage">Action completed</span>
   </div>
 
-  <!-- Clean, borderless application canvas (No phone bezels, no notches, no status bars) -->
-  <div id="appContainer" class="relative w-full max-w-[410px] h-[820px] rounded-none sm:rounded-[36px] overflow-hidden bg-white shadow-app-elevated flex flex-col justify-between">
+  <!-- BORDERLESS CANVAS: Native 428x926px (iPhone 12 Pro Max Viewport) -->
+  <div id="appContainer" class="relative w-full sm:max-w-[428px] h-[100dvh] sm:h-[926px] sm:max-h-[926px] rounded-none sm:rounded-[44px] overflow-hidden bg-white shadow-app-elevated flex flex-col justify-between select-none">
 
-    <!-- ============================================== -->
-    <!-- SCREEN 1: SPLASH SCREEN (AUTOMATED PROGRESS)   -->
-    <!-- ============================================== -->
-    <div id="screenSplash" class="absolute inset-0 w-full h-full bg-splash-silk text-white flex flex-col justify-between pt-16 pb-8 px-6 overflow-hidden transition-opacity duration-500 z-20">
+    <!-- ============================================================== -->
+    <!-- SCREEN 1: SPLASH SCREEN (AUTOMATED PROGRESSION TO LOGIN)       -->
+    <!-- ============================================================== -->
+    <div id="screenSplash" class="absolute inset-0 w-full h-full bg-splash-silk text-white flex flex-col justify-between ios-safe-pt ios-safe-pb px-7 overflow-hidden transition-opacity duration-500 z-20">
       
-      <!-- Ambient Fluid Silk Wave Vectors -->
-      <div class="absolute inset-0 pointer-events-none opacity-45 overflow-hidden">
-        <svg class="w-[240%] h-full" viewBox="0 0 1000 800" fill="none" preserveAspectRatio="none">
-          <path d="M0,280 C200,160 340,390 520,270 C700,150 820,380 1000,280 L1000,800 L0,800 Z" fill="url(#splashWavesGrad)"></path>
+      <!-- Fluid Ambient Silk Wave Vectors -->
+      <div class="absolute inset-0 pointer-events-none opacity-40 overflow-hidden">
+        <svg class="w-[260%] h-full" viewBox="0 0 1000 800" fill="none" preserveAspectRatio="none">
+          <path d="M0,280 C220,150 360,400 540,260 C720,140 840,390 1000,270 L1000,800 L0,800 Z" fill="url(#splashWavesGrad)"></path>
           <defs>
             <linearGradient id="splashWavesGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.7"/>
+              <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.8"/>
               <stop offset="100%" stop-color="#0284C7" stop-opacity="0.05"/>
             </linearGradient>
           </defs>
@@ -154,46 +180,46 @@
       </div>
 
       <!-- Center Logo & Branding -->
-      <div class="flex-1 flex flex-col items-center justify-center relative z-10">
+      <div class="flex-1 flex flex-col items-center justify-center relative z-10 pt-8">
         <div class="relative">
-          <div class="absolute -inset-3 rounded-full bg-sky-400/25 blur-lg"></div>
-          <div class="relative w-20 h-20 rounded-[24px] bg-gradient-to-tr from-brand-600 via-brand-500 to-sky-400 p-[2px] shadow-2xl flex items-center justify-center">
-            <div class="w-full h-full bg-brand-600 rounded-[22px] flex items-center justify-center p-4">
+          <div class="absolute -inset-4 rounded-full bg-sky-400/30 blur-xl"></div>
+          <div class="relative w-24 h-24 rounded-[28px] bg-gradient-to-tr from-brand-600 via-brand-500 to-sky-400 p-[2px] shadow-2xl flex items-center justify-center">
+            <div class="w-full h-full bg-brand-600 rounded-[26px] flex items-center justify-center p-5">
               <!-- Modern Geometric Connected 'H' Monogram -->
               <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
                 <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
                 <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
                 <path d="M38 56 C45 56 49 44 58 44 C67 44 72 49 78 51 C78 57 73 63 62 63 C52 63 46 67 38 67 Z" fill="white"/>
-                <circle cx="58" cy="53.5" r="7" fill="white"/>
+                <circle cx="58" cy="53.5" r="7.5" fill="white"/>
               </svg>
             </div>
           </div>
         </div>
 
-        <h3 class="text-3xl font-black mt-4 tracking-wider text-white">HUO</h3>
-        <p class="text-sky-100 text-xs font-semibold mt-1">Your Finance, Simplified</p>
+        <h3 class="text-4xl font-black mt-5 tracking-wider text-white">HUO</h3>
+        <p class="text-sky-100 text-sm font-semibold mt-1.5">Your Finance, Simplified</p>
       </div>
 
       <!-- Bottom Progress Bar & Waterfront City Skyline -->
-      <div class="w-full flex flex-col items-center relative z-10">
-        <div class="w-full px-2 mb-2">
-          <div class="flex items-center justify-between text-xs text-white font-medium mb-1.5 px-0.5">
+      <div class="w-full flex flex-col items-center relative z-10 pb-4">
+        <div class="w-full px-2 mb-3">
+          <div class="flex items-center justify-between text-xs text-white font-medium mb-2 px-1">
             <span id="splashStatusText" class="text-sky-200 text-xs font-semibold">Loading...</span>
             <span id="splashPercentText" class="font-bold text-white text-xs">0%</span>
           </div>
 
           <!-- Animated Glowing Progress Bar -->
-          <div class="w-full h-2 bg-blue-950/70 rounded-full overflow-hidden p-[1px] border border-sky-400/30">
+          <div class="w-full h-2.5 bg-blue-950/70 rounded-full overflow-hidden p-[1px] border border-sky-400/35">
             <div id="splashProgressBar" class="h-full bg-gradient-to-r from-sky-400 via-brand-400 to-white rounded-full transition-all duration-150 ease-out" style="width: 0%;"></div>
           </div>
 
-          <p class="text-[11px] text-sky-200/80 text-center mt-2 font-normal">
+          <p class="text-xs text-sky-200/85 text-center mt-2.5 font-normal">
             Preparing your secure banking experience...
           </p>
         </div>
 
         <!-- Waterfront City Skyline Silhouette -->
-        <div class="w-full h-16 relative overflow-hidden opacity-90 mt-1">
+        <div class="w-full h-20 relative overflow-hidden opacity-95 mt-1">
           <svg class="w-full h-full object-cover" viewBox="0 0 340 60" fill="none">
             <rect y="42" width="340" height="18" fill="#001438"/>
             <path d="M0 44L340 44" stroke="#38BDF8" stroke-width="0.8" opacity="0.7"/>
@@ -204,101 +230,101 @@
             <rect x="130" y="12" width="26" height="32" fill="#003594"/>
             <rect x="184" y="6" width="24" height="38" fill="#002E80"/>
             <rect x="260" y="10" width="26" height="34" fill="#002E80"/>
-            <circle cx="92" cy="16" r="1.1" fill="#FEF08A"/>
-            <circle cx="140" cy="18" r="1.2" fill="#BAE6FD"/>
-            <circle cx="194" cy="12" r="1.1" fill="#BAE6FD"/>
+            <circle cx="92" cy="16" r="1.2" fill="#FEF08A"/>
+            <circle cx="140" cy="18" r="1.3" fill="#BAE6FD"/>
+            <circle cx="194" cy="12" r="1.2" fill="#BAE6FD"/>
           </svg>
         </div>
       </div>
     </div>
 
-    <!-- ============================================== -->
-    <!-- SCREEN 2: LOGIN SCREEN                         -->
-    <!-- ============================================== -->
-    <div id="screenLogin" class="absolute inset-0 w-full h-full bg-login-gradient text-slate-800 flex flex-col justify-between pt-12 pb-6 px-6 overflow-hidden hidden">
+    <!-- ============================================================== -->
+    <!-- SCREEN 2: LOGIN SCREEN (CLEAN, NO SEGMENTED TOGGLE)            -->
+    <!-- ============================================================== -->
+    <div id="screenLogin" class="absolute inset-0 w-full h-full bg-login-gradient text-slate-800 flex flex-col justify-between ios-safe-pt ios-safe-pb px-7 overflow-hidden hidden">
       
-      <div class="flex-1 flex flex-col justify-center">
-        <!-- Logo Badge & Clean Greetings -->
-        <div class="flex flex-col items-center mb-7">
-          <div class="w-14 h-14 rounded-[18px] bg-brand-600 text-white flex items-center justify-center p-3 shadow-logo-squircle">
+      <div class="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full">
+        <!-- Logo Badge & Clean Greeting -->
+        <div class="flex flex-col items-center mb-8">
+          <div class="w-16 h-16 rounded-[22px] bg-brand-600 text-white flex items-center justify-center p-3.5 shadow-logo-squircle">
             <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
               <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
               <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
               <path d="M38 56 C45 56 49 44 58 44 C67 44 72 49 78 51 C78 57 73 63 62 63 C52 63 46 67 38 67 Z" fill="white"/>
-              <circle cx="58" cy="53.5" r="7" fill="white"/>
+              <circle cx="58" cy="53.5" r="7.5" fill="white"/>
             </svg>
           </div>
-          <h3 class="text-2xl font-black text-slate-900 tracking-wider mt-3">HUO</h3>
-          <h4 class="text-base font-bold text-slate-900 mt-0.5">Welcome back</h4>
+          <h3 class="text-3xl font-black text-slate-900 tracking-wider mt-3.5">HUO</h3>
+          <h4 class="text-lg font-bold text-slate-900 mt-1">Welcome back</h4>
           <p class="text-xs text-slate-400 font-medium">Sign in to continue</p>
         </div>
 
-        <!-- Credentials Fields (Preserving User Phone 011 000 123) -->
-        <div class="space-y-3.5">
-          <div class="bg-slate-50 border border-slate-200/90 rounded-2xl px-4 py-3 flex items-center gap-3.5 focus-within:border-brand-500 focus-within:bg-white focus-within:shadow-sm transition-all">
+        <!-- Clean Credentials Inputs (Phone: 011 000 123) -->
+        <div class="space-y-4">
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3.5 flex items-center gap-3.5 focus-within:border-brand-500 focus-within:bg-white focus-within:shadow-sm transition-all">
             <i data-lucide="user" class="w-4 h-4 text-slate-400 shrink-0"></i>
             <div class="flex-1">
               <span class="block text-[10px] font-semibold text-slate-400 leading-tight">Phone number or Username</span>
-              <input type="text" id="loginUsernameInput" value="011 000 123" class="w-full bg-transparent text-xs font-bold text-slate-800 outline-none p-0 m-0 mt-0.5" />
+              <input type="text" id="loginUsernameInput" value="011 000 123" class="w-full bg-transparent text-sm font-bold text-slate-800 outline-none p-0 m-0 mt-0.5" />
             </div>
           </div>
 
-          <div class="bg-slate-50 border border-slate-200/90 rounded-2xl px-4 py-3 flex items-center justify-between focus-within:border-brand-500 focus-within:bg-white focus-within:shadow-sm transition-all">
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3.5 flex items-center justify-between focus-within:border-brand-500 focus-within:bg-white focus-within:shadow-sm transition-all">
             <div class="flex items-center gap-3.5 flex-1">
               <i data-lucide="lock" class="w-4 h-4 text-slate-400 shrink-0"></i>
               <div class="flex-1">
                 <span class="block text-[10px] font-semibold text-slate-400 leading-tight">Password</span>
-                <input type="password" id="loginPasswordInput" value="bankpassword" class="w-full bg-transparent text-xs font-black text-slate-800 tracking-widest outline-none p-0 m-0 mt-0.5" />
+                <input type="password" id="loginPasswordInput" value="bankpassword" class="w-full bg-transparent text-sm font-black text-slate-800 tracking-widest outline-none p-0 m-0 mt-0.5" />
               </div>
             </div>
-            <button type="button" id="togglePasswordVisibility" class="text-slate-400 hover:text-slate-600 transition-colors p-1">
+            <button type="button" id="togglePasswordVisibility" class="text-slate-400 hover:text-slate-600 transition-colors p-1" aria-label="Toggle password visibility">
               <i id="passwordEyeIcon" data-lucide="eye" class="w-4 h-4"></i>
             </button>
           </div>
         </div>
 
         <!-- Remember Me & Forgot Password -->
-        <div class="flex items-center justify-between text-xs mt-3.5 px-1">
+        <div class="flex items-center justify-between text-xs mt-4 px-1">
           <label class="flex items-center gap-2 cursor-pointer select-none">
             <input type="checkbox" checked class="w-4 h-4 rounded text-brand-600 border-slate-300 accent-brand-600 cursor-pointer">
             <span class="text-xs font-medium text-slate-600">Remember me</span>
           </label>
-          <button type="button" onclick="showToast('Password recovery sent to registered contact 011 000 123')" class="text-xs font-bold text-brand-600 hover:underline">Forgot password?</button>
+          <button type="button" onclick="showToast('Password recovery link sent to 011 000 123')" class="text-xs font-bold text-brand-600 hover:underline">Forgot password?</button>
         </div>
 
-        <!-- Primary Log in Action Button -->
-        <button id="btnLoginAction" type="button" class="w-full mt-6 py-3 px-4 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white rounded-full text-xs font-bold flex items-center justify-between shadow-pill-blue transition-all">
-          <span class="flex-1 text-center pl-6 font-bold text-sm">Log in</span>
-          <span class="w-7 h-7 rounded-full bg-white text-brand-600 flex items-center justify-center text-xs shadow-sm">
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        <!-- Primary Log in Action Button with Arrow Circle -->
+        <button id="btnLoginAction" type="button" class="w-full mt-7 py-3.5 px-5 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white rounded-full text-sm font-bold flex items-center justify-between shadow-pill-blue transition-all">
+          <span class="flex-1 text-center pl-7 font-bold text-sm">Log in</span>
+          <span class="w-8 h-8 rounded-full bg-white text-brand-600 flex items-center justify-center text-xs shadow-sm">
+            <i data-lucide="arrow-right" class="w-4 h-4 stroke-[2.5]"></i>
           </span>
         </button>
 
-        <!-- Social / Biometrics Divider -->
-        <div class="relative flex items-center justify-center my-5">
+        <!-- Biometrics & Social Authentication Divider -->
+        <div class="relative flex items-center justify-center my-6">
           <div class="border-t border-slate-200 w-full"></div>
-          <span class="bg-white px-2.5 text-[10px] text-slate-400 font-medium whitespace-nowrap">or login with</span>
+          <span class="bg-white px-3 text-[10px] text-slate-400 font-semibold uppercase tracking-wider whitespace-nowrap">or login with</span>
           <div class="border-t border-slate-200 w-full"></div>
         </div>
 
         <!-- 3 Auth Cards -->
-        <div class="grid grid-cols-3 gap-2.5 text-center">
-          <button type="button" onclick="triggerBiometricLogin('Face ID')" class="py-2.5 px-1 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
-            <div class="w-8 h-8 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-brand-600 mb-1">
-              <i data-lucide="scan-face" class="w-4 h-4"></i>
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <button type="button" onclick="triggerBiometricLogin('Face ID')" class="py-3 px-2 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
+            <div class="w-9 h-9 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-brand-600 mb-1.5">
+              <i data-lucide="scan-face" class="w-5 h-5"></i>
             </div>
-            <span class="text-[10px] font-semibold text-slate-700">Face ID</span>
+            <span class="text-[11px] font-semibold text-slate-700">Face ID</span>
           </button>
 
-          <button type="button" onclick="triggerBiometricLogin('Fingerprint')" class="py-2.5 px-1 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
-            <div class="w-8 h-8 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-brand-600 mb-1">
-              <i data-lucide="fingerprint" class="w-4 h-4"></i>
+          <button type="button" onclick="triggerBiometricLogin('Fingerprint')" class="py-3 px-2 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
+            <div class="w-9 h-9 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-brand-600 mb-1.5">
+              <i data-lucide="fingerprint" class="w-5 h-5"></i>
             </div>
-            <span class="text-[10px] font-semibold text-slate-700">Fingerprint</span>
+            <span class="text-[11px] font-semibold text-slate-700">Fingerprint</span>
           </button>
 
-          <button type="button" onclick="triggerBiometricLogin('Google')" class="py-2.5 px-1 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
-            <div class="w-8 h-8 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-red-500 mb-1">
+          <button type="button" onclick="triggerBiometricLogin('Google')" class="py-3 px-2 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
+            <div class="w-9 h-9 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-red-500 mb-1.5">
               <svg class="w-4 h-4" viewBox="0 0 24 24">
                 <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.3 8.9 5 12 5z"/>
                 <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z"/>
@@ -306,7 +332,7 @@
                 <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.3-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"/>
               </svg>
             </div>
-            <span class="text-[10px] font-semibold text-slate-700">Google</span>
+            <span class="text-[11px] font-semibold text-slate-700">Google</span>
           </button>
         </div>
       </div>
@@ -319,20 +345,20 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- SCREEN 3: CLEAN STEPPER WITH REFINED ORGANIC BOTTOM WAVES      -->
+    <!-- SCREEN 3: LOGIN PROCESS (MATHEMATICALLY CENTERED TIMELINE)     -->
     <!-- ============================================================== -->
-    <div id="screenProcess" class="absolute inset-0 w-full h-full bg-stepper-clean text-slate-800 flex flex-col justify-between pt-10 pb-0 overflow-hidden hidden">
+    <div id="screenProcess" class="absolute inset-0 w-full h-full bg-stepper-clean text-slate-800 flex flex-col justify-between ios-safe-pt ios-safe-pb overflow-hidden hidden">
       
-      <!-- Seamless Layered Organic Wave Footer Background (Eliminates clunky blocks) -->
-      <div class="absolute bottom-0 left-0 right-0 h-52 pointer-events-none select-none z-0">
-        <svg class="w-full h-full" viewBox="0 0 410 210" preserveAspectRatio="none" fill="none">
+      <!-- Seamless Layered Organic Wave Footer Background -->
+      <div class="absolute bottom-0 left-0 right-0 h-64 pointer-events-none select-none z-0">
+        <svg class="w-full h-full" viewBox="0 0 428 240" preserveAspectRatio="none" fill="none">
           <defs>
             <linearGradient id="softWaveLayer1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#E0F2FE" stop-opacity="0.95"/>
               <stop offset="100%" stop-color="#BAE6FD" stop-opacity="0.6"/>
             </linearGradient>
             <linearGradient id="softWaveLayer2" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#93C5FD" stop-opacity="0.65"/>
+              <stop offset="0%" stop-color="#93C5FD" stop-opacity="0.7"/>
               <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.35"/>
             </linearGradient>
             <linearGradient id="softWaveLayer3" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -340,41 +366,40 @@
               <stop offset="100%" stop-color="#005CE6" stop-opacity="0.28"/>
             </linearGradient>
           </defs>
-          <!-- Smooth cubic bezier waves flowing naturally -->
-          <path d="M0,85 C95,50 185,130 305,75 C355,50 385,60 410,70 L410,210 L0,210 Z" fill="url(#softWaveLayer1)"/>
-          <path d="M0,118 C110,80 210,150 315,105 C365,85 395,95 410,100 L410,210 L0,210 Z" fill="url(#softWaveLayer2)"/>
-          <path d="M0,148 C120,115 225,170 325,135 C370,120 395,128 410,130 L410,210 L0,210 Z" fill="url(#softWaveLayer3)"/>
+          <path d="M0,95 C100,55 195,145 320,85 C370,60 400,70 428,80 L428,240 L0,240 Z" fill="url(#softWaveLayer1)"/>
+          <path d="M0,132 C115,90 220,165 330,118 C380,95 410,105 428,110 L428,240 L0,240 Z" fill="url(#softWaveLayer2)"/>
+          <path d="M0,162 C125,128 235,185 340,148 C385,130 410,140 428,142 L428,240 L0,240 Z" fill="url(#softWaveLayer3)"/>
         </svg>
       </div>
 
       <!-- Main Center Content -->
-      <div class="relative z-10 flex-1 flex flex-col justify-center px-6">
+      <div class="relative z-10 flex-1 flex flex-col justify-center px-7 max-w-sm mx-auto w-full">
         
         <!-- Modern Geometric Connected 'H' Squircle Badge -->
-        <div class="flex flex-col items-center mb-7">
-          <div class="w-16 h-16 rounded-[22px] bg-gradient-to-b from-[#1884FF] via-brand-600 to-[#0047B8] text-white flex items-center justify-center p-3.5 shadow-logo-squircle">
-            <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
+        <div class="flex flex-col items-center mb-8">
+          <div class="w-18 h-18 p-4 rounded-[24px] bg-gradient-to-b from-[#1884FF] via-brand-600 to-[#0047B8] text-white flex items-center justify-center shadow-logo-squircle">
+            <svg viewBox="0 0 100 100" fill="none" class="w-11 h-11 text-white">
               <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
               <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
               <path d="M38 56 C45 56 49 44 58 44 C67 44 72 49 78 51 C78 57 73 63 62 63 C52 63 46 67 38 67 Z" fill="white"/>
-              <circle cx="58" cy="53.5" r="7" fill="white"/>
+              <circle cx="58" cy="53.5" r="7.5" fill="white"/>
             </svg>
           </div>
-          <h3 class="text-2xl font-black text-slate-900 tracking-wider mt-3">HUO</h3>
-          <h4 class="text-base font-bold text-slate-900 mt-1">Please wait</h4>
+          <h3 class="text-3xl font-black text-slate-900 tracking-wider mt-3.5">HUO</h3>
+          <h4 class="text-lg font-bold text-slate-900 mt-1">Please wait</h4>
           <p class="text-xs text-slate-400 font-medium">We are signing you in...</p>
         </div>
 
         <!-- 4-Steps Mathematically Centered Timeline (High Precision) -->
-        <div class="w-full max-w-[280px] mx-auto flex flex-col">
+        <div class="w-full max-w-[290px] mx-auto flex flex-col">
           
           <!-- Step 1: Connecting (Completed) -->
-          <div class="flex items-start gap-3.5">
+          <div class="flex items-start gap-4">
             <div class="flex flex-col items-center">
               <div id="iconStep1" class="w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-sm shrink-0 z-10">
                 <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>
               </div>
-              <div id="connector1" class="w-[2px] h-8 bg-brand-600 transition-colors duration-500"></div>
+              <div id="connector1" class="w-[2px] h-9 bg-brand-600 transition-colors duration-500"></div>
             </div>
             <div class="pt-0.5">
               <h5 class="text-xs font-bold text-slate-900 leading-tight">Connecting</h5>
@@ -383,12 +408,12 @@
           </div>
 
           <!-- Step 2: Verifying (Completed) -->
-          <div class="flex items-start gap-3.5">
+          <div class="flex items-start gap-4">
             <div class="flex flex-col items-center">
               <div id="iconStep2" class="w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-sm shrink-0 z-10">
                 <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>
               </div>
-              <div id="connector2" class="w-[2px] h-8 bg-brand-600 transition-colors duration-500"></div>
+              <div id="connector2" class="w-[2px] h-9 bg-brand-600 transition-colors duration-500"></div>
             </div>
             <div class="pt-0.5">
               <h5 class="text-xs font-bold text-slate-900 leading-tight">Verifying</h5>
@@ -397,12 +422,12 @@
           </div>
 
           <!-- Step 3: Loading (Active Pulse Node) -->
-          <div class="flex items-start gap-3.5">
+          <div class="flex items-start gap-4">
             <div class="flex flex-col items-center">
               <div id="iconStep3" class="w-6 h-6 rounded-full border-2 border-brand-600 bg-white flex items-center justify-center shrink-0 z-10 radar-pulse-node transition-all duration-300">
                 <div id="innerDotStep3" class="w-2.5 h-2.5 rounded-full bg-brand-600"></div>
               </div>
-              <div id="connector3" class="w-[2px] h-8 bg-slate-200 transition-colors duration-500"></div>
+              <div id="connector3" class="w-[2px] h-9 bg-slate-200 transition-colors duration-500"></div>
             </div>
             <div class="pt-0.5">
               <h5 id="titleStep3" class="text-xs font-bold text-slate-900 leading-tight">Loading</h5>
@@ -411,7 +436,7 @@
           </div>
 
           <!-- Step 4: Almost ready (Pending Node) -->
-          <div class="flex items-start gap-3.5">
+          <div class="flex items-start gap-4">
             <div class="flex flex-col items-center">
               <div id="iconStep4" class="w-6 h-6 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 z-10 transition-all duration-300">
                 <div id="innerDotStep4" class="w-2 h-2 rounded-full bg-slate-300"></div>
@@ -427,18 +452,16 @@
 
       </div>
 
-      <!-- Clean, High-Contrast Progress Bar & Subtitle -->
-      <div class="relative z-10 w-full px-7 pb-8 pt-2 flex flex-col items-center">
-        
-        <!-- Sleek progress container with glowing gradient fill -->
-        <div class="flex items-center gap-3 w-full max-w-[320px]">
+      <!-- Clean Progress Bar & Subtitle -->
+      <div class="relative z-10 w-full px-8 pb-10 pt-2 flex flex-col items-center">
+        <div class="flex items-center gap-3 w-full max-w-[330px]">
           <div class="flex-1 h-2 bg-slate-200/90 rounded-full overflow-hidden p-[1px] shadow-track-glow">
             <div id="processProgressBar" class="h-full bg-gradient-to-r from-brand-600 via-brand-500 to-sky-400 rounded-full transition-all duration-500" style="width: 80%;"></div>
           </div>
           <span id="processPercentText" class="text-xs font-extrabold text-brand-600 shrink-0">80%</span>
         </div>
 
-        <p class="text-[11px] text-slate-500 font-semibold tracking-wide text-center mt-3">
+        <p class="text-xs text-slate-500 font-semibold tracking-wide text-center mt-3.5">
           Please don't close the app
         </p>
       </div>
@@ -446,21 +469,21 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- SCREEN 4: DASHBOARD (EXACT HEADER 100% MATCH TO REFERENCE)     -->
+    <!-- SCREEN 4: DASHBOARD (EXACT HEADER COPY & MODERN FINTECH UI)    -->
     <!-- ============================================================== -->
     <div id="screenDashboard" class="absolute inset-0 w-full h-full bg-slate-50 text-slate-800 flex flex-col justify-between pt-0 pb-0 overflow-hidden hidden">
       
-      <!-- EXACT 100% MATCH TO REFERENCE HEADER (image_175427.png) -->
-      <header class="sticky top-0 z-30 px-5 pt-5 pb-3.5 glass-frozen border-b border-white/70 transition-all flex items-center justify-between">
+      <!-- EXACT HEADER 100% MATCH TO REFERENCE (image_175427.png) -->
+      <header class="sticky top-0 z-30 px-6 ios-safe-pt pb-3.5 glass-frozen border-b border-white/70 transition-all flex items-center justify-between">
         
         <!-- Left Side: Circular Blue Emblem with White 'H' + 'HUO' & Greeting -->
-        <div class="flex items-center gap-2.5">
+        <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center p-2.5 shadow-sm shrink-0">
             <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
               <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
               <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
               <path d="M38 56 C45 56 49 44 58 44 C67 44 72 49 78 51 C78 57 73 63 62 63 C52 63 46 67 38 67 Z" fill="white"/>
-              <circle cx="58" cy="53.5" r="7" fill="white"/>
+              <circle cx="58" cy="53.5" r="7.5" fill="white"/>
             </svg>
           </div>
 
@@ -471,7 +494,7 @@
         </div>
 
         <!-- Right Side: Two Clean Rounded Squircle Buttons -->
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2.5">
           <!-- Notification Bell with Red Badge Dot -->
           <button type="button" onclick="showToast('You have 2 unread security notifications')" class="relative w-9 h-9 rounded-2xl bg-white border border-slate-200/90 shadow-subtle-card flex items-center justify-center text-slate-600 active:scale-95 transition-transform" aria-label="Notifications">
             <i data-lucide="bell" class="w-4 h-4"></i>
@@ -486,18 +509,18 @@
       </header>
 
       <!-- Scrollable Dashboard Content -->
-      <div class="flex-1 overflow-y-auto no-scrollbar px-4 pt-3 pb-20">
+      <div class="flex-1 overflow-y-auto no-scrollbar px-5 pt-3 pb-28">
         
-        <!-- Hero Total Balance Card -->
-        <div class="rounded-3xl bg-card-hero-grad text-white p-4 shadow-card-hero mb-3.5 relative overflow-hidden">
+        <!-- Hero Total Balance Card with Watermark Monogram -->
+        <div class="rounded-3xl bg-card-hero-grad text-white p-5 shadow-card-hero mb-4 relative overflow-hidden">
           
-          <!-- Subtle Watermark 'H' Monogram -->
-          <div class="absolute -right-3 -bottom-5 w-32 h-32 opacity-15 pointer-events-none">
+          <!-- Watermark 'H' Monogram -->
+          <div class="absolute -right-3 -bottom-5 w-36 h-36 opacity-15 pointer-events-none">
             <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
               <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
               <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
               <path d="M38 56 C45 56 49 44 58 44 C67 44 72 49 78 51 C78 57 73 63 62 63 C52 63 46 67 38 67 Z" fill="white"/>
-              <circle cx="58" cy="53.5" r="7" fill="white"/>
+              <circle cx="58" cy="53.5" r="7.5" fill="white"/>
             </svg>
           </div>
 
@@ -509,90 +532,90 @@
             </button>
           </div>
 
-          <!-- Balance Amount & Currency Dropdown Toggle -->
-          <div class="flex items-center gap-2 mb-1 relative z-10">
-            <span id="dashboardBalanceDisplay" class="text-2xl font-black tracking-tight">$ 1,250.00</span>
-            <button type="button" id="btnCurrencyToggle" class="text-[9px] font-bold bg-blue-400/30 px-2 py-0.5 rounded-full border border-blue-200/30 hover:bg-blue-400/50 transition-colors">
+          <!-- Balance Amount & Currency Switcher Pill -->
+          <div class="flex items-center gap-2.5 mb-1.5 relative z-10">
+            <span id="dashboardBalanceDisplay" class="text-3xl font-black tracking-tight">$ 1,250.00</span>
+            <button type="button" id="btnCurrencyToggle" class="text-[10px] font-bold bg-blue-400/30 px-2.5 py-0.5 rounded-full border border-blue-200/30 hover:bg-blue-400/50 transition-colors">
               <span id="currencyCodeLabel">USD</span> ⌄
             </button>
           </div>
 
-          <p class="text-[11px] text-blue-100 font-normal relative z-10">Savings account •••• 4623</p>
+          <p class="text-xs text-blue-100 font-normal relative z-10">Savings account •••• 4623</p>
 
           <!-- Bottom Card Status & Details Shortcut -->
-          <div class="flex justify-between items-center pt-3 mt-2.5 border-t border-white/10 text-xs relative z-10">
-            <div class="flex items-center gap-1.5">
+          <div class="flex justify-between items-center pt-3 mt-3 border-t border-white/15 text-xs relative z-10">
+            <div class="flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span class="text-blue-100 font-medium">Available balance</span>
+              <span class="text-blue-100 font-medium text-xs">Available balance</span>
             </div>
-            <button type="button" onclick="showToast('Displaying full multi-account summary')" class="text-blue-100 hover:text-white text-xs font-semibold flex items-center">
+            <button type="button" onclick="showToast('Displaying multi-account breakdown')" class="text-blue-100 hover:text-white text-xs font-semibold flex items-center">
               My accounts &gt;
             </button>
           </div>
         </div>
 
         <!-- 4 Quick Action Shortcuts -->
-        <div class="grid grid-cols-4 gap-2 mb-4">
-          <button type="button" onclick="openTransferModal()" class="flex flex-col items-center gap-1 p-1.5 rounded-2xl hover:bg-white active:scale-95 transition-all">
-            <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
-              <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+        <div class="grid grid-cols-4 gap-2.5 mb-5">
+          <button type="button" onclick="openTransferModal()" class="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-white active:scale-95 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
+              <i data-lucide="arrow-left-right" class="w-5 h-5"></i>
             </div>
-            <span class="text-[10px] font-semibold text-slate-700">Transfer</span>
+            <span class="text-[11px] font-semibold text-slate-700">Transfer</span>
           </button>
 
-          <button type="button" onclick="showToast('Bill payment & utilities ready')" class="flex flex-col items-center gap-1 p-1.5 rounded-2xl hover:bg-white active:scale-95 transition-all">
-            <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
-              <i data-lucide="credit-card" class="w-4 h-4"></i>
+          <button type="button" onclick="showToast('Bill payment & utilities ready')" class="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-white active:scale-95 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
+              <i data-lucide="credit-card" class="w-5 h-5"></i>
             </div>
-            <span class="text-[10px] font-semibold text-slate-700">Payment</span>
+            <span class="text-[11px] font-semibold text-slate-700">Payment</span>
           </button>
 
-          <button type="button" onclick="showToast('Mobile Top-up carriers: Smart, Cellcard, Metfone')" class="flex flex-col items-center gap-1 p-1.5 rounded-2xl hover:bg-white active:scale-95 transition-all">
-            <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
-              <i data-lucide="smartphone" class="w-4 h-4"></i>
+          <button type="button" onclick="showToast('Mobile Top-up carriers: Smart, Cellcard, Metfone')" class="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-white active:scale-95 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
+              <i data-lucide="smartphone" class="w-5 h-5"></i>
             </div>
-            <span class="text-[10px] font-semibold text-slate-700">Top up</span>
+            <span class="text-[11px] font-semibold text-slate-700">Top up</span>
           </button>
 
-          <button type="button" onclick="openScannerModal()" class="flex flex-col items-center gap-1 p-1.5 rounded-2xl hover:bg-white active:scale-95 transition-all">
-            <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
-              <i data-lucide="qr-code" class="w-4 h-4"></i>
+          <button type="button" onclick="openScannerModal()" class="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-white active:scale-95 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
+              <i data-lucide="qr-code" class="w-5 h-5"></i>
             </div>
-            <span class="text-[10px] font-semibold text-slate-700">Scan</span>
+            <span class="text-[11px] font-semibold text-slate-700">Scan</span>
           </button>
         </div>
 
         <!-- My Accounts Section -->
-        <div class="mb-4">
-          <div class="flex justify-between items-center text-xs mb-1.5 px-0.5">
-            <span class="font-bold text-slate-900">My accounts</span>
-            <button type="button" onclick="showToast('Listing all 2 accounts')" class="text-[11px] font-semibold text-brand-600 hover:underline">See all</button>
+        <div class="mb-5">
+          <div class="flex justify-between items-center text-xs mb-2 px-0.5">
+            <span class="font-bold text-slate-900 text-sm">My accounts</span>
+            <button type="button" onclick="showToast('Listing all 2 accounts')" class="text-xs font-semibold text-brand-600 hover:underline">See all</button>
           </div>
 
-          <div class="space-y-2">
+          <div class="space-y-2.5">
             <!-- Savings Account -->
-            <div onclick="showToast('Savings Account: 011 000 123 456')" class="p-3 bg-white hover:bg-slate-50 active:scale-[0.99] transition-all cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+            <div onclick="showToast('Savings Account: 011 000 123 456')" class="p-3.5 bg-white hover:bg-slate-50 active:scale-[0.99] transition-all cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
                   <i data-lucide="home" class="w-4 h-4"></i>
                 </div>
                 <div>
-                  <h5 class="text-[11px] font-bold text-slate-900 leading-none">Savings Account</h5>
-                  <p class="text-[10px] text-slate-500 font-medium mt-1">011 000 123 456</p>
+                  <h5 class="text-xs font-bold text-slate-900 leading-none">Savings Account</h5>
+                  <p class="text-[11px] text-slate-500 font-medium mt-1">011 000 123 456</p>
                 </div>
               </div>
               <span class="text-xs font-bold text-slate-900">$1,250.00 &gt;</span>
             </div>
 
             <!-- Staff Account -->
-            <div onclick="showToast('Staff Account: 011 000 987 654')" class="p-3 bg-white hover:bg-slate-50 active:scale-[0.99] transition-all cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+            <div onclick="showToast('Staff Account: 011 000 987 654')" class="p-3.5 bg-white hover:bg-slate-50 active:scale-[0.99] transition-all cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
                   <i data-lucide="shield-check" class="w-4 h-4"></i>
                 </div>
                 <div>
-                  <h5 class="text-[11px] font-bold text-slate-900 leading-none">Staff Account</h5>
-                  <p class="text-[10px] text-slate-500 font-medium mt-1">011 000 987 654</p>
+                  <h5 class="text-xs font-bold text-slate-900 leading-none">Staff Account</h5>
+                  <p class="text-[11px] text-slate-500 font-medium mt-1">011 000 987 654</p>
                 </div>
               </div>
               <span class="text-xs font-bold text-slate-900">$320.00 &gt;</span>
@@ -601,88 +624,88 @@
         </div>
 
         <!-- Services Section (6-Grid) -->
-        <div class="mb-4">
-          <div class="flex justify-between items-center text-xs mb-1.5 px-0.5">
-            <span class="font-bold text-slate-900">Services</span>
-            <button type="button" onclick="showToast('Displaying all 14 banking services')" class="text-[11px] font-semibold text-brand-600 hover:underline">See all</button>
+        <div class="mb-5">
+          <div class="flex justify-between items-center text-xs mb-2 px-0.5">
+            <span class="font-bold text-slate-900 text-sm">Services</span>
+            <button type="button" onclick="showToast('Displaying all 14 banking services')" class="text-xs font-semibold text-brand-600 hover:underline">See all</button>
           </div>
 
-          <div class="grid grid-cols-3 gap-2">
-            <button type="button" onclick="openScannerModal()" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
-              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
-                <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
+          <div class="grid grid-cols-3 gap-2.5">
+            <button type="button" onclick="openScannerModal()" class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-transform">
+              <div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="qr-code" class="w-4 h-4"></i>
               </div>
-              <span class="text-[9px] font-semibold text-slate-700">Scan QR</span>
+              <span class="text-[10px] font-semibold text-slate-700">Scan QR</span>
             </button>
 
-            <button type="button" onclick="showToast('Beneficiaries directory loaded')" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
-              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
-                <i data-lucide="users" class="w-3.5 h-3.5"></i>
+            <button type="button" onclick="showToast('Beneficiaries directory loaded')" class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-transform">
+              <div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="users" class="w-4 h-4"></i>
               </div>
-              <span class="text-[9px] font-semibold text-slate-700">Beneficiaries</span>
+              <span class="text-[10px] font-semibold text-slate-700">Beneficiaries</span>
             </button>
 
-            <button type="button" onclick="showToast('Pay utilities, water & electric bills')" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
-              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
-                <i data-lucide="receipt" class="w-3.5 h-3.5"></i>
+            <button type="button" onclick="showToast('Pay utilities, water & electric bills')" class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-transform">
+              <div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="receipt" class="w-4 h-4"></i>
               </div>
-              <span class="text-[9px] font-semibold text-slate-700">Bill payment</span>
+              <span class="text-[10px] font-semibold text-slate-700">Bill payment</span>
             </button>
 
-            <button type="button" onclick="showToast('Debit / Credit card management')" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
-              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
-                <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
+            <button type="button" onclick="showToast('Debit / Credit card management')" class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-transform">
+              <div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="credit-card" class="w-4 h-4"></i>
               </div>
-              <span class="text-[9px] font-semibold text-slate-700">Cards</span>
+              <span class="text-[10px] font-semibold text-slate-700">Cards</span>
             </button>
 
-            <button type="button" onclick="showToast('Foreign currency exchange rates')" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
-              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
-                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <button type="button" onclick="showToast('Foreign currency exchange rates')" class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-transform">
+              <div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
               </div>
-              <span class="text-[9px] font-semibold text-slate-700">Exchange</span>
+              <span class="text-[10px] font-semibold text-slate-700">Exchange</span>
             </button>
 
-            <button type="button" onclick="showToast('Locating nearby ATMs & HUO branches')" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
-              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
-                <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+            <button type="button" onclick="showToast('Locating nearby ATMs & HUO branches')" class="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-transform">
+              <div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
               </div>
-              <span class="text-[9px] font-semibold text-slate-700 whitespace-nowrap">Branches & ATMs</span>
+              <span class="text-[10px] font-semibold text-slate-700 whitespace-nowrap">Branches & ATMs</span>
             </button>
           </div>
         </div>
 
         <!-- Recent Activity Section -->
-        <div class="mb-2">
-          <div class="flex justify-between items-center text-xs mb-1.5 px-0.5">
-            <span class="font-bold text-slate-900">Recent activity</span>
-            <button type="button" onclick="showToast('Opening full statement log...')" class="text-[11px] font-semibold text-brand-600 hover:underline">View all</button>
+        <div class="mb-3">
+          <div class="flex justify-between items-center text-xs mb-2 px-0.5">
+            <span class="font-bold text-slate-900 text-sm">Recent activity</span>
+            <button type="button" onclick="showToast('Opening full statement log...')" class="text-xs font-semibold text-brand-600 hover:underline">View all</button>
           </div>
 
-          <div class="space-y-2">
+          <div class="space-y-2.5">
             <!-- Activity 1: Transfer received -->
-            <div onclick="showToast('Transfer from #HUO-98234: +$250.00')" class="p-2.5 bg-white hover:bg-slate-50 cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div onclick="showToast('Transfer from #HUO-98234: +$250.00')" class="p-3 bg-white hover:bg-slate-50 cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
                   <i data-lucide="arrow-down-left" class="w-4 h-4"></i>
                 </div>
                 <div>
-                  <h5 class="text-[11px] font-bold text-slate-900 leading-none">Transfer received</h5>
-                  <p class="text-[10px] text-slate-500 font-medium mt-1">Today, 12:42 AM | HUO</p>
+                  <h5 class="text-xs font-bold text-slate-900 leading-none">Transfer received</h5>
+                  <p class="text-[11px] text-slate-500 font-medium mt-1">Today, 12:42 AM | HUO</p>
                 </div>
               </div>
               <span class="text-xs font-bold text-emerald-600">+ $250.00</span>
             </div>
 
             <!-- Activity 2: Electricity bill -->
-            <div onclick="showToast('Electricity EDC: -$27.50')" class="p-2.5 bg-white hover:bg-slate-50 cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+            <div onclick="showToast('Electricity EDC: -$27.50')" class="p-3 bg-white hover:bg-slate-50 cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
                   <i data-lucide="receipt" class="w-4 h-4"></i>
                 </div>
                 <div>
-                  <h5 class="text-[11px] font-bold text-slate-900 leading-none">Electricity bill</h5>
-                  <p class="text-[10px] text-slate-500 font-medium mt-1">Yesterday, 4:18 PM | Payment</p>
+                  <h5 class="text-xs font-bold text-slate-900 leading-none">Electricity bill</h5>
+                  <p class="text-[11px] text-slate-500 font-medium mt-1">Yesterday, 4:18 PM | Payment</p>
                 </div>
               </div>
               <span class="text-xs font-bold text-slate-800">- $27.50</span>
@@ -692,35 +715,35 @@
 
       </div>
 
-      <!-- In-App Floating Frosted Bottom Navigation Bar -->
-      <nav class="absolute bottom-0 left-0 right-0 glass-frozen border-t border-slate-100 pt-2 pb-3 px-6 flex justify-between items-center text-[9px] text-slate-400">
+      <!-- In-App Floating Frosted Bottom Navigation Bar (iOS Home Bar Safe) -->
+      <nav class="absolute bottom-0 left-0 right-0 glass-frozen border-t border-slate-100 pt-2.5 ios-safe-nav-pb px-7 flex justify-between items-center text-[10px] text-slate-400">
         <div class="text-brand-600 flex flex-col items-center cursor-pointer">
-          <i data-lucide="home" class="w-4 h-4"></i>
-          <span class="font-bold mt-0.5">Home</span>
+          <i data-lucide="home" class="w-5 h-5"></i>
+          <span class="font-bold mt-1">Home</span>
         </div>
 
         <div onclick="showToast('Payments & bills tab')" class="flex flex-col items-center cursor-pointer hover:text-slate-600">
-          <i data-lucide="credit-card" class="w-4 h-4"></i>
-          <span class="mt-0.5">Payments</span>
+          <i data-lucide="credit-card" class="w-5 h-5"></i>
+          <span class="mt-1 font-medium">Payments</span>
         </div>
 
         <!-- Elevated Center QR Scan Button -->
-        <div onclick="openScannerModal()" class="flex flex-col items-center -mt-5 cursor-pointer">
-          <div class="w-11 h-11 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/40 border-2 border-white hover:scale-105 active:scale-95 transition-transform">
+        <div onclick="openScannerModal()" class="flex flex-col items-center -mt-6 cursor-pointer">
+          <div class="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/40 border-2 border-white hover:scale-105 active:scale-95 transition-transform">
             <i data-lucide="qr-code" class="w-5 h-5"></i>
           </div>
-          <span class="text-[9px] font-semibold text-slate-600 mt-0.5">Scan</span>
+          <span class="text-[10px] font-semibold text-slate-600 mt-1">Scan</span>
         </div>
 
         <div onclick="showToast('Activity log tab')" class="flex flex-col items-center cursor-pointer hover:text-slate-600">
-          <i data-lucide="trending-up" class="w-4 h-4"></i>
-          <span class="mt-0.5">Activity</span>
+          <i data-lucide="trending-up" class="w-5 h-5"></i>
+          <span class="mt-1 font-medium">Activity</span>
         </div>
 
         <!-- Profile Tab with re-test / logout action -->
         <div onclick="logoutToSplash()" class="flex flex-col items-center cursor-pointer hover:text-slate-600" title="Logout and return to Splash">
-          <i data-lucide="user" class="w-4 h-4"></i>
-          <span class="mt-0.5">Profile</span>
+          <i data-lucide="user" class="w-5 h-5"></i>
+          <span class="mt-1 font-medium">Profile</span>
         </div>
       </nav>
 
@@ -743,7 +766,7 @@
         </button>
       </div>
 
-      <div class="space-y-3 mb-4">
+      <div class="space-y-3.5 mb-5">
         <div>
           <label class="block text-[10px] font-bold text-slate-500 mb-1">From Account</label>
           <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-semibold flex justify-between items-center">
@@ -763,7 +786,7 @@
         </div>
       </div>
 
-      <button type="button" onclick="executeTransferAction()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-full text-xs font-bold transition-colors shadow-pill-blue">
+      <button type="button" onclick="executeTransferAction()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-full text-xs font-bold transition-colors shadow-pill-blue">
         Confirm & Send Money
       </button>
     </div>
@@ -783,7 +806,7 @@
         <i data-lucide="qr-code" class="w-24 h-24 text-slate-600/50"></i>
       </div>
 
-      <button type="button" onclick="simulateSuccessfulScan()" class="mt-6 w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-full text-xs font-bold transition-colors">
+      <button type="button" onclick="simulateSuccessfulScan()" class="mt-6 w-full py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-full text-xs font-bold transition-colors">
         Simulate Instant Scan
       </button>
     </div>
@@ -801,7 +824,7 @@
       EUR: () => `€ ${(currentBalanceValue * 0.92).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
     };
 
-    // DOM Elements
+    // DOM Screen Elements
     const screenSplash = document.getElementById('screenSplash');
     const screenLogin = document.getElementById('screenLogin');
     const screenProcess = document.getElementById('screenProcess');
@@ -818,11 +841,11 @@
       text.textContent = message;
       if (typeof lucide !== 'undefined') lucide.createIcons();
 
-      toast.classList.remove('-translate-y-16', 'opacity-0', 'pointer-events-none');
+      toast.classList.remove('-translate-y-20', 'opacity-0', 'pointer-events-none');
       toast.classList.add('translate-y-0', 'opacity-100');
 
       setTimeout(() => {
-        toast.classList.add('-translate-y-16', 'opacity-0', 'pointer-events-none');
+        toast.classList.add('-translate-y-20', 'opacity-0', 'pointer-events-none');
         toast.classList.remove('translate-y-0', 'opacity-100');
       }, 2600);
     }
@@ -887,37 +910,33 @@
       }, 35);
     }
 
-    // Cleaned Step 3 Progression Logic
+    // Clean Step 3 Progression Logic
     function runLoginProcess() {
       showScreen('process');
 
-      // Reset Step 3 elements to pristine initial state (matches reference mockup)
+      // Reset Step 3 elements to pristine initial state
       const progressBar = document.getElementById('processProgressBar');
       const percentText = document.getElementById('processPercentText');
       const iconStep3 = document.getElementById('iconStep3');
-      const innerDotStep3 = document.getElementById('innerDotStep3');
       const connector3 = document.getElementById('connector3');
       const iconStep4 = document.getElementById('iconStep4');
-      const innerDotStep4 = document.getElementById('innerDotStep4');
       const titleStep4 = document.getElementById('titleStep4');
 
       progressBar.style.width = '80%';
       percentText.textContent = '80%';
       iconStep3.className = 'w-6 h-6 rounded-full border-2 border-brand-600 bg-white flex items-center justify-center shrink-0 z-10 radar-pulse-node transition-all duration-300';
       iconStep3.innerHTML = '<div class="w-2.5 h-2.5 rounded-full bg-brand-600"></div>';
-      connector3.className = 'w-[2px] h-8 bg-slate-200 transition-colors duration-500';
+      connector3.className = 'w-[2px] h-9 bg-slate-200 transition-colors duration-500';
       iconStep4.className = 'w-6 h-6 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 z-10 transition-all duration-300';
       iconStep4.innerHTML = '<div class="w-2 h-2 rounded-full bg-slate-300"></div>';
       titleStep4.className = 'text-xs font-semibold text-slate-400 leading-tight';
 
-      // After a smooth delay, advance from 80% to 100% and complete remaining steps
+      // After verification delay, complete steps to 100%
       setTimeout(() => {
-        // Step 3 completed
         iconStep3.className = 'w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-sm shrink-0 z-10';
         iconStep3.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>';
-        connector3.className = 'w-[2px] h-8 bg-brand-600 transition-colors duration-500';
+        connector3.className = 'w-[2px] h-9 bg-brand-600 transition-colors duration-500';
 
-        // Step 4 completes & progress fills to 100%
         progressBar.style.width = '100%';
         percentText.textContent = '100%';
         iconStep4.className = 'w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-sm shrink-0 z-10';
@@ -926,7 +945,6 @@
 
         if (typeof lucide !== 'undefined') lucide.createIcons();
 
-        // Smoothly land on Dashboard
         setTimeout(() => {
           showScreen('dashboard');
           showToast('Welcome back, LYHUO!');
