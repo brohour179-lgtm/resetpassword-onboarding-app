@@ -1,1441 +1,1063 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lenovo Tab M11 — Sathapana Onboarding Simulator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUO - Your Finance, Simplified</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Khmer:wght@400;600;700&display=swap"
-        rel="stylesheet">
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'Noto Sans Khmer', 'sans-serif'],
-                        khmer: ['Noto Sans Khmer', 'sans-serif']
-                    },
-                    colors: {
-                        sathapana: {
-                            blue: '#0F4C81',
-                            lightBlue: '#1D70B8',
-                            darkBlue: '#0A3359',
-                            bgGray: '#F5F7FA'
-                        }
-                    }
-                }
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#F0F7FF',
+              100: '#E0EEFF',
+              200: '#BAE0FF',
+              300: '#7AC4FF',
+              400: '#38A0FF',
+              500: '#0C7AFF',
+              600: '#005CE6',
+              700: '#0047B8',
+              800: '#00338F',
+              900: '#002066',
             }
-        };
-    </script>
+          },
+          boxShadow: {
+            'card-hero': '0 12px 30px -4px rgba(0, 92, 230, 0.42)',
+            'pill-blue': '0 8px 20px -3px rgba(0, 92, 230, 0.38)',
+            'subtle-card': '0 2px 10px rgba(0, 0, 0, 0.03)',
+            'app-elevated': '0 24px 60px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(226, 232, 240, 0.7)',
+            'logo-squircle': '0 12px 28px -6px rgba(0, 92, 230, 0.35)',
+            'track-glow': '0 2px 8px rgba(0, 92, 230, 0.15)',
+          }
+        }
+      }
+    }
+  </script>
 
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #0F172A;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(12, 122, 255, 0.16) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.12) 0%, transparent 40%),
+        linear-gradient(180deg, #0F172A 0%, #090D16 100%);
+    }
 
+    /* Frosted glass utility for pinned headers */
+    .glass-frozen {
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
 
+    /* Silk wave gradient background for Splash */
+    .bg-splash-silk {
+      background: radial-gradient(130% 90% at 50% 25%, #1884FF 0%, #005CE6 42%, #0036A8 75%, #001A5C 100%);
+    }
 
+    .bg-login-gradient {
+      background: linear-gradient(180deg, #F0F6FF 0%, #FFFFFF 26%, #FFFFFF 100%);
+    }
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="dashboard.css">
+    /* Clean, soft stepped background */
+    .bg-stepper-clean {
+      background: linear-gradient(180deg, #F5F9FF 0%, #FFFFFF 35%, #FFFFFF 65%, #F0F6FF 100%);
+    }
+
+    .bg-card-hero-grad {
+      background: linear-gradient(135deg, #0A73FF 0%, #0056DE 52%, #0038A8 100%);
+    }
+
+    /* Active radar pulsing ring for current stepper node */
+    @keyframes radarStep {
+      0% { box-shadow: 0 0 0 0 rgba(0, 92, 230, 0.45); }
+      70% { box-shadow: 0 0 0 9px rgba(0, 92, 230, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 92, 230, 0); }
+    }
+    .radar-pulse-node {
+      animation: radarStep 1.8s infinite;
+    }
+
+    /* Laser scanner beam animation */
+    @keyframes scanBeam {
+      0% { transform: translateY(0); opacity: 0.9; }
+      50% { transform: translateY(160px); opacity: 1; }
+      100% { transform: translateY(0); opacity: 0.9; }
+    }
+    .laser-scan-line {
+      animation: scanBeam 2.2s ease-in-out infinite;
+    }
+
+    /* Screen transition smooth cross-fade */
+    .screen-fade-enter {
+      animation: screenFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes screenFade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
 </head>
+<body class="min-h-screen text-slate-800 antialiased flex flex-col items-center justify-center p-0 sm:p-4 select-none">
 
-<body class="min-h-screen flex flex-col">
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="fixed top-5 z-50 transition-all duration-300 transform -translate-y-16 opacity-0 pointer-events-none bg-slate-900/90 text-white backdrop-blur-md px-4 py-2.5 rounded-full text-xs font-semibold shadow-2xl flex items-center gap-2 border border-slate-700/80">
+    <i id="toastIcon" data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toastMessage">Action completed</span>
+  </div>
 
-    <!-- =======================================================
-     SIMULATOR HEADER
-======================================================= -->
-    <header class="simulator-header">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+  <!-- Clean, borderless application canvas (No phone bezels, no notches, no status bars) -->
+  <div id="appContainer" class="relative w-full max-w-[410px] h-[820px] rounded-none sm:rounded-[36px] overflow-hidden bg-white shadow-app-elevated flex flex-col justify-between">
 
-            <div class="flex items-center gap-3 simulator-title">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500
-                        flex items-center justify-center shadow-lg">
-                    <i class="fa-solid fa-tablet-screen-button text-white text-lg"></i>
+    <!-- ============================================== -->
+    <!-- SCREEN 1: SPLASH SCREEN (AUTOMATED PROGRESS)   -->
+    <!-- ============================================== -->
+    <div id="screenSplash" class="absolute inset-0 w-full h-full bg-splash-silk text-white flex flex-col justify-between pt-16 pb-8 px-6 overflow-hidden transition-opacity duration-500 z-20">
+      
+      <!-- Ambient Fluid Silk Wave Vectors -->
+      <div class="absolute inset-0 pointer-events-none opacity-45 overflow-hidden">
+        <svg class="w-[240%] h-full" viewBox="0 0 1000 800" fill="none" preserveAspectRatio="none">
+          <path d="M0,280 C200,160 340,390 520,270 C700,150 820,380 1000,280 L1000,800 L0,800 Z" fill="url(#splashWavesGrad)"></path>
+          <defs>
+            <linearGradient id="splashWavesGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#0284C7" stop-opacity="0.05"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Center Logo & Branding -->
+      <div class="flex-1 flex flex-col items-center justify-center relative z-10">
+        <div class="relative">
+          <div class="absolute -inset-3 rounded-full bg-sky-400/25 blur-lg"></div>
+          <div class="relative w-20 h-20 rounded-[24px] bg-gradient-to-tr from-brand-600 via-brand-500 to-sky-400 p-[2px] shadow-2xl flex items-center justify-center">
+            <div class="w-full h-full bg-brand-600 rounded-[22px] flex items-center justify-center p-4">
+              <!-- Modern Geometric Connected 'H' Monogram -->
+              <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
+                <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
+                <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
+                <path d="M38 56 C45 56 49 44 58 44 C67 44 72 49 78 51 C78 57 73 63 62 63 C52 63 46 67 38 67 Z" fill="white"/>
+                <circle cx="58" cy="53.5" r="7" fill="white"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="text-3xl font-black mt-4 tracking-wider text-white">HUO</h3>
+        <p class="text-sky-100 text-xs font-semibold mt-1">Your Finance, Simplified</p>
+      </div>
+
+      <!-- Bottom Progress Bar & Waterfront City Skyline -->
+      <div class="w-full flex flex-col items-center relative z-10">
+        <div class="w-full px-2 mb-2">
+          <div class="flex items-center justify-between text-xs text-white font-medium mb-1.5 px-0.5">
+            <span id="splashStatusText" class="text-sky-200 text-xs font-semibold">Loading...</span>
+            <span id="splashPercentText" class="font-bold text-white text-xs">0%</span>
+          </div>
+
+          <!-- Animated Glowing Progress Bar -->
+          <div class="w-full h-2 bg-blue-950/70 rounded-full overflow-hidden p-[1px] border border-sky-400/30">
+            <div id="splashProgressBar" class="h-full bg-gradient-to-r from-sky-400 via-brand-400 to-white rounded-full transition-all duration-150 ease-out" style="width: 0%;"></div>
+          </div>
+
+          <p class="text-[11px] text-sky-200/80 text-center mt-2 font-normal">
+            Preparing your secure banking experience...
+          </p>
+        </div>
+
+        <!-- Waterfront City Skyline Silhouette -->
+        <div class="w-full h-16 relative overflow-hidden opacity-90 mt-1">
+          <svg class="w-full h-full object-cover" viewBox="0 0 340 60" fill="none">
+            <rect y="42" width="340" height="18" fill="#001438"/>
+            <path d="M0 44L340 44" stroke="#38BDF8" stroke-width="0.8" opacity="0.7"/>
+            <path d="M20 50L70 50M100 52L170 52M210 51L280 51" stroke="#7DD3FC" stroke-width="0.7" opacity="0.4"/>
+            <rect x="20" y="22" width="16" height="22" fill="#021C50"/>
+            <rect x="40" y="14" width="20" height="30" fill="#00266B"/>
+            <rect x="82" y="8" width="24" height="36" fill="#002E80"/>
+            <rect x="130" y="12" width="26" height="32" fill="#003594"/>
+            <rect x="184" y="6" width="24" height="38" fill="#002E80"/>
+            <rect x="260" y="10" width="26" height="34" fill="#002E80"/>
+            <circle cx="92" cy="16" r="1.1" fill="#FEF08A"/>
+            <circle cx="140" cy="18" r="1.2" fill="#BAE6FD"/>
+            <circle cx="194" cy="12" r="1.1" fill="#BAE6FD"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SCREEN 2: LOGIN SCREEN                         -->
+    <!-- ============================================== -->
+    <div id="screenLogin" class="absolute inset-0 w-full h-full bg-login-gradient text-slate-800 flex flex-col justify-between pt-12 pb-6 px-6 overflow-hidden hidden">
+      
+      <div class="flex-1 flex flex-col justify-center">
+        <!-- Logo Badge & Clean Greetings -->
+        <div class="flex flex-col items-center mb-7">
+          <div class="w-14 h-14 rounded-[18px] bg-brand-600 text-white flex items-center justify-center p-3 shadow-logo-squircle">
+            <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
+              <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
+              <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
+              <path d="M38 56 C45 56 49 44 58 44 C67 44 72 49 78 51 C78 57 73 63 62 63 C52 63 46 67 38 67 Z" fill="white"/>
+              <circle cx="58" cy="53.5" r="7" fill="white"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-black text-slate-900 tracking-wider mt-3">HUO</h3>
+          <h4 class="text-base font-bold text-slate-900 mt-0.5">Welcome back</h4>
+          <p class="text-xs text-slate-400 font-medium">Sign in to continue</p>
+        </div>
+
+        <!-- Credentials Fields (Preserving User Phone 011 000 123) -->
+        <div class="space-y-3.5">
+          <div class="bg-slate-50 border border-slate-200/90 rounded-2xl px-4 py-3 flex items-center gap-3.5 focus-within:border-brand-500 focus-within:bg-white focus-within:shadow-sm transition-all">
+            <i data-lucide="user" class="w-4 h-4 text-slate-400 shrink-0"></i>
+            <div class="flex-1">
+              <span class="block text-[10px] font-semibold text-slate-400 leading-tight">Phone number or Username</span>
+              <input type="text" id="loginUsernameInput" value="011 000 123" class="w-full bg-transparent text-xs font-bold text-slate-800 outline-none p-0 m-0 mt-0.5" />
+            </div>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200/90 rounded-2xl px-4 py-3 flex items-center justify-between focus-within:border-brand-500 focus-within:bg-white focus-within:shadow-sm transition-all">
+            <div class="flex items-center gap-3.5 flex-1">
+              <i data-lucide="lock" class="w-4 h-4 text-slate-400 shrink-0"></i>
+              <div class="flex-1">
+                <span class="block text-[10px] font-semibold text-slate-400 leading-tight">Password</span>
+                <input type="password" id="loginPasswordInput" value="bankpassword" class="w-full bg-transparent text-xs font-black text-slate-800 tracking-widest outline-none p-0 m-0 mt-0.5" />
+              </div>
+            </div>
+            <button type="button" id="togglePasswordVisibility" class="text-slate-400 hover:text-slate-600 transition-colors p-1">
+              <i id="passwordEyeIcon" data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="flex items-center justify-between text-xs mt-3.5 px-1">
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" checked class="w-4 h-4 rounded text-brand-600 border-slate-300 accent-brand-600 cursor-pointer">
+            <span class="text-xs font-medium text-slate-600">Remember me</span>
+          </label>
+          <button type="button" onclick="showToast('Password recovery sent to registered contact 011 000 123')" class="text-xs font-bold text-brand-600 hover:underline">Forgot password?</button>
+        </div>
+
+        <!-- Primary Log in Action Button -->
+        <button id="btnLoginAction" type="button" class="w-full mt-6 py-3 px-4 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white rounded-full text-xs font-bold flex items-center justify-between shadow-pill-blue transition-all">
+          <span class="flex-1 text-center pl-6 font-bold text-sm">Log in</span>
+          <span class="w-7 h-7 rounded-full bg-white text-brand-600 flex items-center justify-center text-xs shadow-sm">
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </span>
+        </button>
+
+        <!-- Social / Biometrics Divider -->
+        <div class="relative flex items-center justify-center my-5">
+          <div class="border-t border-slate-200 w-full"></div>
+          <span class="bg-white px-2.5 text-[10px] text-slate-400 font-medium whitespace-nowrap">or login with</span>
+          <div class="border-t border-slate-200 w-full"></div>
+        </div>
+
+        <!-- 3 Auth Cards -->
+        <div class="grid grid-cols-3 gap-2.5 text-center">
+          <button type="button" onclick="triggerBiometricLogin('Face ID')" class="py-2.5 px-1 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
+            <div class="w-8 h-8 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-brand-600 mb-1">
+              <i data-lucide="scan-face" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[10px] font-semibold text-slate-700">Face ID</span>
+          </button>
+
+          <button type="button" onclick="triggerBiometricLogin('Fingerprint')" class="py-2.5 px-1 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
+            <div class="w-8 h-8 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-brand-600 mb-1">
+              <i data-lucide="fingerprint" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[10px] font-semibold text-slate-700">Fingerprint</span>
+          </button>
+
+          <button type="button" onclick="triggerBiometricLogin('Google')" class="py-2.5 px-1 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
+            <div class="w-8 h-8 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-red-500 mb-1">
+              <svg class="w-4 h-4" viewBox="0 0 24 24">
+                <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.3 8.9 5 12 5z"/>
+                <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z"/>
+                <path fill="#FBBC05" d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.4s.1-1.7.4-2.4L1.6 7c-.8 1.6-1.3 3.4-1.3 5.3s.5 3.7 1.3 5.3l3.7-2.9z"/>
+                <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.3-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"/>
+              </svg>
+            </div>
+            <span class="text-[10px] font-semibold text-slate-700">Google</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="text-center pt-2">
+        <p class="text-xs text-slate-500">
+          Don't have an account? <button type="button" onclick="showToast('Redirecting to account registration...')" class="font-bold text-brand-600 hover:underline">Sign up</button>
+        </p>
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SCREEN 3: CLEAN STEPPER WITH REFINED ORGANIC BOTTOM WAVES      -->
+    <!-- ============================================================== -->
+    <div id="screenProcess" class="absolute inset-0 w-full h-full bg-stepper-clean text-slate-800 flex flex-col justify-between pt-10 pb-0 overflow-hidden hidden">
+      
+      <!-- Seamless Layered Organic Wave Footer Background (Eliminates clunky blocks) -->
+      <div class="absolute bottom-0 left-0 right-0 h-52 pointer-events-none select-none z-0">
+        <svg class="w-full h-full" viewBox="0 0 410 210" preserveAspectRatio="none" fill="none">
+          <defs>
+            <linearGradient id="softWaveLayer1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#E0F2FE" stop-opacity="0.95"/>
+              <stop offset="100%" stop-color="#BAE6FD" stop-opacity="0.6"/>
+            </linearGradient>
+            <linearGradient id="softWaveLayer2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#93C5FD" stop-opacity="0.65"/>
+              <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.35"/>
+            </linearGradient>
+            <linearGradient id="softWaveLayer3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2563EB" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#005CE6" stop-opacity="0.28"/>
+            </linearGradient>
+          </defs>
+          <!-- Smooth cubic bezier waves flowing naturally -->
+          <path d="M0,85 C95,50 185,130 305,75 C355,50 385,60 410,70 L410,210 L0,210 Z" fill="url(#softWaveLayer1)"/>
+          <path d="M0,118 C110,80 210,150 315,105 C365,85 395,95 410,100 L410,210 L0,210 Z" fill="url(#softWaveLayer2)"/>
+          <path d="M0,148 C120,115 225,170 325,135 C370,120 395,128 410,130 L410,210 L0,210 Z" fill="url(#softWaveLayer3)"/>
+        </svg>
+      </div>
+
+      <!-- Main Center Content -->
+      <div class="relative z-10 flex-1 flex flex-col justify-center px-6">
+        
+        <!-- Modern Geometric Connected 'H' Squircle Badge -->
+        <div class="flex flex-col items-center mb-7">
+          <div class="w-16 h-16 rounded-[22px] bg-gradient-to-b from-[#1884FF] via-brand-600 to-[#0047B8] text-white flex items-center justify-center p-3.5 shadow-logo-squircle">
+            <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
+              <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
+              <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
+              <path d="M38 56 C45 56 49 44 58 44 C67 44 72 49 78 51 C78 57 73 63 62 63 C52 63 46 67 38 67 Z" fill="white"/>
+              <circle cx="58" cy="53.5" r="7" fill="white"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-black text-slate-900 tracking-wider mt-3">HUO</h3>
+          <h4 class="text-base font-bold text-slate-900 mt-1">Please wait</h4>
+          <p class="text-xs text-slate-400 font-medium">We are signing you in...</p>
+        </div>
+
+        <!-- 4-Steps Mathematically Centered Timeline (High Precision) -->
+        <div class="w-full max-w-[280px] mx-auto flex flex-col">
+          
+          <!-- Step 1: Connecting (Completed) -->
+          <div class="flex items-start gap-3.5">
+            <div class="flex flex-col items-center">
+              <div id="iconStep1" class="w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-sm shrink-0 z-10">
+                <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+              </div>
+              <div id="connector1" class="w-[2px] h-8 bg-brand-600 transition-colors duration-500"></div>
+            </div>
+            <div class="pt-0.5">
+              <h5 class="text-xs font-bold text-slate-900 leading-tight">Connecting</h5>
+              <p class="text-[11px] text-slate-400 mt-0.5 font-medium">Connecting to secure server...</p>
+            </div>
+          </div>
+
+          <!-- Step 2: Verifying (Completed) -->
+          <div class="flex items-start gap-3.5">
+            <div class="flex flex-col items-center">
+              <div id="iconStep2" class="w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-sm shrink-0 z-10">
+                <i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+              </div>
+              <div id="connector2" class="w-[2px] h-8 bg-brand-600 transition-colors duration-500"></div>
+            </div>
+            <div class="pt-0.5">
+              <h5 class="text-xs font-bold text-slate-900 leading-tight">Verifying</h5>
+              <p class="text-[11px] text-slate-400 mt-0.5 font-medium">Checking your information...</p>
+            </div>
+          </div>
+
+          <!-- Step 3: Loading (Active Pulse Node) -->
+          <div class="flex items-start gap-3.5">
+            <div class="flex flex-col items-center">
+              <div id="iconStep3" class="w-6 h-6 rounded-full border-2 border-brand-600 bg-white flex items-center justify-center shrink-0 z-10 radar-pulse-node transition-all duration-300">
+                <div id="innerDotStep3" class="w-2.5 h-2.5 rounded-full bg-brand-600"></div>
+              </div>
+              <div id="connector3" class="w-[2px] h-8 bg-slate-200 transition-colors duration-500"></div>
+            </div>
+            <div class="pt-0.5">
+              <h5 id="titleStep3" class="text-xs font-bold text-slate-900 leading-tight">Loading</h5>
+              <p class="text-[11px] text-slate-400 mt-0.5 font-medium">Preparing your dashboard...</p>
+            </div>
+          </div>
+
+          <!-- Step 4: Almost ready (Pending Node) -->
+          <div class="flex items-start gap-3.5">
+            <div class="flex flex-col items-center">
+              <div id="iconStep4" class="w-6 h-6 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 z-10 transition-all duration-300">
+                <div id="innerDotStep4" class="w-2 h-2 rounded-full bg-slate-300"></div>
+              </div>
+            </div>
+            <div class="pt-0.5">
+              <h5 id="titleStep4" class="text-xs font-semibold text-slate-400 leading-tight">Almost ready</h5>
+              <p class="text-[11px] text-slate-400 mt-0.5 font-medium">Finalizing...</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Clean, High-Contrast Progress Bar & Subtitle -->
+      <div class="relative z-10 w-full px-7 pb-8 pt-2 flex flex-col items-center">
+        
+        <!-- Sleek progress container with glowing gradient fill -->
+        <div class="flex items-center gap-3 w-full max-w-[320px]">
+          <div class="flex-1 h-2 bg-slate-200/90 rounded-full overflow-hidden p-[1px] shadow-track-glow">
+            <div id="processProgressBar" class="h-full bg-gradient-to-r from-brand-600 via-brand-500 to-sky-400 rounded-full transition-all duration-500" style="width: 80%;"></div>
+          </div>
+          <span id="processPercentText" class="text-xs font-extrabold text-brand-600 shrink-0">80%</span>
+        </div>
+
+        <p class="text-[11px] text-slate-500 font-semibold tracking-wide text-center mt-3">
+          Please don't close the app
+        </p>
+      </div>
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SCREEN 4: DASHBOARD (EXACT HEADER 100% MATCH TO REFERENCE)     -->
+    <!-- ============================================================== -->
+    <div id="screenDashboard" class="absolute inset-0 w-full h-full bg-slate-50 text-slate-800 flex flex-col justify-between pt-0 pb-0 overflow-hidden hidden">
+      
+      <!-- EXACT 100% MATCH TO REFERENCE HEADER (image_175427.png) -->
+      <header class="sticky top-0 z-30 px-5 pt-5 pb-3.5 glass-frozen border-b border-white/70 transition-all flex items-center justify-between">
+        
+        <!-- Left Side: Circular Blue Emblem with White 'H' + 'HUO' & Greeting -->
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center p-2.5 shadow-sm shrink-0">
+            <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
+              <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
+              <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
+              <path d="M38 56 C45 56 49 44 58 44 C67 44 72 49 78 51 C78 57 73 63 62 63 C52 63 46 67 38 67 Z" fill="white"/>
+              <circle cx="58" cy="53.5" r="7" fill="white"/>
+            </svg>
+          </div>
+
+          <div>
+            <h4 class="text-base font-extrabold leading-none text-slate-900 tracking-tight">HUO</h4>
+            <p class="text-xs text-slate-500 font-semibold mt-1">Good evening, LYHUO</p>
+          </div>
+        </div>
+
+        <!-- Right Side: Two Clean Rounded Squircle Buttons -->
+        <div class="flex items-center gap-2">
+          <!-- Notification Bell with Red Badge Dot -->
+          <button type="button" onclick="showToast('You have 2 unread security notifications')" class="relative w-9 h-9 rounded-2xl bg-white border border-slate-200/90 shadow-subtle-card flex items-center justify-center text-slate-600 active:scale-95 transition-transform" aria-label="Notifications">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+            <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500 border-2 border-white"></span>
+          </button>
+
+          <!-- QR Scan Action Button -->
+          <button type="button" onclick="openScannerModal()" class="w-9 h-9 rounded-2xl bg-white border border-slate-200/90 shadow-subtle-card flex items-center justify-center text-slate-600 active:scale-95 transition-transform" aria-label="Scan QR Code">
+            <i data-lucide="qr-code" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Dashboard Content -->
+      <div class="flex-1 overflow-y-auto no-scrollbar px-4 pt-3 pb-20">
+        
+        <!-- Hero Total Balance Card -->
+        <div class="rounded-3xl bg-card-hero-grad text-white p-4 shadow-card-hero mb-3.5 relative overflow-hidden">
+          
+          <!-- Subtle Watermark 'H' Monogram -->
+          <div class="absolute -right-3 -bottom-5 w-32 h-32 opacity-15 pointer-events-none">
+            <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
+              <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
+              <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
+              <path d="M38 56 C45 56 49 44 58 44 C67 44 72 49 78 51 C78 57 73 63 62 63 C52 63 46 67 38 67 Z" fill="white"/>
+              <circle cx="58" cy="53.5" r="7" fill="white"/>
+            </svg>
+          </div>
+
+          <!-- Top Row: Balance Label & Eye Privacy Toggle -->
+          <div class="text-xs text-blue-100 flex justify-between items-center mb-1 relative z-10">
+            <span>Total balance</span>
+            <button type="button" id="btnToggleBalance" class="text-blue-100 hover:text-white p-1" aria-label="Toggle Balance Visibility">
+              <i id="balanceEyeIcon" data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Balance Amount & Currency Dropdown Toggle -->
+          <div class="flex items-center gap-2 mb-1 relative z-10">
+            <span id="dashboardBalanceDisplay" class="text-2xl font-black tracking-tight">$ 1,250.00</span>
+            <button type="button" id="btnCurrencyToggle" class="text-[9px] font-bold bg-blue-400/30 px-2 py-0.5 rounded-full border border-blue-200/30 hover:bg-blue-400/50 transition-colors">
+              <span id="currencyCodeLabel">USD</span> ⌄
+            </button>
+          </div>
+
+          <p class="text-[11px] text-blue-100 font-normal relative z-10">Savings account •••• 4623</p>
+
+          <!-- Bottom Card Status & Details Shortcut -->
+          <div class="flex justify-between items-center pt-3 mt-2.5 border-t border-white/10 text-xs relative z-10">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span class="text-blue-100 font-medium">Available balance</span>
+            </div>
+            <button type="button" onclick="showToast('Displaying full multi-account summary')" class="text-blue-100 hover:text-white text-xs font-semibold flex items-center">
+              My accounts &gt;
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Quick Action Shortcuts -->
+        <div class="grid grid-cols-4 gap-2 mb-4">
+          <button type="button" onclick="openTransferModal()" class="flex flex-col items-center gap-1 p-1.5 rounded-2xl hover:bg-white active:scale-95 transition-all">
+            <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
+              <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[10px] font-semibold text-slate-700">Transfer</span>
+          </button>
+
+          <button type="button" onclick="showToast('Bill payment & utilities ready')" class="flex flex-col items-center gap-1 p-1.5 rounded-2xl hover:bg-white active:scale-95 transition-all">
+            <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
+              <i data-lucide="credit-card" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[10px] font-semibold text-slate-700">Payment</span>
+          </button>
+
+          <button type="button" onclick="showToast('Mobile Top-up carriers: Smart, Cellcard, Metfone')" class="flex flex-col items-center gap-1 p-1.5 rounded-2xl hover:bg-white active:scale-95 transition-all">
+            <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
+              <i data-lucide="smartphone" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[10px] font-semibold text-slate-700">Top up</span>
+          </button>
+
+          <button type="button" onclick="openScannerModal()" class="flex flex-col items-center gap-1 p-1.5 rounded-2xl hover:bg-white active:scale-95 transition-all">
+            <div class="w-11 h-11 rounded-2xl bg-white border border-slate-200/80 shadow-subtle-card flex items-center justify-center text-brand-600">
+              <i data-lucide="qr-code" class="w-4 h-4"></i>
+            </div>
+            <span class="text-[10px] font-semibold text-slate-700">Scan</span>
+          </button>
+        </div>
+
+        <!-- My Accounts Section -->
+        <div class="mb-4">
+          <div class="flex justify-between items-center text-xs mb-1.5 px-0.5">
+            <span class="font-bold text-slate-900">My accounts</span>
+            <button type="button" onclick="showToast('Listing all 2 accounts')" class="text-[11px] font-semibold text-brand-600 hover:underline">See all</button>
+          </div>
+
+          <div class="space-y-2">
+            <!-- Savings Account -->
+            <div onclick="showToast('Savings Account: 011 000 123 456')" class="p-3 bg-white hover:bg-slate-50 active:scale-[0.99] transition-all cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+                  <i data-lucide="home" class="w-4 h-4"></i>
                 </div>
-
                 <div>
-                    <h1 class="text-sm sm:text-base font-bold text-white tracking-wide">
-                        Lenovo Tab M11
-                        <span class="text-[9px] bg-slate-700 text-blue-300 px-2 py-1 rounded-full">
-                            Simulator
-                        </span>
-                    </h1>
-                    <p class="text-[10px] text-slate-400">
-                        Sathapana Bank — Onboarding App Interactive Simulator
-                    </p>
+                  <h5 class="text-[11px] font-bold text-slate-900 leading-none">Savings Account</h5>
+                  <p class="text-[10px] text-slate-500 font-medium mt-1">011 000 123 456</p>
                 </div>
+              </div>
+              <span class="text-xs font-bold text-slate-900">$1,250.00 &gt;</span>
             </div>
 
-            <div class="toolbar">
-
-                <button id="toggleMotionBtn" class="toolbar-btn flex items-center gap-2 active" type="button"
-                    title="Toggle dynamic animations & motion (ចលនា)">
-                    <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i>
-                    <span id="motionBtnText">Effects: ON</span>
-                </button>
-
-                <button id="toggleGuideBtn" class="toolbar-btn flex items-center gap-2" type="button"
-                    title="Toggle teaching guide pointer for video tutorials (ការណែនាំ)">
-                    <i class="fa-solid fa-hand-pointer text-cyan-300"></i>
-                    <span id="guideBtnText">Guide: ON</span>
-                </button>
-
-                <button id="toggleScaleBtn" class="toolbar-btn flex items-center gap-2" type="button"
-                    title="Toggle resolution scale for HD / 4K video recording (ទំហំ HD / 4K)">
-                    <i class="fa-solid fa-up-right-and-down-left-from-center text-purple-300"></i>
-                    <span id="scaleBtnText">Size: 100%</span>
-                </button>
-
-                <button id="toggleOrientationBtn" class="toolbar-btn flex items-center gap-2" type="button"
-                    title="Rotate tablet">
-                    <i class="fa-solid fa-rotate text-blue-400"></i>
-                    <span id="orientationText">Portrait</span>
-                </button>
-
-                <button id="toggleFrameBtn" class="toolbar-btn flex items-center gap-2" type="button"
-                    title="Change frame">
-                    <i class="fa-solid fa-palette text-amber-400"></i>
-                    <span id="frameColorText">Titanium</span>
-                </button>
-
-                <div class="brightness-control">
-                    <i class="fa-regular fa-sun text-slate-400 text-[10px]"></i>
-                    <input id="brightnessSlider" type="range" min="30" max="100" value="100">
-                    <i class="fa-solid fa-sun text-amber-400 text-[10px]"></i>
+            <!-- Staff Account -->
+            <div onclick="showToast('Staff Account: 011 000 987 654')" class="p-3 bg-white hover:bg-slate-50 active:scale-[0.99] transition-all cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i>
                 </div>
-
-                <button id="resetDemoBtn" class="toolbar-btn primary flex items-center gap-2" type="button">
-                    <i class="fa-solid fa-arrows-rotate"></i>
-                    <span>Reset</span>
-                </button>
-
-                <button id="toggleFullscreenBtn" class="toolbar-btn flex items-center gap-2" type="button"
-                    title="Toggle full screen">
-                    <i class="fa-solid fa-expand text-emerald-400"></i>
-                    <span id="fullscreenText">Full Screen</span>
-                </button>
-
+                <div>
+                  <h5 class="text-[11px] font-bold text-slate-900 leading-none">Staff Account</h5>
+                  <p class="text-[10px] text-slate-500 font-medium mt-1">011 000 987 654</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-slate-900">$320.00 &gt;</span>
             </div>
+          </div>
         </div>
-    </header>
 
-    <!-- =======================================================
-     TABLET
-======================================================= -->
-    <main class="tablet-stage">
-
-        <div id="tabletChassis" class="tablet-chassis frame-titanium portrait">
-
-            <!-- Hardware -->
-            <button id="powerBtn" class="hardware-button power-button" type="button" aria-label="Power button"></button>
-
-            <button id="volUpBtn" class="hardware-button volume-up" type="button" aria-label="Volume up"></button>
-
-            <button id="volDownBtn" class="hardware-button volume-down" type="button" aria-label="Volume down"></button>
-
-            <div class="device-camera">
-                <div class="device-camera-main"></div>
-                <div class="device-camera-dot"></div>
-            </div>
-
-            <div class="device-speaker top"></div>
-            <div class="device-speaker bottom"></div>
-
-
-            <!-- ===================================================
-         SCREEN
-    ==================================================== -->
-            <div id="screenContainer" class="screen-bezel">
-
-                <div class="screen-glare"></div>
-
-                <!-- STATUS BAR -->
-                <div id="statusBar">
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.9)] animate-pulse"
-                            title="Screen Recording Indicator"></span>
-                        <span id="currentTime" class="font-semibold">10:57 AM</span>
-                    </div>
-
-                    <div id="statusIcons">
-                        <i class="fa-solid fa-signal"></i>
-                        <i class="fa-solid fa-wifi"></i>
-                        <div class="battery">
-                            <i class="fa-solid fa-battery-three-quarters"></i>
-                            <span class="font-mono">65%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- =================================================
-             SCROLLABLE APPLICATION AREA
-        ================================================== -->
-                <div id="screenContent">
-
-                    <!-- ================= ANDROID TABLET HOME SCREEN ================= -->
-                    <section id="tabletHomeView"
-                        class="app-view relative flex flex-col justify-between w-full h-full min-h-full select-none overflow-hidden">
-
-                        <!-- Dynamic Ambient Live Wallpaper Waves (មានចលនា / Dynamic Motion) -->
-                        <div class="live-wallpaper-ambient pointer-events-none" aria-hidden="true">
-                            <div class="ambient-glow glow-1"></div>
-                            <div class="ambient-glow glow-2"></div>
-                            <div class="ambient-glow glow-3"></div>
-                            <div class="ambient-shimmer"></div>
-                        </div>
-
-                        <!-- Top Widget Area (Digital Clock & Date & Search) -->
-                        <div class="px-5 pt-8 pb-3 text-white relative z-10">
-                            <div class="text-left drop-shadow-md">
-                                <div id="homeDigitalTime" class="text-4xl font-light tracking-tight text-white/95">
-                                    12<span class="clock-colon">:</span>50</div>
-                                <div id="homeDigitalDate"
-                                    class="text-xs font-medium text-white/80 tracking-wide mt-0.5">Saturday, September
-                                    27</div>
-                            </div>
-
-                            <!-- Google Search Bar Pill -->
-                            <div
-                                class="mt-4 flex items-center justify-between px-3.5 py-2 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white shadow-lg cursor-pointer hover:bg-white/25 transition relative overflow-hidden search-bar-container">
-                                <div class="search-sheen"></div>
-                                <div class="flex items-center gap-2.5 relative z-10">
-                                    <i class="fa-brands fa-google text-white text-sm"></i>
-                                    <span class="text-xs text-white/85">Search or type web address</span>
-                                </div>
-                                <div class="flex items-center gap-2.5 text-white/80 text-xs relative z-10">
-                                    <i class="fa-solid fa-microphone"></i>
-                                    <i class="fa-solid fa-camera"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Main App Icons Grid (Office Apps + Sathapana Onboarding App) -->
-                        <div class="flex-1 px-4 py-2 flex flex-col justify-center relative z-10">
-                            <!-- 4-column Android App Grid -->
-                            <div class="grid grid-cols-4 gap-y-4 gap-x-2 text-center max-w-sm mx-auto w-full">
-                                <!-- App 1: Sathapana Onboarding App (Hero App with Motion & Attention Guide) -->
-                                <button id="appIconOnboarding"
-                                    class="home-app-item hero-app flex flex-col items-center group relative"
-                                    type="button" title="Open Onboarding App">
-
-                                    <!-- Animated Teaching Guide Pointer (Khmer & English) -->
-                                    <div id="teachingGuideHint" class="teaching-guide-pointer"
-                                        title="ចុចត្រង់នេះដើម្បីចាប់ផ្តើម (Tap here to open)">
-                                        <div class="guide-bubble shadow-xl">
-                                            <span class="guide-txt font-khmer">ចុចត្រង់នេះ</span>
-                                            <span class="guide-sub font-mono">Tap here</span>
-                                        </div>
-                                        <div class="guide-arrow">
-                                            <i class="fa-solid fa-hand-pointer text-amber-300 drop-shadow-md"></i>
-                                        </div>
-                                    </div>
-
-                                    <!-- Expanding pulsating radar beacon rings -->
-                                    <div class="hero-beacon-ring"></div>
-                                    <div class="hero-beacon-ring-2"></div>
-
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-xl flex items-center justify-center p-2.5 transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/50 relative overflow-hidden app-icon-box">
-                                        <img src="sathapana-logo-clean.png" alt="Onboarding App"
-                                            class="w-full h-full object-contain drop-shadow">
-
-                                        <!-- Diagonal Light Sheen Sweep Effect -->
-                                        <div class="icon-sheen-sweep"></div>
-
-                                        <!-- Enhanced Animated Notification Badge with Radar Ping -->
-                                        <span class="absolute -top-1 -right-1 flex h-4 w-4">
-                                            <span
-                                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                            <span
-                                                class="relative inline-flex rounded-full h-4 w-4 bg-red-500 border-2 border-white shadow-sm"></span>
-                                        </span>
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Onboarding</span>
-                                </button>
-
-                                <!-- App 2: Microsoft Outlook -->
-                                <button id="appIconOutlook" class="home-app-item flex flex-col items-center group"
-                                    type="button" title="Outlook">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#005a9e] to-[#0078d4] shadow-xl flex items-center justify-center text-white transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        <i class="fa-solid fa-envelope text-xl"></i>
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Outlook</span>
-                                </button>
-
-                                <!-- App 3: Microsoft Word -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Word">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#103f91] to-[#185abd] shadow-xl flex items-center justify-center text-white font-extrabold text-xl transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        W
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Word</span>
-                                </button>
-
-                                <!-- App 4: Microsoft Excel -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Excel">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#0e5c2f] to-[#107c41] shadow-xl flex items-center justify-center text-white font-extrabold text-xl transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        X
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Excel</span>
-                                </button>
-
-                                <!-- App 5: Microsoft PowerPoint -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="PowerPoint">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#a4260e] to-[#c43e1c] shadow-xl flex items-center justify-center text-white font-extrabold text-xl transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        P
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">PowerPoint</span>
-                                </button>
-
-                                <!-- App 6: Microsoft Teams -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Teams">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#464eb8] to-[#6264a7] shadow-xl flex items-center justify-center text-white text-xl transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        <i class="fa-solid fa-users"></i>
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Teams</span>
-                                </button>
-
-                                <!-- App 7: Microsoft OneDrive -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="OneDrive">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#005a9e] to-[#0078d4] shadow-xl flex items-center justify-center text-white text-lg transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        <i class="fa-solid fa-cloud"></i>
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">OneDrive</span>
-                                </button>
-
-                                <!-- App 8: Microsoft 365 -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Office 365">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#d83b01] via-[#eb3c00] to-[#f25022] shadow-xl flex items-center justify-center text-white text-lg transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        <i class="fa-solid fa-cubes"></i>
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Office
-                                        365</span>
-                                </button>
-
-                                <!-- App 9: Google Chrome -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Chrome">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-xl flex items-center justify-center text-xl transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        <i class="fa-brands fa-chrome text-amber-500"></i>
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Chrome</span>
-                                </button>
-
-                                <!-- App 10: Files -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Files">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#1976d2] to-[#42a5f5] shadow-xl flex items-center justify-center text-white text-lg transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        <i class="fa-solid fa-folder"></i>
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Files</span>
-                                </button>
-
-                                <!-- App 11: Settings -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Settings">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-slate-600 to-slate-500 shadow-xl flex items-center justify-center text-white text-lg transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        <i class="fa-solid fa-gear"></i>
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Settings</span>
-                                </button>
-
-                                <!-- App 12: Google Play -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Play Store">
-                                    <div
-                                        class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-xl flex items-center justify-center text-emerald-500 text-lg transition-transform duration-200 group-hover:scale-108 group-active:scale-95 border border-white/20">
-                                        <i class="fa-solid fa-play"></i>
-                                    </div>
-                                    <span
-                                        class="mt-1.5 text-[11px] font-semibold text-white tracking-tight drop-shadow-md truncate max-w-[70px]">Play
-                                        Store</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Bottom Indicator Chevron and Dock -->
-                        <div class="px-4 pb-3">
-                            <!-- Chevron Up (App Drawer Handle) -->
-                            <div class="flex justify-center mb-2 animate-bounce">
-                                <i class="fa-solid fa-chevron-up text-white/70 text-xs"></i>
-                            </div>
-
-                            <!-- Android Bottom App Dock -->
-                            <div
-                                class="flex items-center justify-around py-2.5 px-3 rounded-3xl bg-white/15 backdrop-blur-xl border border-white/20 shadow-2xl max-w-sm mx-auto w-full">
-                                <!-- Dock 1: Phone -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Phone">
-                                    <div
-                                        class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-emerald-400 shadow-lg flex items-center justify-center text-white text-base transition-transform group-hover:scale-110">
-                                        <i class="fa-solid fa-phone"></i>
-                                    </div>
-                                </button>
-
-                                <!-- Dock 2: Outlook -->
-                                <button id="dockIconOutlook" class="home-app-item flex flex-col items-center group"
-                                    type="button" title="Outlook">
-                                    <div
-                                        class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#005a9e] to-[#0078d4] shadow-lg flex items-center justify-center text-white text-base transition-transform group-hover:scale-110">
-                                        <i class="fa-solid fa-envelope"></i>
-                                    </div>
-                                </button>
-
-                                <!-- Dock 3: Sathapana Onboarding (Quick Launch) -->
-                                <button id="dockIconOnboarding"
-                                    class="home-app-item hero-dock-app flex flex-col items-center group relative"
-                                    type="button" title="Onboarding App">
-                                    <div class="dock-beacon-ring"></div>
-                                    <div
-                                        class="w-11 h-11 rounded-2xl bg-white shadow-lg flex items-center justify-center p-2 transition-transform group-hover:scale-110 border border-white/60 relative overflow-hidden">
-                                        <img src="sathapana-logo-clean.png" alt="Onboarding App"
-                                            class="w-full h-full object-contain">
-                                        <div class="icon-sheen-sweep"></div>
-                                    </div>
-                                </button>
-
-                                <!-- Dock 4: Chrome -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Chrome">
-                                    <div
-                                        class="w-11 h-11 rounded-2xl bg-white shadow-lg flex items-center justify-center text-base transition-transform group-hover:scale-110">
-                                        <i class="fa-brands fa-chrome text-amber-500"></i>
-                                    </div>
-                                </button>
-
-                                <!-- Dock 5: Camera -->
-                                <button class="home-app-item flex flex-col items-center group" type="button"
-                                    data-app-name="Camera">
-                                    <div
-                                        class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-slate-700 to-slate-900 shadow-lg flex items-center justify-center text-white text-base transition-transform group-hover:scale-110">
-                                        <i class="fa-solid fa-camera"></i>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- ================= ONBOARDING APP SPLASH / LOADING SCREEN ================= -->
-                    <section id="splashLoadingView"
-                        class="app-view hidden relative flex flex-col justify-between w-full h-full min-h-full select-none overflow-hidden bg-[#0F4C81] text-white">
-
-                        <!-- Splash ambient background glow -->
-                        <div class="splash-ambient-glow pointer-events-none" aria-hidden="true"></div>
-
-                        <!-- Top Brand Lockup -->
-                        <div class="pt-16 sm:pt-20 px-8 flex items-center justify-center relative z-10">
-                            <div class="flex items-center gap-3">
-                                <img src="sathapana-logo-clean.png" alt="SATHAPANA BANK"
-                                    class="w-11 h-11 object-contain drop-shadow-md select-none pointer-events-none splash-logo-pulse">
-                                <div class="text-left text-white leading-tight">
-                                    <p class="text-base font-bold font-khmer">ធនាគារ ស្ថាបនា</p>
-                                    <p class="text-[10px] font-extrabold tracking-[.18em]">SATHAPANA BANK</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Center App Title & Animated Loader -->
-                        <div class="my-auto text-center px-6 relative z-10">
-                            <h1
-                                class="text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-sm splash-title-fade">
-                                Onboarding App
-                            </h1>
-                            <!-- Smooth elegant loader with progress track -->
-
-                        </div>
-
-                        <!-- Bottom Version -->
-                        <div class="pb-8 text-center relative z-10">
-                            <span class="text-sm font-semibold tracking-wider text-white/90 font-mono">3.0.4</span>
-                        </div>
-                    </section>
-
-                    <!-- ================= LOGIN ================= -->
-                    <section id="loginView" class="app-view hidden flex flex-col justify-center p-5 sm:p-6">
-
-                        <div class="w-full max-w-sm mx-auto">
-
-                            <div class="text-center">
-
-                                <div class="flex justify-center mb-2">
-                                    <img src="sathapana-logo-clean.png" alt="SATHAPANA BANK"
-                                        class="w-12 h-12 object-contain drop-shadow-sm select-none pointer-events-none">
-                                </div>
-
-                                <p class="text-sm font-bold text-sathapana-blue font-khmer">
-                                    ធនាគារ ស្ថាបនា
-                                </p>
-
-                                <p class="text-[9px] font-extrabold tracking-[.16em] text-sathapana-blue">
-                                    SATHAPANA BANK
-                                </p>
-
-                                <h2 class="text-2xl font-extrabold text-sathapana-blue mt-2">
-                                    ONBOARDING
-                                    <span class="font-normal text-sathapana-lightBlue">App</span>
-                                </h2>
-
-                                <p id="lblSelectLanguage"
-                                    class="text-xs sm:text-[13px] font-medium text-slate-500 mt-1 select-none"
-                                    data-en="Select Language" data-kh="ជ្រើសរើសភាសា">
-                                    Select Language
-                                </p>
-                            </div>
-
-                            <!-- Language -->
-                            <div class="language-switcher" aria-label="Language selection">
-
-                                <button id="langEnBtn" class="lang-btn active" type="button"
-                                    aria-label="Switch to English" aria-pressed="true">
-                                    <span class="lang-code">EN</span>
-                                    <span class="lang-flag" aria-hidden="true">
-                                        <svg viewBox="0 0 60 40" focusable="false">
-                                            <clipPath id="uk-clip-en">
-                                                <rect width="60" height="40" rx="3" />
-                                            </clipPath>
-                                            <g clip-path="url(#uk-clip-en)">
-                                                <rect width="60" height="40" fill="#012169" />
-                                                <path d="M0 0L60 40M60 0L0 40" stroke="#ffffff" stroke-width="8" />
-                                                <path d="M0 0L30 20M60 40L30 20" stroke="#C8102E" stroke-width="2.6" />
-                                                <path d="M60 0L30 20M0 40L30 20" stroke="#C8102E" stroke-width="2.6" />
-                                                <path d="M30 0v40M0 20h60" stroke="#ffffff" stroke-width="13" />
-                                                <path d="M30 0v40M0 20h60" stroke="#C8102E" stroke-width="8" />
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <span class="lang-name">English</span>
-                                </button>
-
-                                <button id="langKhBtn" class="lang-btn" type="button" aria-label="ប្តូរទៅភាសាខ្មែរ"
-                                    aria-pressed="false">
-                                    <span class="lang-code">KH</span>
-                                    <span class="lang-flag" aria-hidden="true">
-                                        <svg viewBox="0 0 64 42" focusable="false">
-                                            <clipPath id="kh-clip-kh">
-                                                <rect width="64" height="42" rx="3" />
-                                            </clipPath>
-                                            <g clip-path="url(#kh-clip-kh)">
-                                                <rect width="64" height="42" fill="#032EA1" />
-                                                <rect y="10.5" width="64" height="21" fill="#ED1B24" />
-                                                <g fill="#FFFFFF">
-                                                    <rect x="15" y="27.5" width="34" height="2.5" rx="0.5" />
-                                                    <rect x="18" y="25" width="28" height="2.5" rx="0.5" />
-                                                    <rect x="21" y="23" width="22" height="2" />
-                                                    <path
-                                                        d="M32 12.5 C31 14.5 29.5 16 29.5 18 L29.5 23 L34.5 23 L34.5 18 C34.5 16 33 14.5 32 12.5 Z" />
-                                                    <polygon points="32,11 31,13 33,13" />
-                                                    <path
-                                                        d="M26 15.5 C25.2 17 24.2 18.2 24.2 20 L24.2 23 L27.8 23 L27.8 20 C27.8 18.2 26.8 17 26 15.5 Z" />
-                                                    <polygon points="26,14.2 25.2,16 26.8,16" />
-                                                    <path
-                                                        d="M38 15.5 C37.2 17 36.2 18.2 36.2 20 L36.2 23 L39.8 23 L39.8 20 C39.8 18.2 38.8 17 38 15.5 Z" />
-                                                    <polygon points="38,14.2 37.2,16 38.8,16" />
-                                                    <path
-                                                        d="M20.5 19 C20 20 19.5 21 19.5 22 L19.5 23 L22.5 23 L22.5 22 C22.5 21 22 20 21.5 19 Z" />
-                                                    <path
-                                                        d="M43.5 19 C43 20 42.5 21 42.5 22 L42.5 23 L45.5 23 L45.5 22 C45.5 21 45 20 44.5 19 Z" />
-                                                    <rect x="20" y="22" width="24" height="1.5" />
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <span class="lang-name font-khmer">ខ្មែរ</span>
-                                </button>
-
-                            </div>
-
-                            <!-- Login -->
-                            <form id="loginForm" class="space-y-3">
-
-                                <div>
-
-
-                                    <div class="app-input px-3">
-                                        <i class="fa-solid fa-id-badge text-slate-500 w-5 text-center text-xs"></i>
-                                        <input id="userIdInput" type="text" value="" required class="w-full px-2 text-sm text-slate-800 font-bold
-                                              focus:outline-none bg-transparent" placeholder="Staff ID (5 digits)">
-                                    </div>
-                                </div>
-
-                                <div>
-
-                                    <div class="app-input px-3 relative">
-                                        <i class="fa-solid fa-lock text-slate-500 w-5 text-center text-xs"></i>
-
-                                        <input id="passwordInput" type="password" value="" required class="w-full px-2 pr-8 text-sm text-slate-800 font-bold
-                                              focus:outline-none bg-transparent" placeholder="Password">
-
-                                        <button id="togglePasswordBtn" class="password-toggle-icon" type="button"
-                                            class="absolute right-3 text-slate-500 hover:text-sathapana-blue">
-                                            <i id="eyeIcon" class="fa-regular fa-eye text-xs"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <button id="forgotPasswordBtn" type="button" class="text-[11px] font-bold text-sathapana-blue hover:text-sathapana-lightBlue
-                                       transition-colors">
-                                    Reset Password?
-                                </button>
-
-                                <button id="btnLogin" type="submit" class="modern-action bg-sathapana-blue hover:bg-sathapana-darkBlue
-                                       text-white font-bold shadow-lg
-                                       flex items-center justify-center gap-2 text-sm tracking-wider">
-                                    <span id="txtLoginBtn">LOGIN</span>
-                                </button>
-                            </form>
-
-                            <!-- ================= QUICK SERVICE ================= -->
-                            <div class="my-4 flex items-center justify-center">
-                                <div class="flex-grow border-t border-slate-300"></div>
-                                <span
-                                    class="px-3 text-[11px] font-bold tracking-wider text-slate-400 uppercase select-none"
-                                    id="txtQuickService">QUICK SERVICE</span>
-                                <div class="flex-grow border-t border-slate-300"></div>
-                            </div>
-
-                            <div class="flex justify-center">
-                                <button id="btnPrintTutortKhqr" type="button"
-                                    class="quick-service-card group flex flex-col items-center justify-center w-[114px] h-[106px] bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-sathapana-blue/40 active:scale-95 transition-all p-2.5 cursor-pointer">
-                                    <i
-                                        class="fa-solid fa-qrcode text-3xl text-slate-800 group-hover:text-sathapana-blue transition-colors mb-1"></i>
-                                    <span
-                                        class="text-[11px] font-semibold text-slate-800 leading-tight text-center">Print
-                                        Tutort</span>
-                                    <span
-                                        class="text-[10px] font-bold text-slate-600 leading-tight text-center">KHQR</span>
-                                </button>
-                            </div>
-
-                            <div class="mt-5 text-center">
-                                <button id="gpsContainer" type="button"
-                                    class="inline-flex items-center gap-1.5 text-emerald-600 text-[13px] font-bold hover:opacity-85 transition-opacity">
-                                    <span id="txtGps" data-en="GPS is working" data-kh="GPS ដំណើរការធម្មតា">GPS is
-                                        working</span>
-                                    <i id="gpsIcon" class="fa-solid fa-arrows-rotate text-[10px] opacity-75"></i>
-                                </button>
-
-                                <p class="text-[13px] font-bold text-slate-700 mt-1">
-                                    Version 3.0.4
-                                </p>
-                            </div>
-
-                        </div>
-                    </section>
-
-
-                    <!-- ================= FORGOT PASSWORD ================= -->
-                    <section id="forgotPwView" class="app-view hidden bg-slate-50">
-
-                        <div class="bg-sathapana-blue text-white px-4 py-3
-                            flex items-center shadow-sm">
-                            <button id="forgotPwHeaderBackBtn" type="button"
-                                class="w-8 h-8 rounded-full hover:bg-white/10 transition">
-                                <i class="fa-solid fa-arrow-left"></i>
-                            </button>
-
-                            <h2 class="ml-2 text-sm font-semibold">
-                                Reset Password
-                            </h2>
-                        </div>
-
-                        <div class="p-5 sm:p-6 max-w-md mx-auto">
-
-                            <div class="space-y-4">
-
-                                <div>
-
-
-                                    <div class="app-input px-3">
-                                        <i class="fa-solid fa-id-badge text-slate-600 w-5"></i>
-                                        <input id="forgotUserIdInput" type="text" value="15273" class="w-full px-2 text-sm text-slate-800 font-semibold
-                                              focus:outline-none bg-transparent">
-                                    </div>
-                                </div>
-
-                                <div>
-
-
-                                    <div class="app-input px-3">
-                                        <i class="fa-solid fa-envelope text-slate-600 w-5"></i>
-                                        <input id="forgotEmailInput" type="email" value="na.lyhuo@sathapana.com.kh"
-                                            class="w-full px-2 text-xs text-slate-800 font-medium
-                                              focus:outline-none bg-transparent">
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="space-y-2 mt-8">
-
-                                <button id="forgotPwSubmitBtn" type="button" class="modern-action bg-sathapana-blue hover:bg-sathapana-darkBlue
-                                       text-white font-semibold shadow-md text-sm">
-                                    Submit
-                                </button>
-
-                                <button id="forgotPwCancelBtn">
-
-                                </button>
-
-                            </div>
-                        </div>
-                    </section>
-
-
-                    <!-- ================= SUCCESS ================= -->
-                    <section id="forgotPwSuccessView" class="app-view hidden flex flex-col justify-center
-                            p-6 text-center">
-
-                        <div class="max-w-sm mx-auto">
-
-                            <div class="w-16 h-16 bg-emerald-500 text-white rounded-full
-                                flex items-center justify-center mx-auto shadow-lg">
-                                <i class="fa-solid fa-check text-2xl"></i>
-                            </div>
-
-                            <h3 class="text-lg font-bold text-slate-900 mt-5 leading-snug">
-                                Your password reset request has been sent successfully!
-                            </h3>
-
-                            <p class="text-xs text-slate-600 leading-relaxed mt-3">
-                                An email has been sent to your registered email address
-                                with instructions to reset your password.
-                            </p>
-
-                            <p id="submittedEmailDisplay"
-                                class="text-[10px] font-semibold text-slate-700 font-mono mt-3 break-all">
-                                (na.lyhuo@sathapana.com.kh)
-                            </p>
-
-                            <button id="openOutlookBtn" type="button" class="modern-action bg-sathapana-blue hover:bg-sathapana-darkBlue
-                                   text-white font-semibold shadow-md text-sm mt-7">
-                                Open Outlook
-                            </button>
-
-                        </div>
-                    </section>
-
-
-                    <!-- ================= OUTLOOK ================= -->
-                    <section id="outlookEmailView" class="app-view hidden bg-white">
-
-                        <div class="bg-[#0078D4] text-white px-3 py-2.5
-                            flex items-center justify-between">
-
-                            <button id="outlookBackBtn" type="button" class="w-8 h-8 rounded-full hover:bg-white/10">
-                                <i class="fa-solid fa-chevron-left text-sm"></i>
-                            </button>
-
-                            <div class="flex items-center gap-4 text-xs">
-                                <button type="button" class="icon-button-clean" title="Archive"><i
-                                        class="fa-regular fa-folder-closed"></i></button>
-                                <button type="button" class="icon-button-clean" title="Delete"><i
-                                        class="fa-regular fa-trash-can"></i></button>
-                                <button type="button" class="icon-button-clean" title="Mark unread"><i
-                                        class="fa-regular fa-envelope"></i></button>
-                                <button type="button" class="icon-button-clean" title="More options"><i
-                                        class="fa-solid fa-ellipsis"></i></button>
-                            </div>
-                        </div>
-
-                        <div class="p-4 border-b border-slate-200 bg-slate-50">
-
-                            <div class="flex items-start gap-3">
-
-                                <div class="w-9 h-9 rounded-full bg-purple-700 text-white
-                                    text-[10px] font-bold flex items-center justify-center shrink-0">
-                                    SB
-                                </div>
-
-                                <div class="flex-1 min-w-0">
-
-                                    <div class="flex justify-between gap-2">
-                                        <h4 class="font-semibold text-slate-800 text-xs truncate">
-                                            app.alert@sathapana.com.kh
-                                        </h4>
-
-                                        <span class="text-[9px] text-slate-500 shrink-0">
-                                            14:47
-                                        </span>
-                                    </div>
-
-                                    <p class="text-[10px] text-slate-500 truncate">
-                                        To: na.lyhuo@sathapana.com.kh
-                                    </p>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-5 text-xs text-slate-800 leading-relaxed">
-
-                            <p class="font-medium text-slate-900">
-                                Dear Sir/Ms,
-                            </p>
-
-                            <p class="mt-3">
-                                Be informed that your password has been reset to
-                            </p>
-
-                            <div class="mt-3 inline-block px-3.5 py-2 rounded-lg bg-slate-100
-                                   border border-slate-300
-                                   font-mono font-bold text-slate-900 select-text cursor-text"
-                                style="user-select: text !important; -webkit-user-select: text !important;">
-                                <span id="resetPasswordText" class="select-text cursor-text"
-                                    style="user-select: text !important; -webkit-user-select: text !important;">b9tTd3pb</span>
-                            </div>
-
-                            <p class="text-slate-600 mt-4">
-                                This is an auto generating email. Do not reply.
-                            </p>
-
-                            <div class="pt-4">
-                                <p>Thanks and best regards,</p>
-                                <p class="font-semibold text-slate-900">Sathapana Bank</p>
-                            </div>
-
-                            <p class="pt-4 text-[10px] text-slate-500">
-                                If you did not request a password reset,
-                                please contact IT Helpdesk immediately.
-                            </p>
-
-                            
-
-                        </div>
-                    </section>
-
-
-                    <!-- ================= RESET PASSWORD LOGIN ================= -->
-                    <section id="loginScreenPasswordResetView"
-                        class="app-view hidden flex flex-col justify-center p-5 sm:p-6">
-
-                        <div class="w-full max-w-sm mx-auto">
-
-                            <div class="text-center">
-
-                                <div class="flex justify-center mb-2">
-                                    <img src="sathapana-logo-clean.png" alt="SATHAPANA BANK"
-                                        class="w-12 h-12 object-contain drop-shadow-sm select-none pointer-events-none">
-                                </div>
-
-                                <p class="text-sm font-bold text-sathapana-blue font-khmer">
-                                    ធនាគារ ស្ថាបនា
-                                </p>
-
-                                <p class="text-[9px] font-extrabold tracking-[.16em] text-sathapana-blue">
-                                    SATHAPANA BANK
-                                </p>
-
-                                <h2 class="text-2xl font-extrabold text-sathapana-blue mt-2">
-                                    ONBOARDING
-                                    <span class="font-normal text-sathapana-lightBlue">App</span>
-                                </h2>
-
-                                <p id="lblSelectLanguageReset"
-                                    class="text-xs sm:text-[13px] font-medium text-slate-500 mt-1 select-none"
-                                    data-en="Select Language" data-kh="ជ្រើសរើសភាសា">
-                                    Select Language
-                                </p>
-                            </div>
-
-                            <div class="language-switcher" aria-label="Language selection">
-
-                                <button id="langEnBtnReset" class="lang-btn active" type="button"
-                                    aria-label="Switch to English" aria-pressed="true">
-                                    <span class="lang-code">EN</span>
-                                    <span class="lang-flag" aria-hidden="true">
-                                        <svg viewBox="0 0 60 40" focusable="false">
-                                            <clipPath id="uk-clip-reset">
-                                                <rect width="60" height="40" rx="3" />
-                                            </clipPath>
-                                            <g clip-path="url(#uk-clip-reset)">
-                                                <rect width="60" height="40" fill="#012169" />
-                                                <path d="M0 0L60 40M60 0L0 40" stroke="#ffffff" stroke-width="8" />
-                                                <path d="M0 0L30 20M60 40L30 20" stroke="#C8102E" stroke-width="2.6" />
-                                                <path d="M60 0L30 20M0 40L30 20" stroke="#C8102E" stroke-width="2.6" />
-                                                <path d="M30 0v40M0 20h60" stroke="#ffffff" stroke-width="13" />
-                                                <path d="M30 0v40M0 20h60" stroke="#C8102E" stroke-width="8" />
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <span class="lang-name">English</span>
-                                </button>
-
-                                <button id="langKhBtnReset" class="lang-btn" type="button" aria-label="ប្តូរទៅភាសាខ្មែរ"
-                                    aria-pressed="false">
-                                    <span class="lang-code">KH</span>
-                                    <span class="lang-flag" aria-hidden="true">
-                                        <svg viewBox="0 0 64 42" focusable="false">
-                                            <clipPath id="kh-clip-reset">
-                                                <rect width="64" height="42" rx="3" />
-                                            </clipPath>
-                                            <g clip-path="url(#kh-clip-reset)">
-                                                <rect width="64" height="42" fill="#032EA1" />
-                                                <rect y="10.5" width="64" height="21" fill="#ED1B24" />
-                                                <g fill="#FFFFFF">
-                                                    <rect x="15" y="27.5" width="34" height="2.5" rx="0.5" />
-                                                    <rect x="18" y="25" width="28" height="2.5" rx="0.5" />
-                                                    <rect x="21" y="23" width="22" height="2" />
-                                                    <path
-                                                        d="M32 12.5 C31 14.5 29.5 16 29.5 18 L29.5 23 L34.5 23 L34.5 18 C34.5 16 33 14.5 32 12.5 Z" />
-                                                    <polygon points="32,11 31,13 33,13" />
-                                                    <path
-                                                        d="M26 15.5 C25.2 17 24.2 18.2 24.2 20 L24.2 23 L27.8 23 L27.8 20 C27.8 18.2 26.8 17 26 15.5 Z" />
-                                                    <polygon points="26,14.2 25.2,16 26.8,16" />
-                                                    <path
-                                                        d="M38 15.5 C37.2 17 36.2 18.2 36.2 20 L36.2 23 L39.8 23 L39.8 20 C39.8 18.2 38.8 17 38 15.5 Z" />
-                                                    <polygon points="38,14.2 37.2,16 38.8,16" />
-                                                    <path
-                                                        d="M20.5 19 C20 20 19.5 21 19.5 22 L19.5 23 L22.5 23 L22.5 22 C22.5 21 22 20 21.5 19 Z" />
-                                                    <path
-                                                        d="M43.5 19 C43 20 42.5 21 42.5 22 L42.5 23 L45.5 23 L45.5 22 C45.5 21 45 20 44.5 19 Z" />
-                                                    <rect x="20" y="22" width="24" height="1.5" />
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <span class="lang-name font-khmer">ខ្មែរ</span>
-                                </button>
-
-                            </div>
-
-                            <form id="finalLoginForm" class="space-y-3">
-
-                                <div>
-
-
-                                    <div class="app-input px-3">
-                                        <i class="fa-solid fa-id-badge text-slate-500 w-5"></i>
-                                        <input type="text" value="15273" readonly class="w-full px-2 text-sm text-slate-800 font-bold
-                                              focus:outline-none bg-transparent">
-                                    </div>
-                                </div>
-
-                                <div>
-
-
-                                    <div class="app-input px-3 relative">
-                                        <i class="fa-solid fa-lock text-slate-500 w-5"></i>
-
-                                        <input id="resetPwInput" type="text" value="b9tTd3pb" required class="w-full px-2 pr-8 text-sm text-slate-800 font-bold
-                                              focus:outline-none bg-transparent select-text cursor-text"
-                                            style="user-select: text !important; -webkit-user-select: text !important;">
-
-                                        <button id="toggleResetPwBtn" type="button"
-                                            class="absolute right-3 text-slate-500 hover:text-sathapana-blue transition-colors">
-                                            <i id="resetEyeIcon"
-                                                class="fa-regular fa-eye-slash text-xs text-sathapana-blue"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <button id="btnHighlightedLogin" type="submit" class="modern-action bg-sathapana-blue hover:bg-sathapana-darkBlue
-                                       text-white font-bold shadow-lg text-sm mt-3 tracking-wider">
-                                    LOGIN
-                                </button>
-
-                                <button id="resetForgotBtn" type="button" class="hidden">
-
-                                </button>
-
-                            </form>
-
-                            <!-- ================= QUICK SERVICE (RESET VIEW) ================= -->
-                            <div class="my-4 flex items-center justify-center">
-                                <div class="flex-grow border-t border-slate-300"></div>
-                                <span
-                                    class="px-3 text-[11px] font-bold tracking-wider text-slate-400 uppercase select-none">QUICK
-                                    SERVICE</span>
-                                <div class="flex-grow border-t border-slate-300"></div>
-                            </div>
-
-                            <div class="flex justify-center">
-                                <button id="btnPrintTutortKhqrReset" type="button"
-                                    class="quick-service-card group flex flex-col items-center justify-center w-[114px] h-[106px] bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-sathapana-blue/40 active:scale-95 transition-all p-2.5 cursor-pointer">
-                                    <i
-                                        class="fa-solid fa-qrcode text-3xl text-slate-800 group-hover:text-sathapana-blue transition-colors mb-1"></i>
-                                    <span
-                                        class="text-[11px] font-semibold text-slate-800 leading-tight text-center">Print
-                                        Tutort</span>
-                                    <span
-                                        class="text-[10px] font-bold text-slate-600 leading-tight text-center">KHQR</span>
-                                </button>
-                            </div>
-
-                            <div class="text-center mt-5">
-                                <p
-                                    class="text-[13px] text-emerald-600 font-bold flex items-center justify-center gap-1.5">
-                                    <i class="fa-solid fa-circle-check text-[11px]"></i>
-                                    <span>GPS is working</span>
-                                </p>
-                                <p class="text-[13px] font-bold text-slate-700 mt-1">
-                                    Version 3.0.4
-                                </p>
-                            </div>
-
-                        </div>
-                    </section>
-
-
-                    <!-- ================= DASHBOARD: ONBOARDING APP LOAN-RM-000 ================= -->
-                    <section id="dashboardView" class="app-view hidden relative flex flex-col flex-1 min-h-full w-full">
-                        <main class="onboarding-dashboard" lang="en">
-                            <!-- Top Header Bar -->
-                            <header class="onboarding-topbar">
-                                <button id="dashboardMenuBtn" class="onboarding-menu-btn" type="button"
-                                    aria-label="Toggle menu" title="Menu">
-                                    <i class="fa-solid fa-bars"></i>
-                                </button>
-                                <h2 class="onboarding-topbar-title" id="onboardingAppTitle">
-                                    Onboarding App <span id="dashLoanRmId">LOAN-RM-000</span>
-                                </h2>
-                            </header>
-
-                            <!-- Subheader: Working Hour & Check In -->
-                            <div class="onboarding-subbar">
-                                <div class="onboarding-subbar-row">
-                                    <!-- Working Hour Toggle -->
-                                    <div class="working-hour-group">
-                                        <span class="working-hour-label" id="lblWorkingHour">Working Hour:</span>
-                                        <button id="workingHourToggle" type="button" role="switch" aria-checked="false"
-                                            class="onboarding-toggle" title="Toggle working hour check-in">
-                                            <span class="onboarding-toggle-thumb"></span>
-                                        </button>
-                                    </div>
-
-                                    <!-- Check In & Location status -->
-                                    <div class="checkin-info">
-                                        <div id="checkInStatusText">Check In: <span id="checkInStatusVal"
-                                                class="status-val">Not yet check in</span></div>
-                                        <div id="locationStatusText">Location: <span id="locationCoordsVal"
-                                                class="status-val">0.00, 0.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="onboarding-divider"></div>
-
-                            <!-- Section 1: Onboarding -->
-                            <section class="onboarding-section" aria-labelledby="secOnboardingTitle">
-                                <h3 class="onboarding-section-title" id="secOnboardingTitle">Onboarding</h3>
-                                <div class="section-divider"></div>
-
-                                <div class="onboarding-grid">
-                                    <!-- Card 1: Create New Customer -->
-                                    <button class="onboarding-card" id="cardCreateCustomer" type="button">
-                                        <span class="onboarding-card-icon">
-                                            <i class="fa-solid fa-user-plus"></i>
-                                        </span>
-                                        <strong class="onboarding-card-title" id="lblCreateCustomer">
-                                            Create New<br>Customer
-                                        </strong>
-                                    </button>
-
-                                    <!-- Card 2: Create New Account Existing Customer -->
-                                    <button class="onboarding-card" id="cardCreateAccount" type="button">
-                                        <span class="onboarding-card-icon">
-                                            <i class="fa-solid fa-file-circle-plus"></i>
-                                        </span>
-                                        <strong class="onboarding-card-title" id="lblCreateAccount">
-                                            Create New Account<br>Existing Customer
-                                        </strong>
-                                    </button>
-
-                                    <!-- Card 3: Loan Collection -->
-                                    <button class="onboarding-card" id="cardLoanCollection" type="button">
-                                        <span class="onboarding-card-icon">
-                                            <i class="fa-solid fa-hand-holding-dollar"></i>
-                                        </span>
-                                        <strong class="onboarding-card-title" id="lblLoanCollection">
-                                            Loan Collection
-                                        </strong>
-                                    </button>
-                                </div>
-                            </section>
-
-                            <!-- Section 2: Phone Information -->
-                            <section class="onboarding-section" aria-labelledby="secPhoneInfoTitle">
-                                <h3 class="onboarding-section-title" id="secPhoneInfoTitle">Phone Information</h3>
-                                <div class="section-divider"></div>
-
-                                <div class="onboarding-grid">
-                                    <!-- Card 4: Update Secondary Number -->
-                                    <button class="onboarding-card" id="cardUpdateSecondaryPhone" type="button">
-                                        <span class="onboarding-card-icon">
-                                            <i class="fa-solid fa-id-card"></i>
-                                        </span>
-                                        <strong class="onboarding-card-title" id="lblUpdateSecondary">
-                                            Update Secondary<br>Number
-                                        </strong>
-                                    </button>
-                                </div>
-                            </section>
-
-                            <!-- Side Navigation Drawer (Faithful to Image 2) -->
-                            <div id="drawerBackdrop" class="onboarding-drawer-backdrop" aria-hidden="true">
-                                <aside class="onboarding-drawer" role="dialog" aria-label="App Navigation">
-                                    <!-- Sathapana Bank Brand Header -->
-                                    <div class="drawer-brand-header text-center pt-6 pb-3 px-4 bg-white">
-                                        <div class="flex justify-center mb-2">
-                                            <img src="sathapana-logo-clean.png" alt="SATHAPANA BANK"
-                                                class="w-12 h-12 object-contain drop-shadow-sm select-none pointer-events-none">
-                                        </div>
-                                        <p class="text-sm font-bold text-sathapana-blue font-khmer">
-                                            ធនាគារ ស្ថាបនា
-                                        </p>
-                                        <p class="text-[9px] font-extrabold tracking-[.16em] text-sathapana-blue">
-                                            SATHAPANA BANK
-                                        </p>
-                                    </div>
-
-                                    <!-- User Profile Row -->
-                                    <div
-                                        class="drawer-user-card px-4 py-3 bg-white flex items-center justify-between border-t border-slate-100 cursor-pointer hover:bg-slate-50 transition">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 rounded-full bg-[#0066cc] text-white font-bold flex items-center justify-center text-sm shadow-sm"
-                                                id="drawerAvatarInitials">
-                                                NL
-                                            </div>
-                                            <div>
-                                                <div class="text-sm font-bold text-slate-800 leading-tight"
-                                                    id="drawerUserName">NA LYHUO</div>
-                                                <div class="text-xs text-slate-500 font-medium" id="drawerUserId">000
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <i class="fa-solid fa-chevron-right text-slate-400 text-xs"></i>
-                                    </div>
-
-                                    <div class="h-[1px] bg-slate-200 w-full"></div>
-
-                                    <!-- Navigation Links -->
-                                    <nav class="drawer-menu-list flex-1 px-3 py-2 space-y-0.5 bg-white">
-                                        <button class="drawer-menu-item" type="button" id="drawerBtnHome">
-                                            <i class="fa-solid fa-house"></i>
-                                            <span id="txtDrawerHome">Home</span>
-                                        </button>
-                                        <button class="drawer-menu-item" type="button" id="drawerBtnCheckInOut">
-                                            <i class="fa-solid fa-hourglass-half"></i>
-                                            <span id="txtDrawerCheckInOut">My Check In/Out</span>
-                                        </button>
-                                        <button class="drawer-menu-item" type="button" id="drawerBtnSignature">
-                                            <i class="fa-solid fa-file-signature"></i>
-                                            <span id="txtDrawerSignature">Staff Signature</span>
-                                        </button>
-                                        <button class="drawer-menu-item" type="button" id="drawerBtnChangePassword">
-                                            <i class="fa-solid fa-lock"></i>
-                                            <span id="txtDrawerChangePassword">Change Password</span>
-                                        </button>
-                                        <button class="drawer-menu-item" type="button" id="drawerBtnLanguage">
-                                            <i class="fa-solid fa-language"></i>
-                                            <span id="txtDrawerLanguage">Language</span>
-                                        </button>
-                                    </nav>
-
-                                    <!-- Bottom Logout -->
-                                    <div class="p-4 bg-white border-t border-slate-100">
-                                        <button
-                                            class="drawer-logout-btn flex items-center gap-3 text-red-600 font-semibold text-sm hover:opacity-85 transition"
-                                            type="button" id="logoutBtn">
-                                            <span
-                                                class="w-6 h-6 rounded bg-red-600 text-white flex items-center justify-center text-xs shadow-sm">
-                                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                            </span>
-                                            <span id="txtDrawerLogout">Logout</span>
-                                        </button>
-                                    </div>
-                                </aside>
-                            </div>
-
-                            <!-- Interactive Modal Container -->
-                            <div id="onboardingModalBackdrop" class="onboarding-modal-backdrop" aria-hidden="true">
-                                <div class="onboarding-modal" role="dialog" aria-modal="true"
-                                    aria-labelledby="modalHeading">
-                                    <div class="modal-header">
-                                        <div class="modal-title" id="modalHeading">
-                                            <i id="modalIcon" class="fa-solid fa-circle-info"></i>
-                                            <span id="modalTitleText">Action Title</span>
-                                        </div>
-                                        <button id="modalCloseBtn" class="modal-close-btn" type="button"
-                                            aria-label="Close dialog">
-                                            <i class="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body" id="modalBodyContent">
-                                        <!-- Dynamic modal content inserted via JS -->
-                                    </div>
-                                    <div class="modal-footer" id="modalFooterActions">
-                                        <button id="modalCancelBtn" type="button"
-                                            class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-slate-700 font-medium text-xs hover:bg-slate-100 transition">
-                                            Close
-                                        </button>
-                                        <button id="modalConfirmBtn" type="button"
-                                            class="px-4 py-1.5 rounded-lg bg-sathapana-blue text-white font-medium text-xs hover:bg-sathapana-darkBlue shadow transition">
-                                            Confirm
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </main>
-                    </section>
-
-
-                    <!-- ================= CHANGE PASSWORD SCREEN (Faithful to Image 3) ================= -->
-                    <section id="changePasswordView"
-                        class="app-view hidden relative flex flex-col min-h-full w-full bg-[#f1f4f8]">
-                        <!-- Top Header Bar -->
-                        <header
-                            class="h-[52px] bg-[#0066cc] text-white flex items-center px-3 shadow-sm z-10 flex-shrink-0">
-                            <button id="changePwBackBtn" type="button"
-                                class="w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center transition text-base active:scale-95"
-                                aria-label="Back">
-                                <i class="fa-solid fa-arrow-left"></i>
-                            </button>
-                            <h2 class="ml-2 font-medium text-base tracking-wide" id="lblChangePwTitle">
-                                Change Password
-                            </h2>
-                        </header>
-
-                        <!-- Form Content -->
-                        <form id="changePasswordForm" class="flex-1 flex flex-col justify-between" novalidate>
-                            <div class="space-y-3 max-w-lg mx-auto w-full p-4 sm:p-5 pt-4 flex-1">
-                                <!-- Field 1: Current Password -->
-                                <div class="change-pw-field flex items-center px-3.5 py-3">
-                                    <i class="fa-solid fa-lock text-slate-500 w-5 text-center text-sm mr-2.5"></i>
-                                    <input id="currentPwInput" type="password" required
-                                        class="w-full bg-transparent text-sm text-slate-800 font-medium placeholder-slate-500 focus:outline-none"
-                                        placeholder="Current Password" autocomplete="current-password">
-                                </div>
-
-                                <!-- Field 2: New Password -->
-                                <div class="change-pw-field flex items-center px-3.5 py-3">
-                                    <i class="fa-solid fa-lock text-slate-500 w-5 text-center text-sm mr-2.5"></i>
-                                    <input id="newPwInput" type="password" required
-                                        class="w-full bg-transparent text-sm text-slate-800 font-medium placeholder-slate-500 focus:outline-none"
-                                        placeholder="New Password" autocomplete="new-password">
-                                </div>
-
-                                <!-- Field 3: Confirm Password -->
-                                <div class="change-pw-field flex items-center px-3.5 py-3">
-                                    <i class="fa-solid fa-lock text-slate-500 w-5 text-center text-sm mr-2.5"></i>
-                                    <input id="confirmPwInput" type="password" required
-                                        class="w-full bg-transparent text-sm text-slate-800 font-medium placeholder-slate-500 focus:outline-none"
-                                        placeholder="Confirm Password" autocomplete="new-password">
-                                </div>
-
-                                <!-- Checkbox: Show Password -->
-                                <div class="pt-1">
-                                    <label class="inline-flex items-center gap-2 cursor-pointer select-none">
-                                        <input id="showPwCheckbox" type="checkbox"
-                                            class="w-4 h-4 rounded border-slate-400 text-[#0066cc] focus:ring-[#0066cc]">
-                                        <span class="text-xs font-medium text-slate-700" id="lblShowPassword">Show
-                                            Password</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Bottom Button Docked at Bottom (Identical to Image 3) -->
-                            <div class="w-full mt-auto">
-                                <button id="btnSubmitChangePw" type="submit"
-                                    class="w-full bg-[#0066cc] hover:bg-[#0052a3] text-white font-semibold py-3.5 px-4 flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wider uppercase shadow-md transition active:bg-[#004d99]">
-                                    <i class="fa-solid fa-square-check text-base"></i>
-                                    <span id="txtBtnChangePw">CHANGE PASSWORD</span>
-                                </button>
-                            </div>
-                        </form>
-                    </section>
-
-                    <!--
-                    <div id="appToast"
-                        class="absolute top-4 left-1/2 -translate-x-1/2 z-[90] pointer-events-none transition-all duration-300 opacity-0 -translate-y-2 hidden">
-                        <div class="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-slate-900/90 text-white shadow-2xl text-xs font-semibold backdrop-blur-md border border-white/10"
-                            id="appToastInner">
-                            <i id="appToastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
-                            <span id="appToastMsg">Message</span>
-                        </div>
-                    </div>-->
-
-
-                </div>
-
-                <!-- ================= SATHAPANA TUTORT KHQR MODAL ================= -->
-                <div id="tutortKhqrModalBackdrop" class="onboarding-modal-backdrop" aria-hidden="true">
-                    <div class="onboarding-modal max-w-sm" role="dialog" aria-modal="true"
-                        aria-labelledby="khqrHeading">
-                        <div
-                            class="modal-header bg-sathapana-blue text-white px-4 py-3 flex items-center justify-between">
-                            <div class="flex items-center gap-2" id="khqrHeading">
-                                <i class="fa-solid fa-qrcode text-lg text-amber-300"></i>
-                                <div>
-                                    <h3 class="font-bold text-sm leading-tight">Sathapana Tutort KHQR</h3>
-                                    <p class="text-[10px] text-blue-200">Merchant Payment QR Stand</p>
-                                </div>
-                            </div>
-                            <button id="closeTutortKhqrBtn"
-                                class="w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition text-white"
-                                type="button" aria-label="Close dialog">
-                                <i class="fa-solid fa-xmark text-sm"></i>
-                            </button>
-                        </div>
-
-                        <div
-                            class="modal-body p-4 bg-slate-100 flex flex-col items-center overflow-y-auto max-h-[70vh]">
-                            <!-- Authentic KHQR Merchant Card/Stand -->
-                            <div id="printableKhqrCard"
-                                class="w-full max-w-[270px] bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden flex flex-col items-center">
-                                <!-- KHQR Red Banner Header -->
-                                <div class="w-full bg-[#E1251B] py-2 px-3 flex items-center justify-between text-white">
-                                    <div class="flex items-center gap-1.5">
-                                        <span class="font-extrabold text-sm tracking-wider">KHQR</span>
-                                    </div>
-                                    <div class="text-[10px] font-semibold bg-white/20 px-2 py-0.5 rounded-full">
-                                        Bakong Accepted
-                                    </div>
-                                </div>
-
-                                <!-- Merchant Name & Details -->
-                                <div class="pt-3 pb-1 px-3 text-center w-full">
-                                    <p class="text-xs font-bold text-slate-800 uppercase tracking-wide truncate">
-                                        Sathapana Tutort Merchant</p>
-                                    <p class="text-[10px] text-slate-500 font-mono">TID: 8829-1045 • KHR / USD</p>
-                                </div>
-
-                                <!-- QR Code Display -->
-                                <div class="p-3 bg-white flex flex-col items-center">
-                                    <div
-                                        class="p-2 border-2 border-slate-900 rounded-xl bg-white shadow-inner flex items-center justify-center">
-                                        <svg class="w-40 h-40 text-slate-900" viewBox="0 0 100 100" fill="currentColor">
-                                            <!-- Corner 1 (Top Left) -->
-                                            <rect x="5" y="5" width="28" height="28" fill="none" stroke="currentColor"
-                                                stroke-width="4" rx="2" />
-                                            <rect x="11" y="11" width="16" height="16" rx="1" />
-                                            <!-- Corner 2 (Top Right) -->
-                                            <rect x="67" y="5" width="28" height="28" fill="none" stroke="currentColor"
-                                                stroke-width="4" rx="2" />
-                                            <rect x="73" y="11" width="16" height="16" rx="1" />
-                                            <!-- Corner 3 (Bottom Left) -->
-                                            <rect x="5" y="67" width="28" height="28" fill="none" stroke="currentColor"
-                                                stroke-width="4" rx="2" />
-                                            <rect x="11" y="73" width="16" height="16" rx="1" />
-                                            <!-- Center Emblem -->
-                                            <circle cx="50" cy="50" r="10" fill="#0F4C81" />
-                                            <text x="50" y="54" font-size="11" font-weight="bold" fill="white"
-                                                text-anchor="middle">S</text>
-                                            <!-- Data blocks -->
-                                            <rect x="38" y="8" width="6" height="6" />
-                                            <rect x="48" y="8" width="6" height="12" />
-                                            <rect x="58" y="8" width="5" height="5" />
-                                            <rect x="38" y="24" width="10" height="6" />
-                                            <rect x="54" y="22" width="8" height="8" />
-                                            <rect x="8" y="38" width="6" height="10" />
-                                            <rect x="18" y="44" width="8" height="6" />
-                                            <rect x="30" y="38" width="6" height="6" />
-                                            <rect x="66" y="38" width="8" height="8" />
-                                            <rect x="78" y="42" width="14" height="6" />
-                                            <rect x="38" y="66" width="6" height="14" />
-                                            <rect x="48" y="72" width="12" height="6" />
-                                            <rect x="48" y="84" width="8" height="8" />
-                                            <rect x="66" y="66" width="8" height="8" />
-                                            <rect x="78" y="66" width="6" height="12" />
-                                            <rect x="88" y="74" width="6" height="18" />
-                                            <rect x="68" y="82" width="14" height="8" />
-                                            <rect x="38" y="86" width="6" height="6" />
-                                        </svg>
-                                    </div>
-                                    <p class="text-[9px] text-slate-500 font-medium mt-1.5 flex items-center gap-1">
-                                        <i class="fa-solid fa-qrcode text-slate-400"></i> Scan to pay with any KHQR /
-                                        Bakong app
-                                    </p>
-                                </div>
-
-                                <!-- Footer with Sathapana Brand -->
-                                <div
-                                    class="w-full bg-slate-50 border-t border-slate-100 py-2 px-3 flex items-center justify-between text-[10px] text-slate-600">
-                                    <span class="font-bold text-sathapana-blue flex items-center gap-1">
-                                        <img src="sathapana-logo-clean.png" alt="Sathapana"
-                                            class="w-4 h-4 object-contain inline">
-                                        SATHAPANA BANK
-                                    </span>
-                                    <span class="text-[9px] text-slate-400">Tutort POS</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="modal-footer p-3 bg-white border-t border-slate-200 flex items-center justify-between gap-2">
-                            <button id="cancelTutortKhqrBtn" type="button"
-                                class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-slate-700 font-medium text-xs hover:bg-slate-100 transition">
-                                Close
-                            </button>
-                            <button id="printKhqrActionBtn" type="button"
-                                class="px-4 py-1.5 rounded-lg bg-sathapana-blue text-white font-medium text-xs hover:bg-sathapana-darkBlue shadow flex items-center gap-1.5 transition active:scale-95">
-                                <i class="fa-solid fa-print"></i>
-                                <span>Print KHQR</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- =================================================
-             FIXED ANDROID FOOTER
-        ================================================== -->
-                <div id="androidNavigationBar" class="android-navigation">
-
-                    <div class="android-navigation-inner">
-
-                        <button id="navBackBtn" class="android-nav-button" type="button" aria-label="Back" title="Back">
-                            <span class="android-back-icon" aria-hidden="true"></span>
-                        </button>
-
-
-
-                        <button id="navHomeBtn" class="android-home-button" type="button" aria-label="Home"
-                            title="Home">
-                            <span class="android-home-pill"></span>
-                        </button>
-
-                        <button id="navRecentsBtn" class="android-nav-button" type="button" aria-label="Recent apps"
-                            title="Recent apps">
-                            <span class="android-recents-icon"></span>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
+        <!-- Services Section (6-Grid) -->
+        <div class="mb-4">
+          <div class="flex justify-between items-center text-xs mb-1.5 px-0.5">
+            <span class="font-bold text-slate-900">Services</span>
+            <button type="button" onclick="showToast('Displaying all 14 banking services')" class="text-[11px] font-semibold text-brand-600 hover:underline">See all</button>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" onclick="openScannerModal()" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
+              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
+              </div>
+              <span class="text-[9px] font-semibold text-slate-700">Scan QR</span>
+            </button>
+
+            <button type="button" onclick="showToast('Beneficiaries directory loaded')" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
+              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="users" class="w-3.5 h-3.5"></i>
+              </div>
+              <span class="text-[9px] font-semibold text-slate-700">Beneficiaries</span>
+            </button>
+
+            <button type="button" onclick="showToast('Pay utilities, water & electric bills')" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
+              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="receipt" class="w-3.5 h-3.5"></i>
+              </div>
+              <span class="text-[9px] font-semibold text-slate-700">Bill payment</span>
+            </button>
+
+            <button type="button" onclick="showToast('Debit / Credit card management')" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
+              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="credit-card" class="w-3.5 h-3.5"></i>
+              </div>
+              <span class="text-[9px] font-semibold text-slate-700">Cards</span>
+            </button>
+
+            <button type="button" onclick="showToast('Foreign currency exchange rates')" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
+              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              </div>
+              <span class="text-[9px] font-semibold text-slate-700">Exchange</span>
+            </button>
+
+            <button type="button" onclick="showToast('Locating nearby ATMs & HUO branches')" class="bg-white p-2.5 rounded-2xl border border-slate-200/80 shadow-subtle-card flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform">
+              <div class="w-7 h-7 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+              </div>
+              <span class="text-[9px] font-semibold text-slate-700 whitespace-nowrap">Branches & ATMs</span>
+            </button>
+          </div>
         </div>
-    </main>
 
-    <script src="script.js" defer></script>
+        <!-- Recent Activity Section -->
+        <div class="mb-2">
+          <div class="flex justify-between items-center text-xs mb-1.5 px-0.5">
+            <span class="font-bold text-slate-900">Recent activity</span>
+            <button type="button" onclick="showToast('Opening full statement log...')" class="text-[11px] font-semibold text-brand-600 hover:underline">View all</button>
+          </div>
 
+          <div class="space-y-2">
+            <!-- Activity 1: Transfer received -->
+            <div onclick="showToast('Transfer from #HUO-98234: +$250.00')" class="p-2.5 bg-white hover:bg-slate-50 cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                  <i data-lucide="arrow-down-left" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h5 class="text-[11px] font-bold text-slate-900 leading-none">Transfer received</h5>
+                  <p class="text-[10px] text-slate-500 font-medium mt-1">Today, 12:42 AM | HUO</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-emerald-600">+ $250.00</span>
+            </div>
+
+            <!-- Activity 2: Electricity bill -->
+            <div onclick="showToast('Electricity EDC: -$27.50')" class="p-2.5 bg-white hover:bg-slate-50 cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+                  <i data-lucide="receipt" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h5 class="text-[11px] font-bold text-slate-900 leading-none">Electricity bill</h5>
+                  <p class="text-[10px] text-slate-500 font-medium mt-1">Yesterday, 4:18 PM | Payment</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-slate-800">- $27.50</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- In-App Floating Frosted Bottom Navigation Bar -->
+      <nav class="absolute bottom-0 left-0 right-0 glass-frozen border-t border-slate-100 pt-2 pb-3 px-6 flex justify-between items-center text-[9px] text-slate-400">
+        <div class="text-brand-600 flex flex-col items-center cursor-pointer">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span class="font-bold mt-0.5">Home</span>
+        </div>
+
+        <div onclick="showToast('Payments & bills tab')" class="flex flex-col items-center cursor-pointer hover:text-slate-600">
+          <i data-lucide="credit-card" class="w-4 h-4"></i>
+          <span class="mt-0.5">Payments</span>
+        </div>
+
+        <!-- Elevated Center QR Scan Button -->
+        <div onclick="openScannerModal()" class="flex flex-col items-center -mt-5 cursor-pointer">
+          <div class="w-11 h-11 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/40 border-2 border-white hover:scale-105 active:scale-95 transition-transform">
+            <i data-lucide="qr-code" class="w-5 h-5"></i>
+          </div>
+          <span class="text-[9px] font-semibold text-slate-600 mt-0.5">Scan</span>
+        </div>
+
+        <div onclick="showToast('Activity log tab')" class="flex flex-col items-center cursor-pointer hover:text-slate-600">
+          <i data-lucide="trending-up" class="w-4 h-4"></i>
+          <span class="mt-0.5">Activity</span>
+        </div>
+
+        <!-- Profile Tab with re-test / logout action -->
+        <div onclick="logoutToSplash()" class="flex flex-col items-center cursor-pointer hover:text-slate-600" title="Logout and return to Splash">
+          <i data-lucide="user" class="w-4 h-4"></i>
+          <span class="mt-0.5">Profile</span>
+        </div>
+      </nav>
+
+    </div>
+
+  </div>
+
+  <!-- Transfer Modal -->
+  <div id="transferModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full max-w-sm bg-white rounded-3xl p-5 shadow-2xl flex flex-col border border-slate-100">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
+            <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-sm font-bold text-slate-900">Transfer Funds</h3>
+        </div>
+        <button type="button" onclick="closeTransferModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 mb-4">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 mb-1">From Account</label>
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-semibold flex justify-between items-center">
+            <span>Savings (011 000 123 456)</span>
+            <span class="text-brand-600 font-bold">$1,250.00</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 mb-1">Recipient Account / Phone</label>
+          <input type="text" id="transferRecipientInput" value="011 000 987 654" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-800 outline-none focus:border-brand-500">
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-bold text-slate-500 mb-1">Amount ($ USD)</label>
+          <input type="number" id="transferAmountInput" value="50.00" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-bold text-slate-800 outline-none focus:border-brand-500">
+        </div>
+      </div>
+
+      <button type="button" onclick="executeTransferAction()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-full text-xs font-bold transition-colors shadow-pill-blue">
+        Confirm & Send Money
+      </button>
+    </div>
+  </div>
+
+  <!-- QR Scanner Modal with Animated Laser Scanner Line -->
+  <div id="qrScannerModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full max-w-xs bg-slate-900 border border-slate-700 rounded-3xl p-6 flex flex-col items-center text-center text-white">
+      <button type="button" onclick="closeScannerModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h3 class="text-base font-bold mb-1">Scan HUO QR Code</h3>
+      <p class="text-xs text-slate-400 mb-5">Align QR code within the frame to pay or transfer</p>
+
+      <div class="relative w-48 h-48 border-2 border-brand-500 rounded-2xl flex items-center justify-center overflow-hidden bg-slate-950/70">
+        <div class="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_12px_#38BDF8] laser-scan-line"></div>
+        <i data-lucide="qr-code" class="w-24 h-24 text-slate-600/50"></i>
+      </div>
+
+      <button type="button" onclick="simulateSuccessfulScan()" class="mt-6 w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-full text-xs font-bold transition-colors">
+        Simulate Instant Scan
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let splashTimer = null;
+    let balanceVisible = true;
+    let activeCurrency = 'USD';
+    let currentBalanceValue = 1250.00;
+
+    const balances = {
+      USD: () => `$ ${currentBalanceValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      KHR: () => `៛ ${(currentBalanceValue * 4100).toLocaleString('en-US')}`,
+      EUR: () => `€ ${(currentBalanceValue * 0.92).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    };
+
+    // DOM Elements
+    const screenSplash = document.getElementById('screenSplash');
+    const screenLogin = document.getElementById('screenLogin');
+    const screenProcess = document.getElementById('screenProcess');
+    const screenDashboard = document.getElementById('screenDashboard');
+    const splashProgressBar = document.getElementById('splashProgressBar');
+    const splashPercentText = document.getElementById('splashPercentText');
+    const splashStatusText = document.getElementById('splashStatusText');
+
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      const text = document.getElementById('toastMessage');
+      if (!toast || !text) return;
+
+      text.textContent = message;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      toast.classList.remove('-translate-y-16', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('-translate-y-16', 'opacity-0', 'pointer-events-none');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 2600);
+    }
+
+    function showScreen(screenKey) {
+      [screenSplash, screenLogin, screenProcess, screenDashboard].forEach(el => {
+        el.classList.add('hidden');
+        el.classList.remove('screen-fade-enter');
+      });
+
+      if (screenKey === 'splash') {
+        screenSplash.classList.remove('hidden');
+        screenSplash.classList.add('screen-fade-enter');
+      } else if (screenKey === 'login') {
+        screenLogin.classList.remove('hidden');
+        screenLogin.classList.add('screen-fade-enter');
+      } else if (screenKey === 'process') {
+        screenProcess.classList.remove('hidden');
+        screenProcess.classList.add('screen-fade-enter');
+      } else if (screenKey === 'dashboard') {
+        screenDashboard.classList.remove('hidden');
+        screenDashboard.classList.add('screen-fade-enter');
+      }
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Automated Splash Progression (Shows First Automatically)
+    function startAutomatedSplash() {
+      if (splashTimer) clearInterval(splashTimer);
+      showScreen('splash');
+
+      let progress = 0;
+      splashProgressBar.style.width = '0%';
+      splashPercentText.textContent = '0%';
+      splashStatusText.textContent = 'Loading...';
+
+      const statuses = [
+        { at: 15, text: 'Connecting to secure server...' },
+        { at: 45, text: 'Verifying credentials...' },
+        { at: 75, text: 'Preparing your dashboard...' },
+        { at: 96, text: 'Almost ready...' }
+      ];
+
+      splashTimer = setInterval(() => {
+        progress += 2;
+        if (progress > 100) progress = 100;
+        
+        splashProgressBar.style.width = progress + '%';
+        splashPercentText.textContent = progress + '%';
+
+        const match = statuses.find(s => progress >= s.at && progress < s.at + 25);
+        if (match) splashStatusText.textContent = match.text;
+
+        // Auto-advance to Login when 100% is reached
+        if (progress >= 100) {
+          clearInterval(splashTimer);
+          setTimeout(() => {
+            showScreen('login');
+          }, 350);
+        }
+      }, 35);
+    }
+
+    // Cleaned Step 3 Progression Logic
+    function runLoginProcess() {
+      showScreen('process');
+
+      // Reset Step 3 elements to pristine initial state (matches reference mockup)
+      const progressBar = document.getElementById('processProgressBar');
+      const percentText = document.getElementById('processPercentText');
+      const iconStep3 = document.getElementById('iconStep3');
+      const innerDotStep3 = document.getElementById('innerDotStep3');
+      const connector3 = document.getElementById('connector3');
+      const iconStep4 = document.getElementById('iconStep4');
+      const innerDotStep4 = document.getElementById('innerDotStep4');
+      const titleStep4 = document.getElementById('titleStep4');
+
+      progressBar.style.width = '80%';
+      percentText.textContent = '80%';
+      iconStep3.className = 'w-6 h-6 rounded-full border-2 border-brand-600 bg-white flex items-center justify-center shrink-0 z-10 radar-pulse-node transition-all duration-300';
+      iconStep3.innerHTML = '<div class="w-2.5 h-2.5 rounded-full bg-brand-600"></div>';
+      connector3.className = 'w-[2px] h-8 bg-slate-200 transition-colors duration-500';
+      iconStep4.className = 'w-6 h-6 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 z-10 transition-all duration-300';
+      iconStep4.innerHTML = '<div class="w-2 h-2 rounded-full bg-slate-300"></div>';
+      titleStep4.className = 'text-xs font-semibold text-slate-400 leading-tight';
+
+      // After a smooth delay, advance from 80% to 100% and complete remaining steps
+      setTimeout(() => {
+        // Step 3 completed
+        iconStep3.className = 'w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-sm shrink-0 z-10';
+        iconStep3.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>';
+        connector3.className = 'w-[2px] h-8 bg-brand-600 transition-colors duration-500';
+
+        // Step 4 completes & progress fills to 100%
+        progressBar.style.width = '100%';
+        percentText.textContent = '100%';
+        iconStep4.className = 'w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-sm shrink-0 z-10';
+        iconStep4.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>';
+        titleStep4.className = 'text-xs font-bold text-slate-900 leading-tight';
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+
+        // Smoothly land on Dashboard
+        setTimeout(() => {
+          showScreen('dashboard');
+          showToast('Welcome back, LYHUO!');
+        }, 600);
+      }, 1400);
+    }
+
+    function triggerBiometricLogin(method) {
+      showToast('Authenticating with ' + method + '...');
+      setTimeout(() => {
+        runLoginProcess();
+      }, 500);
+    }
+
+    // Password visibility toggle on login screen
+    const togglePasswordVisibility = document.getElementById('togglePasswordVisibility');
+    const loginPasswordInput = document.getElementById('loginPasswordInput');
+    const passwordEyeIcon = document.getElementById('passwordEyeIcon');
+
+    if (togglePasswordVisibility && loginPasswordInput) {
+      togglePasswordVisibility.addEventListener('click', () => {
+        const isPassword = loginPasswordInput.type === 'password';
+        loginPasswordInput.type = isPassword ? 'text' : 'password';
+        passwordEyeIcon.setAttribute('data-lucide', isPassword ? 'eye-off' : 'eye');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      });
+    }
+
+    // Login button action listener
+    const btnLoginAction = document.getElementById('btnLoginAction');
+    if (btnLoginAction) {
+      btnLoginAction.addEventListener('click', () => {
+        runLoginProcess();
+      });
+    }
+
+    // Balance visibility toggle on dashboard
+    const btnToggleBalance = document.getElementById('btnToggleBalance');
+    const balanceDisplay = document.getElementById('dashboardBalanceDisplay');
+    const balanceEyeIcon = document.getElementById('balanceEyeIcon');
+
+    if (btnToggleBalance) {
+      btnToggleBalance.addEventListener('click', () => {
+        balanceVisible = !balanceVisible;
+        if (balanceVisible) {
+          balanceDisplay.textContent = balances[activeCurrency]();
+          balanceEyeIcon.setAttribute('data-lucide', 'eye');
+        } else {
+          balanceDisplay.textContent = '••••••••';
+          balanceEyeIcon.setAttribute('data-lucide', 'eye-off');
+        }
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      });
+    }
+
+    // Currency Switcher
+    const btnCurrencyToggle = document.getElementById('btnCurrencyToggle');
+    const currencyCodeLabel = document.getElementById('currencyCodeLabel');
+
+    if (btnCurrencyToggle) {
+      btnCurrencyToggle.addEventListener('click', () => {
+        if (activeCurrency === 'USD') activeCurrency = 'KHR';
+        else if (activeCurrency === 'KHR') activeCurrency = 'EUR';
+        else activeCurrency = 'USD';
+
+        currencyCodeLabel.textContent = activeCurrency;
+        if (balanceVisible) {
+          balanceDisplay.textContent = balances[activeCurrency]();
+        }
+        showToast('Currency changed to ' + activeCurrency);
+      });
+    }
+
+    // Transfer Modal functions
+    const transferModal = document.getElementById('transferModal');
+    function openTransferModal() {
+      if (!transferModal) return;
+      transferModal.classList.remove('opacity-0', 'pointer-events-none');
+      transferModal.classList.add('opacity-100');
+    }
+    function closeTransferModal() {
+      if (!transferModal) return;
+      transferModal.classList.add('opacity-0', 'pointer-events-none');
+      transferModal.classList.remove('opacity-100');
+    }
+    function executeTransferAction() {
+      const amountVal = parseFloat(document.getElementById('transferAmountInput').value) || 0;
+      if (amountVal <= 0) {
+        showToast('Please enter a valid amount');
+        return;
+      }
+      currentBalanceValue -= amountVal;
+      if (balanceVisible) {
+        balanceDisplay.textContent = balances[activeCurrency]();
+      }
+      closeTransferModal();
+      showToast(`Transferred $${amountVal.toFixed(2)} to 011 000 987 654`);
+    }
+
+    // QR Scanner Modal functions
+    const qrScannerModal = document.getElementById('qrScannerModal');
+    function openScannerModal() {
+      if (!qrScannerModal) return;
+      qrScannerModal.classList.remove('opacity-0', 'pointer-events-none');
+      qrScannerModal.classList.add('opacity-100');
+    }
+    function closeScannerModal() {
+      if (!qrScannerModal) return;
+      qrScannerModal.classList.add('opacity-0', 'pointer-events-none');
+      qrScannerModal.classList.remove('opacity-100');
+    }
+    function simulateSuccessfulScan() {
+      closeScannerModal();
+      showToast('QR Code Verified: Merchant HUO Pay Cambodia');
+    }
+
+    // Logout back to Splash flow
+    function logoutToSplash() {
+      showToast('Logging out...');
+      setTimeout(() => {
+        startAutomatedSplash();
+      }, 500);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+      // SHOW SPLASH SCREEN FIRST AUTOMATICALLY
+      startAutomatedSplash();
+    });
+  </script>
 </body>
-
 </html>
