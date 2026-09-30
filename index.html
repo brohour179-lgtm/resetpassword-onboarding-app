@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- Optimized for iPhone 12 Pro Max viewport with iOS safe area bleed -->
+  <!-- Native iPhone 12 Pro Max viewport (428x926) with iOS safe area cover -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>HUO - Your Finance, Simplified</title>
 
@@ -16,6 +16,8 @@
 
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- QR decoder fallback for mobile browsers without BarcodeDetector -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 
   <script>
     tailwind.config = {
@@ -39,12 +41,13 @@
             }
           },
           boxShadow: {
-            'card-hero': '0 14px 34px -4px rgba(0, 92, 230, 0.40)',
-            'pill-blue': '0 10px 24px -4px rgba(0, 92, 230, 0.38)',
+            'card-hero': '0 14px 34px -4px rgba(0, 92, 230, 0.38)',
+            'pill-blue': '0 10px 24px -4px rgba(0, 92, 230, 0.35)',
             'subtle-card': '0 2px 8px rgba(15, 23, 42, 0.04)',
             'app-elevated': '0 25px 65px -12px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(226, 232, 240, 0.65)',
-            'logo-squircle': '0 12px 28px -6px rgba(0, 92, 230, 0.36)',
+            'logo-squircle': '0 12px 28px -6px rgba(0, 92, 230, 0.35)',
             'track-glow': '0 2px 10px rgba(0, 92, 230, 0.18)',
+            'faceid-glow': '0 0 35px rgba(56, 189, 248, 0.35)',
           }
         }
       }
@@ -55,8 +58,6 @@
     :root {
       --sat: env(safe-area-inset-top, 0px);
       --sab: env(safe-area-inset-bottom, 0px);
-      --sal: env(safe-area-inset-left, 0px);
-      --sar: env(safe-area-inset-right, 0px);
     }
 
     * {
@@ -74,31 +75,29 @@
       font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #0B1120;
+      background-color: #070B16;
       background-image: 
         radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.16) 0%, transparent 45%),
         radial-gradient(circle at 85% 85%, rgba(0, 92, 230, 0.18) 0%, transparent 45%),
-        linear-gradient(180deg, #0B1120 0%, #060911 100%);
+        linear-gradient(180deg, #070B16 0%, #03060E 100%);
     }
 
-    /* iOS safe-area responsive padding classes */
     .ios-safe-pt {
-      padding-top: max(20px, calc(env(safe-area-inset-top, 0px) + 12px));
+      padding-top: max(22px, calc(env(safe-area-inset-top, 0px) + 16px));
     }
     .ios-safe-pb {
-      padding-bottom: max(18px, calc(env(safe-area-inset-bottom, 0px) + 10px));
+      padding-bottom: max(20px, calc(env(safe-area-inset-bottom, 0px) + 14px));
     }
     .ios-safe-nav-pb {
-      padding-bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 8px));
+      padding-bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 10px));
     }
 
-    /* Silk wave gradient background for Splash */
     .bg-splash-silk {
       background: radial-gradient(140% 100% at 50% 25%, #1884FF 0%, #005CE6 44%, #0036A8 78%, #001854 100%);
     }
 
     .bg-login-gradient {
-      background: linear-gradient(180deg, #F0F6FF 0%, #FFFFFF 28%, #FFFFFF 100%);
+      background: linear-gradient(180deg, #F0F6FF 0%, #FFFFFF 26%, #FFFFFF 100%);
     }
 
     .bg-stepper-clean {
@@ -109,36 +108,32 @@
       background: linear-gradient(135deg, #0E77FF 0%, #0057DE 52%, #0038A8 100%);
     }
 
-    /* Glass frosted backdrop for top and bottom navigations */
     .glass-frozen {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
     }
 
-    /* Active radar pulsing ring for current stepper node */
-    @keyframes radarStep {
+    @keyframes radarPulse {
       0% { box-shadow: 0 0 0 0 rgba(0, 92, 230, 0.50); }
       70% { box-shadow: 0 0 0 10px rgba(0, 92, 230, 0); }
       100% { box-shadow: 0 0 0 0 rgba(0, 92, 230, 0); }
     }
     .radar-pulse-node {
-      animation: radarStep 1.9s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+      animation: radarPulse 1.9s cubic-bezier(0.24, 0, 0.38, 1) infinite;
     }
 
-    /* Laser scanner beam animation */
-    @keyframes scanBeam {
-      0% { transform: translateY(0); opacity: 0.9; }
-      50% { transform: translateY(170px); opacity: 1; }
-      100% { transform: translateY(0); opacity: 0.9; }
+    @keyframes laserSweep {
+      0% { top: 6%; opacity: 0.3; }
+      50% { top: 92%; opacity: 1; }
+      100% { top: 6%; opacity: 0.3; }
     }
-    .laser-scan-line {
-      animation: scanBeam 2.2s ease-in-out infinite;
+    .faceid-laser-sweep {
+      animation: laserSweep 2.2s ease-in-out infinite;
     }
 
-    /* Screen transition smooth cross-fade */
     .screen-fade-enter {
-      animation: screenFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: screenFade 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     @keyframes screenFade {
       from { opacity: 0; transform: translateY(6px); }
@@ -152,18 +147,15 @@
 
 <body class="min-h-[100dvh] text-slate-800 antialiased flex flex-col items-center justify-center p-0 sm:p-4 select-none">
 
-  <!-- Floating Toast Notification -->
+  <!-- Dynamic Toast Notification (Never alert) -->
   <div id="toastNotification" class="fixed top-6 z-50 transition-all duration-300 transform -translate-y-20 opacity-0 pointer-events-none bg-slate-900/90 text-white backdrop-blur-md px-5 py-3 rounded-full text-xs font-semibold shadow-2xl flex items-center gap-2.5 border border-slate-700/80">
     <i id="toastIcon" data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
     <span id="toastMessage">Action completed</span>
   </div>
 
-  <!-- BORDERLESS CANVAS: Native 428x926px (iPhone 12 Pro Max Viewport) -->
+  <!-- Primary iPhone 12 Pro Max Viewport Container (428x926px) -->
   <div id="appContainer" class="relative w-full sm:max-w-[428px] h-[100dvh] sm:h-[926px] sm:max-h-[926px] rounded-none sm:rounded-[44px] overflow-hidden bg-white shadow-app-elevated flex flex-col justify-between select-none">
 
-    <!-- ============================================================== -->
-    <!-- SCREEN 1: SPLASH SCREEN (AUTOMATED PROGRESSION TO LOGIN)       -->
-    <!-- ============================================================== -->
     <div id="screenSplash" class="absolute inset-0 w-full h-full bg-splash-silk text-white flex flex-col justify-between ios-safe-pt ios-safe-pb px-7 overflow-hidden transition-opacity duration-500 z-20">
       
       <!-- Fluid Ambient Silk Wave Vectors -->
@@ -179,13 +171,12 @@
         </svg>
       </div>
 
-      <!-- Center Logo & Branding -->
+      <!-- Center Logo & Modern Geometric Monogram -->
       <div class="flex-1 flex flex-col items-center justify-center relative z-10 pt-8">
         <div class="relative">
           <div class="absolute -inset-4 rounded-full bg-sky-400/30 blur-xl"></div>
           <div class="relative w-24 h-24 rounded-[28px] bg-gradient-to-tr from-brand-600 via-brand-500 to-sky-400 p-[2px] shadow-2xl flex items-center justify-center">
             <div class="w-full h-full bg-brand-600 rounded-[26px] flex items-center justify-center p-5">
-              <!-- Modern Geometric Connected 'H' Monogram -->
               <svg viewBox="0 0 100 100" fill="none" class="w-full h-full text-white">
                 <rect x="22" y="18" width="16" height="64" rx="8" fill="white"/>
                 <rect x="62" y="18" width="16" height="64" rx="8" fill="white"/>
@@ -238,9 +229,6 @@
       </div>
     </div>
 
-    <!-- ============================================================== -->
-    <!-- SCREEN 2: LOGIN SCREEN (CLEAN, NO SEGMENTED TOGGLE)            -->
-    <!-- ============================================================== -->
     <div id="screenLogin" class="absolute inset-0 w-full h-full bg-login-gradient text-slate-800 flex flex-col justify-between ios-safe-pt ios-safe-pb px-7 overflow-hidden hidden">
       
       <div class="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full">
@@ -289,7 +277,7 @@
             <input type="checkbox" checked class="w-4 h-4 rounded text-brand-600 border-slate-300 accent-brand-600 cursor-pointer">
             <span class="text-xs font-medium text-slate-600">Remember me</span>
           </label>
-          <button type="button" onclick="showToast('Password recovery link sent to 011 000 123')" class="text-xs font-bold text-brand-600 hover:underline">Forgot password?</button>
+          <button type="button" onclick="showToast('Password recovery sent to 011 000 123')" class="text-xs font-bold text-brand-600 hover:underline">Forgot password?</button>
         </div>
 
         <!-- Primary Log in Action Button with Arrow Circle -->
@@ -307,23 +295,24 @@
           <div class="border-t border-slate-200 w-full"></div>
         </div>
 
-        <!-- 3 Auth Cards -->
+        <!-- 3 Auth Cards (REAL CAMERA FACE ID ON CLICK) -->
         <div class="grid grid-cols-3 gap-3 text-center">
-          <button type="button" onclick="triggerBiometricLogin('Face ID')" class="py-3 px-2 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
+          <!-- Real Camera Face ID Trigger -->
+          <button type="button" onclick="openFaceIdCameraModal()" class="py-3 px-2 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
             <div class="w-9 h-9 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-brand-600 mb-1.5">
               <i data-lucide="scan-face" class="w-5 h-5"></i>
             </div>
             <span class="text-[11px] font-semibold text-slate-700">Face ID</span>
           </button>
 
-          <button type="button" onclick="triggerBiometricLogin('Fingerprint')" class="py-3 px-2 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
+          <button type="button" onclick="triggerFingerprintLogin()" class="py-3 px-2 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
             <div class="w-9 h-9 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-brand-600 mb-1.5">
               <i data-lucide="fingerprint" class="w-5 h-5"></i>
             </div>
             <span class="text-[11px] font-semibold text-slate-700">Fingerprint</span>
           </button>
 
-          <button type="button" onclick="triggerBiometricLogin('Google')" class="py-3 px-2 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
+          <button type="button" onclick="triggerGoogleLogin()" class="py-3 px-2 bg-slate-50 hover:bg-slate-100 active:scale-95 transition-all rounded-2xl border border-slate-200/80 flex flex-col items-center">
             <div class="w-9 h-9 rounded-xl bg-white border border-slate-200/60 shadow-subtle-card flex items-center justify-center text-red-500 mb-1.5">
               <svg class="w-4 h-4" viewBox="0 0 24 24">
                 <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.3 8.9 5 12 5z"/>
@@ -344,31 +333,28 @@
       </div>
     </div>
 
-    <!-- ============================================================== -->
-    <!-- SCREEN 3: LOGIN PROCESS (MATHEMATICALLY CENTERED TIMELINE)     -->
-    <!-- ============================================================== -->
     <div id="screenProcess" class="absolute inset-0 w-full h-full bg-stepper-clean text-slate-800 flex flex-col justify-between ios-safe-pt ios-safe-pb overflow-hidden hidden">
       
       <!-- Seamless Layered Organic Wave Footer Background -->
       <div class="absolute bottom-0 left-0 right-0 h-64 pointer-events-none select-none z-0">
         <svg class="w-full h-full" viewBox="0 0 428 240" preserveAspectRatio="none" fill="none">
           <defs>
-            <linearGradient id="softWaveLayer1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="stepperWaveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#E0F2FE" stop-opacity="0.95"/>
               <stop offset="100%" stop-color="#BAE6FD" stop-opacity="0.6"/>
             </linearGradient>
-            <linearGradient id="softWaveLayer2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="stepperWaveGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#93C5FD" stop-opacity="0.7"/>
               <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.35"/>
             </linearGradient>
-            <linearGradient id="softWaveLayer3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="stepperWaveGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#2563EB" stop-opacity="0.18"/>
               <stop offset="100%" stop-color="#005CE6" stop-opacity="0.28"/>
             </linearGradient>
           </defs>
-          <path d="M0,95 C100,55 195,145 320,85 C370,60 400,70 428,80 L428,240 L0,240 Z" fill="url(#softWaveLayer1)"/>
-          <path d="M0,132 C115,90 220,165 330,118 C380,95 410,105 428,110 L428,240 L0,240 Z" fill="url(#softWaveLayer2)"/>
-          <path d="M0,162 C125,128 235,185 340,148 C385,130 410,140 428,142 L428,240 L0,240 Z" fill="url(#softWaveLayer3)"/>
+          <path d="M0,95 C100,55 195,145 320,85 C370,60 400,70 428,80 L428,240 L0,240 Z" fill="url(#stepperWaveGrad1)"/>
+          <path d="M0,132 C115,90 220,165 330,118 C380,95 410,105 428,110 L428,240 L0,240 Z" fill="url(#stepperWaveGrad2)"/>
+          <path d="M0,162 C125,128 235,185 340,148 C385,130 410,140 428,142 L428,240 L0,240 Z" fill="url(#stepperWaveGrad3)"/>
         </svg>
       </div>
 
@@ -468,12 +454,9 @@
 
     </div>
 
-    <!-- ============================================================== -->
-    <!-- SCREEN 4: DASHBOARD (EXACT HEADER COPY & MODERN FINTECH UI)    -->
-    <!-- ============================================================== -->
     <div id="screenDashboard" class="absolute inset-0 w-full h-full bg-slate-50 text-slate-800 flex flex-col justify-between pt-0 pb-0 overflow-hidden hidden">
       
-      <!-- EXACT HEADER 100% MATCH TO REFERENCE (image_175427.png) -->
+      <!-- EXACT HEADER 100% MATCH TO REFERENCE (image_175427.png & image_1999fa.png) -->
       <header class="sticky top-0 z-30 px-6 ios-safe-pt pb-3.5 glass-frozen border-b border-white/70 transition-all flex items-center justify-between">
         
         <!-- Left Side: Circular Blue Emblem with White 'H' + 'HUO' & Greeting -->
@@ -493,22 +476,35 @@
           </div>
         </div>
 
-        <!-- Right Side: Two Clean Rounded Squircle Buttons -->
+        <!-- Right Side: Two Clean Rounded Squircle Buttons matching image_1999fa.png -->
         <div class="flex items-center gap-2.5">
-          <!-- Notification Bell with Red Badge Dot -->
+          <!-- Notification Bell with Red Alert Dot -->
           <button type="button" onclick="showToast('You have 2 unread security notifications')" class="relative w-9 h-9 rounded-2xl bg-white border border-slate-200/90 shadow-subtle-card flex items-center justify-center text-slate-600 active:scale-95 transition-transform" aria-label="Notifications">
             <i data-lucide="bell" class="w-4 h-4"></i>
             <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500 border-2 border-white"></span>
           </button>
 
-          <!-- QR Scan Action Button -->
-          <button type="button" onclick="openScannerModal()" class="w-9 h-9 rounded-2xl bg-white border border-slate-200/90 shadow-subtle-card flex items-center justify-center text-slate-600 active:scale-95 transition-transform" aria-label="Scan QR Code">
-            <i data-lucide="qr-code" class="w-4 h-4"></i>
+          <!-- QR Code Header Button (Opens Real My QR Display: image_199e1e.png) -->
+          <button type="button" onclick="openMyQrModal()" class="w-9 h-9 rounded-2xl bg-white border border-slate-200/90 shadow-subtle-card flex items-center justify-center text-slate-700 active:scale-95 transition-transform hover:border-brand-500" title="Open My QR Code">
+            <!-- Exact Lucide QR icon matching screenshot image_1999fa.png -->
+            <svg class="w-4 h-4 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="5" height="5" x="3" y="3" rx="1.5"/>
+              <rect width="5" height="5" x="16" y="3" rx="1.5"/>
+              <rect width="5" height="5" x="3" y="16" rx="1.5"/>
+              <path d="M21 16h-3a2 2 0 0 0-2 2v3"/>
+              <path d="M21 21v.01"/>
+              <path d="M12 7v3a2 2 0 0 1-2 2H7"/>
+              <path d="M3 12h.01"/>
+              <path d="M12 3h.01"/>
+              <path d="M12 16v.01"/>
+              <path d="M16 12h1"/>
+              <path d="M21 12v.01"/>
+              <path d="M12 21v-1"/>
+            </svg>
           </button>
         </div>
       </header>
 
-      <!-- Scrollable Dashboard Content -->
       <div class="flex-1 overflow-y-auto no-scrollbar px-5 pt-3 pb-28">
         
         <!-- Hero Total Balance Card with Watermark Monogram -->
@@ -589,12 +585,12 @@
         <div class="mb-5">
           <div class="flex justify-between items-center text-xs mb-2 px-0.5">
             <span class="font-bold text-slate-900 text-sm">My accounts</span>
-            <button type="button" onclick="showToast('Listing all 2 accounts')" class="text-xs font-semibold text-brand-600 hover:underline">See all</button>
+            <button type="button" onclick="showToast('Listing all accounts')" class="text-xs font-semibold text-brand-600 hover:underline">See all</button>
           </div>
 
           <div class="space-y-2.5">
             <!-- Savings Account -->
-            <div onclick="showToast('Savings Account: 011 000 123 456')" class="p-3.5 bg-white hover:bg-slate-50 active:scale-[0.99] transition-all cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
+            <div onclick="openMyQrModal()" class="p-3.5 bg-white hover:bg-slate-50 active:scale-[0.99] transition-all cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
               <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
                   <i data-lucide="home" class="w-4 h-4"></i>
@@ -608,7 +604,7 @@
             </div>
 
             <!-- Staff Account -->
-            <div onclick="showToast('Staff Account: 011 000 987 654')" class="p-3.5 bg-white hover:bg-slate-50 active:scale-[0.99] transition-all cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
+            <div onclick="openMyQrModal()" class="p-3.5 bg-white hover:bg-slate-50 active:scale-[0.99] transition-all cursor-pointer rounded-2xl border border-slate-200/80 shadow-subtle-card flex justify-between items-center">
               <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center">
                   <i data-lucide="shield-check" class="w-4 h-4"></i>
@@ -623,7 +619,6 @@
           </div>
         </div>
 
-        <!-- Services Section (6-Grid) -->
         <div class="mb-5">
           <div class="flex justify-between items-center text-xs mb-2 px-0.5">
             <span class="font-bold text-slate-900 text-sm">Services</span>
@@ -727,9 +722,9 @@
           <span class="mt-1 font-medium">Payments</span>
         </div>
 
-        <!-- Elevated Center QR Scan Button -->
+        <!-- Elevated Center Scan Button -->
         <div onclick="openScannerModal()" class="flex flex-col items-center -mt-6 cursor-pointer">
-          <div class="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/40 border-2 border-white hover:scale-105 active:scale-95 transition-transform">
+          <div class="w-12 h-12 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/40 border-2 border-white hover:scale-105 active:scale-95 transition-transform" title="Scan QR code">
             <i data-lucide="qr-code" class="w-5 h-5"></i>
           </div>
           <span class="text-[10px] font-semibold text-slate-600 mt-1">Scan</span>
@@ -751,7 +746,154 @@
 
   </div>
 
-  <!-- Transfer Modal -->
+  <div id="faceIdModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full max-w-sm bg-slate-900 border border-slate-700/80 rounded-[36px] p-6 flex flex-col items-center text-center text-white shadow-2xl overflow-hidden">
+      
+      <!-- Close Button -->
+      <button type="button" onclick="closeFaceIdModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition-colors z-20">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <!-- Biometric Badge Header -->
+      <div class="flex items-center gap-2 mb-2">
+        <div class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center">
+          <i data-lucide="scan-face" class="w-3.5 h-3.5"></i>
+        </div>
+        <span class="text-xs font-bold tracking-wider text-brand-300 uppercase">Apple Face ID</span>
+      </div>
+
+      <h3 id="faceIdTitle" class="text-lg font-bold text-white mb-1">Face Recognition</h3>
+      <p id="faceIdSubtitle" class="text-xs text-slate-400 mb-5 max-w-[240px]">Position your face within the frame to verify your identity</p>
+
+      <!-- REAL CAMERA VIEWFINDER -->
+      <div class="relative w-56 h-56 rounded-[32px] overflow-hidden bg-slate-950 border-2 border-brand-500/60 shadow-faceid-glow flex items-center justify-center">
+        
+        <!-- HTML5 Video element for Real Web Camera Feed -->
+        <video id="faceIdVideo" autoplay playsinline muted class="absolute inset-0 w-full h-full object-cover transform -scale-x-100 hidden"></video>
+
+        <!-- Fallback Face Mesh if Camera Permission Denied or Not Supported -->
+        <div id="faceIdFallbackMesh" class="flex flex-col items-center justify-center text-brand-400/80 p-4">
+          <svg class="w-24 h-24 stroke-current opacity-70" viewBox="0 0 100 100" fill="none" stroke-width="1.8">
+            <ellipse cx="50" cy="50" rx="32" ry="42" stroke="currentColor" stroke-dasharray="4 3"/>
+            <circle cx="38" cy="44" r="3" fill="currentColor"/>
+            <circle cx="62" cy="44" r="3" fill="currentColor"/>
+            <path d="M50 48 V 56 H 46" stroke="currentColor"/>
+            <path d="M42 66 Q 50 72 58 66" stroke="currentColor"/>
+          </svg>
+          <span id="cameraPromptMsg" class="text-[10px] text-slate-400 mt-2">Opening front camera...</span>
+        </div>
+
+        <!-- iOS Face ID Viewfinder Oval Guide & Corner Brackets -->
+        <div class="absolute inset-4 pointer-events-none border border-sky-400/30 rounded-[28px] flex items-center justify-center">
+          <div class="w-36 h-44 rounded-full border-2 border-dashed border-sky-300/40"></div>
+        </div>
+
+        <!-- Corner Reticle Brackets -->
+        <div class="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-brand-400 rounded-tl-lg pointer-events-none"></div>
+        <div class="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-brand-400 rounded-tr-lg pointer-events-none"></div>
+        <div class="absolute bottom-3 left-3 w-4 h-4 border-b-2 border-l-2 border-brand-400 rounded-bl-lg pointer-events-none"></div>
+        <div class="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-brand-400 rounded-br-lg pointer-events-none"></div>
+
+        <!-- Animated Cyan Laser Scanner Line -->
+        <div id="faceIdLaser" class="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-sky-300 to-transparent shadow-[0_0_12px_#38BDF8] faceid-laser-sweep"></div>
+
+        <!-- Success Verification Checkmark Overlay -->
+        <div id="faceIdSuccessCheck" class="absolute inset-0 bg-emerald-950/85 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 pointer-events-none">
+          <div class="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-lg transform scale-110">
+            <i data-lucide="check" class="w-8 h-8 stroke-[3]"></i>
+          </div>
+          <span class="text-xs font-bold text-emerald-300 mt-2.5">Face ID Verified</span>
+        </div>
+      </div>
+
+      <!-- Action status -->
+      <div class="mt-5 w-full flex flex-col items-center gap-2">
+        <div class="flex items-center gap-2 text-xs font-semibold text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="faceIdStatusMsg">Scanning facial geometry...</span>
+        </div>
+
+        <button type="button" onclick="bypassFaceIdSuccess()" class="text-[11px] text-slate-400 hover:text-sky-300 font-medium transition-colors mt-1">
+          Skip with simulated pass
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="myQrModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full max-w-sm bg-[#F1F5F9] rounded-3xl p-4 shadow-2xl flex flex-col border border-slate-200/80 max-h-[92vh] overflow-y-auto no-scrollbar">
+      
+      <!-- Close Header button -->
+      <div class="flex justify-between items-center mb-3 px-1">
+        <h3 class="text-sm font-bold text-slate-900">My QR Code</h3>
+        <button type="button" onclick="closeMyQrModal()" class="w-8 h-8 rounded-full bg-white text-slate-400 hover:text-slate-700 flex items-center justify-center shadow-sm">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- TOP SECTION: EXACT WHITE QR CARD MATCHING image_199e1e.png & image_19a8e5.png -->
+      <div class="bg-white rounded-2xl p-4 shadow-subtle-card border border-slate-200/70 flex flex-col items-center text-center">
+        
+        <!-- QR image supplied in QR.png -->
+        <div class="relative w-64 h-64 bg-white p-2 flex items-center justify-center rounded-xl overflow-hidden">
+          <img 
+            id="userQrImg" 
+            src="demo-qr.png" 
+            alt="HUO KHQR Code" 
+            class="w-full h-full object-contain mx-auto select-none"
+            onerror="loadFallbackQrSvg(this)"
+          />
+        </div>
+
+        <!-- Exact Subtitle matching image_199e1e.png -->
+        <p class="text-[10px] text-slate-400 mt-2 font-medium">
+          Scan here for payments
+        </p>
+
+        <!-- EXACT FULL-WIDTH ROYAL BLUE BUTTON: "[Share icon] Share my QR" -->
+        <button type="button" onclick="shareMyQrCode()" class="w-full mt-3.5 py-3 px-4 bg-[#00529C] hover:bg-[#00417D] active:scale-[0.99] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all">
+          <i data-lucide="share" class="w-4 h-4"></i>
+          <span>Share my QR</span>
+        </button>
+      </div>
+
+      <!-- BOTTOM SECTION: ACCOUNT SELECTOR CARDS MATCHING image_199e1e.png -->
+      <div class="mt-3.5 bg-white rounded-2xl border border-slate-200/80 shadow-subtle-card overflow-hidden">
+        
+        <!-- Account Item 1: Savings Account 011 406 52 (KHR) -->
+        <div onclick="selectQrAccount('KHR')" class="p-3.5 flex items-center justify-between border-b border-slate-100 hover:bg-slate-50 cursor-pointer transition-colors">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-[#00529C] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+              <span class="font-extrabold text-sm">៛</span>
+            </div>
+            <div>
+              <h5 class="text-xs font-bold text-slate-900 leading-tight">Savings Account</h5>
+              <p class="text-[11px] text-slate-500 font-semibold mt-0.5">011 406 52 (KHR)</p>
+            </div>
+          </div>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
+        </div>
+
+        <!-- Account Item 2: Staff Account 011 406 50 (USD) -->
+        <div onclick="selectQrAccount('USD')" class="p-3.5 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-[#00529C] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+              <span class="font-extrabold text-sm">$</span>
+            </div>
+            <div>
+              <h5 class="text-xs font-bold text-slate-900 leading-tight">Staff Account</h5>
+              <p class="text-[11px] text-slate-500 font-semibold mt-0.5">011 406 50 (USD)</p>
+            </div>
+          </div>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
   <div id="transferModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="relative w-full max-w-sm bg-white rounded-3xl p-5 shadow-2xl flex flex-col border border-slate-100">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
@@ -792,23 +934,31 @@
     </div>
   </div>
 
-  <!-- QR Scanner Modal with Animated Laser Scanner Line -->
-  <div id="qrScannerModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="relative w-full max-w-xs bg-slate-900 border border-slate-700 rounded-3xl p-6 flex flex-col items-center text-center text-white">
-      <button type="button" onclick="closeScannerModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-      <h3 class="text-base font-bold mb-1">Scan HUO QR Code</h3>
-      <p class="text-xs text-slate-400 mb-5">Align QR code within the frame to pay or transfer</p>
+  <div id="qrScannerModal" class="fixed inset-0 z-50 bg-[#020617] text-white opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full h-full min-h-[480px] overflow-hidden">
+      <header class="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-6 pt-[max(24px,env(safe-area-inset-top))]">
+        <button type="button" onclick="closeScannerModal()" aria-label="Close QR scanner" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/15 flex items-center justify-center transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+        <h3 class="text-[13px] font-bold tracking-wide">HUO SCAN PAY</h3>
+        <button id="qrFlashButton" type="button" onclick="toggleQrFlash()" aria-label="Toggle camera flash" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/15 text-white flex items-center justify-center transition-colors">
+          <i data-lucide="zap" class="w-4 h-4"></i>
+        </button>
+      </header>
 
-      <div class="relative w-48 h-48 border-2 border-brand-500 rounded-2xl flex items-center justify-center overflow-hidden bg-slate-950/70">
-        <div class="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_12px_#38BDF8] laser-scan-line"></div>
-        <i data-lucide="qr-code" class="w-24 h-24 text-slate-600/50"></i>
+      <div class="absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 w-[min(58vw,240px)] aspect-square rounded-[22px] overflow-hidden bg-black/30">
+        <video id="qrCameraVideo" class="absolute inset-0 w-full h-full object-cover opacity-40" autoplay playsinline muted></video>
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <i data-lucide="qr-code" class="w-[72px] h-[72px] text-white/20"></i>
+        </div>
+        <div class="absolute inset-0 rounded-[22px] border border-sky-500/50 pointer-events-none"></div>
+        <i class="absolute -top-px -left-px w-8 h-8 border-t-[3px] border-l-[3px] border-sky-500 rounded-tl-[22px]"></i>
+        <i class="absolute -top-px -right-px w-8 h-8 border-t-[3px] border-r-[3px] border-sky-500 rounded-tr-[22px]"></i>
+        <i class="absolute -bottom-px -left-px w-8 h-8 border-b-[3px] border-l-[3px] border-sky-500 rounded-bl-[22px]"></i>
+        <i class="absolute -bottom-px -right-px w-8 h-8 border-b-[3px] border-r-[3px] border-sky-500 rounded-br-[22px]"></i>
+        <div class="absolute inset-x-0 top-1/2 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_12px_#38BDF8] faceid-laser-sweep pointer-events-none"></div>
       </div>
-
-      <button type="button" onclick="simulateSuccessfulScan()" class="mt-6 w-full py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-full text-xs font-bold transition-colors">
-        Simulate Instant Scan
-      </button>
+      <p id="qrCameraStatus" class="absolute top-[calc(38%+145px)] left-5 right-5 text-center text-[12px] text-slate-300">Align KHQR or Merchant QR in box</p>
     </div>
   </div>
 
@@ -817,6 +967,128 @@
     let balanceVisible = true;
     let activeCurrency = 'USD';
     let currentBalanceValue = 1250.00;
+    let faceIdMediaStream = null;
+    let qrCameraStream = null;
+    let qrScanActive = false;
+    let qrScanLocked = false;
+    let qrFlashEnabled = false;
+    let audioCtx = null;
+
+    // Graceful SVG fallback matching image_19a8e5.png if img.png is not yet uploaded locally
+    function loadFallbackQrSvg(imgElement) {
+      imgElement.onerror = null; // Prevent loop
+      const svgFallback = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320">
+        <rect width="320" height="320" fill="white"/>
+        <rect x="24" y="24" width="70" height="70" rx="8" fill="black"/>
+        <rect x="36" y="36" width="46" height="46" rx="4" fill="white"/>
+        <rect x="46" y="46" width="26" height="26" rx="2" fill="black"/>
+        <rect x="226" y="24" width="70" height="70" rx="8" fill="black"/>
+        <rect x="238" y="36" width="46" height="46" rx="4" fill="white"/>
+        <rect x="248" y="46" width="26" height="26" rx="2" fill="black"/>
+        <rect x="24" y="226" width="70" height="70" rx="8" fill="black"/>
+        <rect x="36" y="238" width="46" height="46" rx="4" fill="white"/>
+        <rect x="46" y="248" width="26" height="26" rx="2" fill="black"/>
+        <rect x="104" y="52" width="14" height="14" fill="black"/>
+        <rect x="132" y="52" width="14" height="14" fill="black"/>
+        <rect x="160" y="52" width="14" height="14" fill="black"/>
+        <rect x="188" y="52" width="14" height="14" fill="black"/>
+        <rect x="52" y="104" width="14" height="14" fill="black"/>
+        <rect x="52" y="132" width="14" height="14" fill="black"/>
+        <rect x="52" y="160" width="14" height="14" fill="black"/>
+        <rect x="52" y="188" width="14" height="14" fill="black"/>
+        <rect x="236" y="236" width="50" height="50" rx="6" fill="black"/>
+        <rect x="246" y="246" width="30" height="30" rx="3" fill="white"/>
+        <rect x="254" y="254" width="14" height="14" rx="1" fill="black"/>
+        <g fill="black">
+          <rect x="104" y="24" width="12" height="12"/>
+          <rect x="122" y="24" width="12" height="24"/>
+          <rect x="144" y="32" width="18" height="12"/>
+          <rect x="174" y="24" width="20" height="12"/>
+          <rect x="202" y="32" width="12" height="24"/>
+          <rect x="24" y="104" width="12" height="20"/>
+          <rect x="40" y="112" width="12" height="12"/>
+          <rect x="72" y="104" width="20" height="12"/>
+          <rect x="80" y="122" width="14" height="22"/>
+          <rect x="104" y="80" width="14" height="14"/>
+          <rect x="126" y="86" width="22" height="12"/>
+          <rect x="156" y="78" width="14" height="24"/>
+          <rect x="180" y="84" width="24" height="12"/>
+          <rect x="214" y="80" width="14" height="14"/>
+          <rect x="104" y="112" width="16" height="16"/>
+          <rect x="130" y="106" width="14" height="28"/>
+          <rect x="178" y="108" width="26" height="14"/>
+          <rect x="214" y="112" width="14" height="24"/>
+          <rect x="238" y="104" width="26" height="14"/>
+          <rect x="274" y="112" width="16" height="28"/>
+          <rect x="104" y="178" width="16" height="26"/>
+          <rect x="132" y="184" width="18" height="14"/>
+          <rect x="160" y="196" width="14" height="26"/>
+          <rect x="184" y="178" width="24" height="14"/>
+          <rect x="218" y="184" width="16" height="26"/>
+          <rect x="24" y="144" width="14" height="24"/>
+          <rect x="46" y="152" width="26" height="12"/>
+          <rect x="78" y="162" width="14" height="28"/>
+          <rect x="104" y="214" width="28" height="14"/>
+          <rect x="144" y="228" width="14" height="26"/>
+          <rect x="170" y="214" width="26" height="14"/>
+          <rect x="206" y="224" width="14" height="24"/>
+          <rect x="104" y="254" width="14" height="36"/>
+          <rect x="126" y="270" width="28" height="14"/>
+          <rect x="164" y="258" width="14" height="28"/>
+          <rect x="188" y="268" width="32" height="14"/>
+          <rect x="274" y="154" width="16" height="28"/>
+          <rect x="240" y="172" width="24" height="14"/>
+          <rect x="272" y="194" width="18" height="16"/>
+          <rect x="296" y="178" width="12" height="28"/>
+        </g>
+        <circle cx="160" cy="160" r="32" fill="white"/>
+        <circle cx="160" cy="160" r="26" fill="#D32F2F"/>
+        <circle cx="160" cy="160" r="24" fill="#E53935"/>
+        <g stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none">
+          <circle cx="160" cy="160" r="6" fill="white"/>
+          <rect x="150" y="150" width="20" height="20" rx="3" stroke="white" stroke-width="1.8"/>
+          <rect x="150" y="150" width="20" height="20" rx="3" stroke="white" stroke-width="1.8" transform="rotate(45 160 160)"/>
+        </g>
+      </svg>`;
+      imgElement.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgFallback);
+    }
+
+    function playAudioTone(type) {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+
+        if (type === 'face-success') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880, now);
+          osc.frequency.exponentialRampToValueAtTime(1320, now + 0.14);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.36);
+        } else if (type === 'click') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.09);
+        }
+      } catch (e) {
+        console.warn('Web Audio note:', e);
+      }
+    }
 
     const balances = {
       USD: () => `$ ${currentBalanceValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
@@ -824,7 +1096,6 @@
       EUR: () => `€ ${(currentBalanceValue * 0.92).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
     };
 
-    // DOM Screen Elements
     const screenSplash = document.getElementById('screenSplash');
     const screenLogin = document.getElementById('screenLogin');
     const screenProcess = document.getElementById('screenProcess');
@@ -873,7 +1144,6 @@
       if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
-    // Automated Splash Progression (Shows First Automatically)
     function startAutomatedSplash() {
       if (splashTimer) clearInterval(splashTimer);
       showScreen('splash');
@@ -900,7 +1170,7 @@
         const match = statuses.find(s => progress >= s.at && progress < s.at + 25);
         if (match) splashStatusText.textContent = match.text;
 
-        // Auto-advance to Login when 100% is reached
+        // Auto advance into Screen 2 (Login) without manual clicks
         if (progress >= 100) {
           clearInterval(splashTimer);
           setTimeout(() => {
@@ -910,11 +1180,10 @@
       }, 35);
     }
 
-    // Clean Step 3 Progression Logic
     function runLoginProcess() {
       showScreen('process');
 
-      // Reset Step 3 elements to pristine initial state
+      // Reset Step 3 elements
       const progressBar = document.getElementById('processProgressBar');
       const percentText = document.getElementById('processPercentText');
       const iconStep3 = document.getElementById('iconStep3');
@@ -931,7 +1200,6 @@
       iconStep4.innerHTML = '<div class="w-2 h-2 rounded-full bg-slate-300"></div>';
       titleStep4.className = 'text-xs font-semibold text-slate-400 leading-tight';
 
-      // After verification delay, complete steps to 100%
       setTimeout(() => {
         iconStep3.className = 'w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-sm shrink-0 z-10';
         iconStep3.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5 stroke-[2.5]"></i>';
@@ -952,14 +1220,150 @@
       }, 1400);
     }
 
-    function triggerBiometricLogin(method) {
-      showToast('Authenticating with ' + method + '...');
-      setTimeout(() => {
-        runLoginProcess();
-      }, 500);
+    const faceIdModal = document.getElementById('faceIdModal');
+    const faceIdVideo = document.getElementById('faceIdVideo');
+    const faceIdFallbackMesh = document.getElementById('faceIdFallbackMesh');
+    const faceIdSuccessCheck = document.getElementById('faceIdSuccessCheck');
+    const faceIdStatusMsg = document.getElementById('faceIdStatusMsg');
+    const cameraPromptMsg = document.getElementById('cameraPromptMsg');
+
+    async function openFaceIdCameraModal() {
+      if (!faceIdModal) return;
+      playAudioTone('click');
+
+      faceIdSuccessCheck.classList.add('opacity-0');
+      faceIdStatusMsg.textContent = 'Opening front camera...';
+      cameraPromptMsg.textContent = 'Requesting camera permission...';
+      faceIdVideo.classList.add('hidden');
+      faceIdFallbackMesh.classList.remove('hidden');
+
+      faceIdModal.classList.remove('opacity-0', 'pointer-events-none');
+      faceIdModal.classList.add('opacity-100');
+
+      try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: 'user',
+              width: { ideal: 640 },
+              height: { ideal: 640 }
+            },
+            audio: false
+          });
+
+          faceIdMediaStream = stream;
+          faceIdVideo.srcObject = stream;
+          faceIdVideo.classList.remove('hidden');
+          faceIdFallbackMesh.classList.add('hidden');
+          faceIdStatusMsg.textContent = 'Scanning facial geometry...';
+
+          setTimeout(() => {
+            finishFaceIdSuccess();
+          }, 2400);
+
+        } else {
+          throw new Error('getUserMedia not supported');
+        }
+      } catch (err) {
+        console.warn('Real camera not available or permission denied:', err);
+        cameraPromptMsg.textContent = 'Camera not available / permitted. Using biometric mesh simulation.';
+        faceIdStatusMsg.textContent = 'Simulating Face ID scan...';
+
+        setTimeout(() => {
+          finishFaceIdSuccess();
+        }, 2200);
+      }
     }
 
-    // Password visibility toggle on login screen
+    function stopFaceIdCamera() {
+      if (faceIdMediaStream) {
+        faceIdMediaStream.getTracks().forEach(track => track.stop());
+        faceIdMediaStream = null;
+      }
+      if (faceIdVideo) {
+        faceIdVideo.srcObject = null;
+      }
+    }
+
+    function closeFaceIdModal() {
+      stopFaceIdCamera();
+      if (!faceIdModal) return;
+      faceIdModal.classList.add('opacity-0', 'pointer-events-none');
+      faceIdModal.classList.remove('opacity-100');
+    }
+
+    function finishFaceIdSuccess() {
+      faceIdStatusMsg.textContent = 'Face verified!';
+      faceIdSuccessCheck.classList.remove('opacity-0');
+      playAudioTone('face-success');
+
+      setTimeout(() => {
+        closeFaceIdModal();
+        runLoginProcess();
+      }, 700);
+    }
+
+    function bypassFaceIdSuccess() {
+      finishFaceIdSuccess();
+    }
+
+    function triggerFingerprintLogin() {
+      playAudioTone('click');
+      showToast('Authenticating with Fingerprint sensor...');
+      setTimeout(() => {
+        runLoginProcess();
+      }, 600);
+    }
+
+    function triggerGoogleLogin() {
+      playAudioTone('click');
+      showToast('Authenticating with Google Account...');
+      setTimeout(() => {
+        runLoginProcess();
+      }, 600);
+    }
+
+    const myQrModal = document.getElementById('myQrModal');
+
+    function openMyQrModal() {
+      playAudioTone('click');
+      if (!myQrModal) return;
+      myQrModal.classList.remove('opacity-0', 'pointer-events-none');
+      myQrModal.classList.add('opacity-100');
+    }
+
+    function closeMyQrModal() {
+      if (!myQrModal) return;
+      myQrModal.classList.add('opacity-0', 'pointer-events-none');
+      myQrModal.classList.remove('opacity-100');
+    }
+
+    function shareMyQrCode() {
+      playAudioTone('click');
+      if (navigator.share) {
+        navigator.share({
+          title: 'HUO KHQR Code - LYHUO',
+          text: 'Scan to pay LYHUO via HUO Mobile Banking / Bakong KHQR',
+          url: window.location.href
+        }).catch(() => {
+          showToast('QR Code link copied to clipboard');
+        });
+      } else {
+        const dummy = document.createElement('textarea');
+        dummy.value = 'KHQR: HUO Bank Cambodia - Savings Account 011 406 52 (KHR)';
+        document.body.appendChild(dummy);
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+        showToast('QR payment link copied to clipboard!');
+      }
+    }
+
+    function selectQrAccount(currency) {
+      playAudioTone('click');
+      showToast(`Active receiving account switched to ${currency}`);
+    }
+
     const togglePasswordVisibility = document.getElementById('togglePasswordVisibility');
     const loginPasswordInput = document.getElementById('loginPasswordInput');
     const passwordEyeIcon = document.getElementById('passwordEyeIcon');
@@ -973,15 +1377,14 @@
       });
     }
 
-    // Login button action listener
     const btnLoginAction = document.getElementById('btnLoginAction');
     if (btnLoginAction) {
       btnLoginAction.addEventListener('click', () => {
+        playAudioTone('click');
         runLoginProcess();
       });
     }
 
-    // Balance visibility toggle on dashboard
     const btnToggleBalance = document.getElementById('btnToggleBalance');
     const balanceDisplay = document.getElementById('dashboardBalanceDisplay');
     const balanceEyeIcon = document.getElementById('balanceEyeIcon');
@@ -1000,7 +1403,6 @@
       });
     }
 
-    // Currency Switcher
     const btnCurrencyToggle = document.getElementById('btnCurrencyToggle');
     const currencyCodeLabel = document.getElementById('currencyCodeLabel');
 
@@ -1018,7 +1420,6 @@
       });
     }
 
-    // Transfer Modal functions
     const transferModal = document.getElementById('transferModal');
     function openTransferModal() {
       if (!transferModal) return;
@@ -1044,24 +1445,105 @@
       showToast(`Transferred $${amountVal.toFixed(2)} to 011 000 987 654`);
     }
 
-    // QR Scanner Modal functions
     const qrScannerModal = document.getElementById('qrScannerModal');
-    function openScannerModal() {
+    async function openScannerModal() {
       if (!qrScannerModal) return;
       qrScannerModal.classList.remove('opacity-0', 'pointer-events-none');
       qrScannerModal.classList.add('opacity-100');
+      const video = document.getElementById('qrCameraVideo');
+      const status = document.getElementById('qrCameraStatus');
+      if (!navigator.mediaDevices?.getUserMedia) {
+        status.textContent = 'Camera access is unavailable. Open this page over HTTPS to use the scanner.';
+        return;
+      }
+      status.textContent = 'Starting camera…';
+      try {
+        qrCameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
+        if (!qrScannerModal.classList.contains('opacity-100')) {
+          qrCameraStream.getTracks().forEach(track => track.stop());
+          qrCameraStream = null;
+          return;
+        }
+        video.srcObject = qrCameraStream;
+        video.play().catch(() => {});
+        qrFlashEnabled = false;
+        document.getElementById('qrFlashButton')?.classList.remove('bg-amber-400', 'text-slate-950');
+        if (!('BarcodeDetector' in window) && typeof jsQR !== 'function') {
+          status.textContent = 'QR scanner could not load. Check your connection and reload the page.';
+          return;
+        }
+        const detector = 'BarcodeDetector' in window ? new BarcodeDetector({ formats: ['qr_code'] }) : null;
+        qrScanActive = true;
+        qrScanLocked = false;
+        status.textContent = 'Align KHQR or Merchant QR in box';
+        scanQrFromCamera(video, detector);
+      } catch (error) {
+        status.textContent = error.name === 'NotAllowedError'
+          ? 'Camera permission was denied. Allow camera access in your browser settings and try again.'
+          : 'Could not start the camera. Check that it is available and try again.';
+      }
     }
     function closeScannerModal() {
       if (!qrScannerModal) return;
       qrScannerModal.classList.add('opacity-0', 'pointer-events-none');
       qrScannerModal.classList.remove('opacity-100');
+      qrScanActive = false;
+      if (qrCameraStream) {
+        qrCameraStream.getTracks().forEach(track => track.stop());
+        qrCameraStream = null;
+      }
+      const video = document.getElementById('qrCameraVideo');
+      if (video) video.srcObject = null;
+      qrFlashEnabled = false;
     }
-    function simulateSuccessfulScan() {
-      closeScannerModal();
-      showToast('QR Code Verified: Merchant HUO Pay Cambodia');
+    async function scanQrFromCamera(video, detector) {
+      if (!qrScanActive || qrScanLocked || video.readyState < 2) {
+        if (qrScanActive && !qrScanLocked) requestAnimationFrame(() => scanQrFromCamera(video, detector));
+        return;
+      }
+      try {
+        let value = '';
+        if (detector) {
+          const codes = await detector.detect(video);
+          value = codes[0]?.rawValue || '';
+        } else {
+          const canvas = scanQrFromCamera.canvas || (scanQrFromCamera.canvas = document.createElement('canvas'));
+          const width = 320;
+          const height = Math.round(video.videoHeight * (width / video.videoWidth));
+          canvas.width = width;
+          canvas.height = height;
+          const context = canvas.getContext('2d', { willReadFrequently: true });
+          context.drawImage(video, 0, 0, width, height);
+          const image = context.getImageData(0, 0, width, height);
+          value = jsQR(image.data, image.width, image.height, { inversionAttempts: 'dontInvert' })?.data || '';
+        }
+        if (value) {
+          qrScanLocked = true;
+          closeScannerModal();
+          showToast(`QR code scanned: ${value.slice(0, 80)}${value.length > 80 ? '…' : ''}`);
+          return;
+        }
+      } catch (error) {
+        // Keep scanning; some frames may not be readable while the camera adjusts.
+      }
+      if (qrScanActive && !qrScanLocked) requestAnimationFrame(() => scanQrFromCamera(video, detector));
+    }
+    async function toggleQrFlash() {
+      const track = qrCameraStream?.getVideoTracks()[0];
+      if (!track || !track.getCapabilities?.().torch) {
+        document.getElementById('qrCameraStatus').textContent = 'Flash is not available on this camera.';
+        return;
+      }
+      try {
+        qrFlashEnabled = !qrFlashEnabled;
+        await track.applyConstraints({ advanced: [{ torch: qrFlashEnabled }] });
+        document.getElementById('qrFlashButton')?.classList.toggle('bg-amber-400', qrFlashEnabled);
+        document.getElementById('qrFlashButton')?.classList.toggle('text-slate-950', qrFlashEnabled);
+      } catch (error) {
+        document.getElementById('qrCameraStatus').textContent = 'Could not change the camera flash.';
+      }
     }
 
-    // Logout back to Splash flow
     function logoutToSplash() {
       showToast('Logging out...');
       setTimeout(() => {
@@ -1073,7 +1555,7 @@
       if (typeof lucide !== 'undefined') {
         lucide.createIcons();
       }
-      // SHOW SPLASH SCREEN FIRST AUTOMATICALLY
+      // Start automated splash sequence immediately on load
       startAutomatedSplash();
     });
   </script>
