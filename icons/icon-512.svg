@@ -1,1 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#67BEFF"/><stop offset=".34" stop-color="#268BFA"/><stop offset=".7" stop-color="#0864E9"/><stop offset="1" stop-color="#0647B8"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#blue)"/><path d="M160 150v212M352 150v212M168 256h176" fill="none" stroke="#fff" stroke-width="56" stroke-linecap="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs><linearGradient id="appbg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#102B57"/><stop offset="1" stop-color="#030B1D"/></linearGradient></defs>
+  <rect width="512" height="512" rx="112" fill="url(#appbg)"/>
+  <svg x="36" y="0" width="440" height="512" viewBox="0 0 461 520"><defs>
+    <linearGradient id="left" x1="88" y1="44" x2="113" y2="474" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#21A6FF"/>
+      <stop offset=".48" stop-color="#0875F4"/>
+      <stop offset="1" stop-color="#073FBA"/>
+    </linearGradient>
+    <linearGradient id="right" x1="327" y1="48" x2="418" y2="470" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#168FFF"/>
+      <stop offset=".56" stop-color="#064BCB"/>
+      <stop offset="1" stop-color="#087AF0"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="36" y1="329" x2="428" y2="254" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#20D4F4"/>
+      <stop offset=".44" stop-color="#69E6FF"/>
+      <stop offset="1" stop-color="#0CB7F5"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="42" y1="300" x2="430" y2="224" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D3FAFF" stop-opacity=".2"/>
+      <stop offset=".56" stop-color="#E9FCFF" stop-opacity=".92"/>
+      <stop offset="1" stop-color="#E9FCFF" stop-opacity=".75"/>
+    </linearGradient>
+  </defs>
+  <path d="M31 463V146c0-27 13-49 38-62l59-31c8-4 18 2 18 11v310c0 26-13 46-36 58l-62 31c-8 4-17-2-17-10Z" fill="url(#left)"/>
+  <path d="M316 64c0-9 9-15 18-12l78 27c11 4 17 13 17 25v253c0 27-12 48-34 62l-61 44c-8 6-18 0-18-10V64Z" fill="url(#right)"/>
+  <path d="M32 313c38-66 83-91 138-93 78-3 154 25 258-47v91c-82 57-151 47-236 45-72-2-118 18-160 81v-77Z" fill="url(#ribbon)"/>
+  <path d="M35 310c39-64 83-87 136-89 77-3 155 23 254-45" stroke="url(#sheen)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M32 391c35-64 87-91 155-92 82-1 153 18 241-39v30c-89 60-161 46-239 45-69-1-119 22-157 82v-26Z" fill="#00A8ED" fill-opacity=".68"/>
+</svg>
+</svg>

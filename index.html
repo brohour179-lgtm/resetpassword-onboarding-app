@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <!-- Native iPhone 12 Pro Max viewport (428x926) with iOS safe area cover -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>HUO - Your Finance, Simplified</title>
+  <title>HUO</title>
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,10 +25,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-
-
-
-    <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 
 <body class="min-h-[100dvh] text-slate-800 antialiased flex flex-col items-center justify-center p-0 sm:p-4 select-none">
@@ -61,9 +58,9 @@
       <div class="flex-1 flex flex-col items-center justify-center relative z-10 pt-8">
         <div class="relative">
           <div class="absolute -inset-4 rounded-full bg-sky-400/30 blur-xl"></div>
-          <div class="relative w-24 h-24 rounded-[28px] bg-gradient-to-tr from-brand-600 via-brand-500 to-sky-400 p-[2px] shadow-2xl flex items-center justify-center">
-            <div class="w-full h-full logo-gradient rounded-[26px] flex items-center justify-center p-5">
-              <span aria-hidden="true" class="text-5xl font-black tracking-[-0.08em] leading-none text-white">H</span>
+          <div class="relative w-28 h-28 rounded-[30px] bg-gradient-to-tr from-brand-600 via-brand-500 to-sky-400 p-[2px] shadow-2xl flex items-center justify-center">
+            <div class="w-full h-full bg-[#071632] rounded-[26px] flex items-center justify-center p-1">
+              <img src="./icons/huo-mark.svg" alt="" aria-hidden="true" class="w-20 h-24 object-contain">
             </div>
           </div>
         </div>
@@ -115,8 +112,8 @@
       <div class="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full">
         <!-- Logo Badge & Clean Greeting -->
         <div class="flex flex-col items-center mb-8">
-          <div class="w-16 h-16 rounded-[22px] logo-gradient text-white flex items-center justify-center p-3.5 shadow-logo-squircle">
-            <span aria-hidden="true" class="text-3xl font-black tracking-[-0.08em] leading-none text-white">H</span>
+          <div class="w-16 h-16 rounded-[22px] bg-white border border-slate-100 flex items-center justify-center p-1 shadow-logo-squircle">
+            <img src="./icons/huo-mark.svg" alt="" aria-hidden="true" class="w-12 h-14 object-contain">
           </div>
           <h3 class="text-3xl font-black text-slate-900 tracking-wider mt-3.5">HUO</h3>
           <h4 class="text-lg font-bold text-slate-900 mt-1">Welcome back</h4>
@@ -239,8 +236,8 @@
         
         <!-- Modern Geometric Connected 'H' Squircle Badge -->
         <div class="flex flex-col items-center mb-8">
-          <div class="w-18 h-18 p-4 rounded-[24px] logo-gradient text-white flex items-center justify-center shadow-logo-squircle">
-            <span aria-hidden="true" class="text-3xl font-black tracking-[-0.08em] leading-none text-white">H</span>
+          <div class="w-20 h-20 p-2 rounded-[24px] bg-white border border-slate-100 flex items-center justify-center shadow-logo-squircle">
+            <img src="./icons/huo-mark.svg" alt="" aria-hidden="true" class="w-12 h-14 object-contain">
           </div>
           <h3 class="text-3xl font-black text-slate-900 tracking-wider mt-3.5">HUO</h3>
           <h4 class="text-lg font-bold text-slate-900 mt-1">Please wait</h4>
@@ -333,7 +330,7 @@
         <!-- Left Side: Circular Blue Emblem with White 'H' + 'HUO' & Greeting -->
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full logo-gradient text-white flex items-center justify-center p-2.5 shadow-sm shrink-0">
-            <span aria-hidden="true" class="text-2xl font-black tracking-[-0.08em] leading-none text-white">H</span>
+            <img src="./icons/huo-mark.svg" alt="" aria-hidden="true" class="w-6 h-7 object-contain">
           </div>
 
           <div>
@@ -378,7 +375,7 @@
           
           <!-- Watermark 'H' Monogram -->
           <div class="absolute -right-3 -bottom-5 w-36 h-36 opacity-15 pointer-events-none">
-            <span aria-hidden="true" class="text-[8rem] font-black tracking-[-0.08em] leading-none text-white">H</span>
+            <img src="./icons/huo-mark.svg" alt="" aria-hidden="true" class="w-full h-full object-contain opacity-15 brightness-0 invert">
           </div>
 
           <!-- Top Row: Balance Label & Eye Privacy Toggle -->
@@ -796,31 +793,37 @@
     </div>
   </div>
 
-  <div id="qrScannerModal" class="fixed inset-0 z-50 bg-[#020617] text-white opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="relative w-full h-full min-h-[480px] overflow-hidden">
-      <header class="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-6 pt-[max(24px,env(safe-area-inset-top))]">
-        <button type="button" onclick="closeScannerModal()" aria-label="Close QR scanner" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/15 flex items-center justify-center transition-colors">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-        <h3 class="text-[13px] font-bold tracking-wide">HUO SCAN PAY</h3>
-        <button id="qrFlashButton" type="button" onclick="toggleQrFlash()" aria-label="Toggle camera flash" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/15 text-white flex items-center justify-center transition-colors">
-          <i data-lucide="zap" class="w-4 h-4"></i>
-        </button>
+  <div id="qrScannerModal" class="fixed inset-0 z-50 bg-slate-950/65 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div role="dialog" aria-modal="true" aria-labelledby="qrScannerTitle" class="relative w-full max-w-sm rounded-[28px] bg-white text-slate-900 shadow-2xl p-5">
+      <header class="flex items-center justify-between">
+        <div>
+          <p class="text-[10px] font-bold tracking-[0.16em] text-brand-600 uppercase">HUO Scan Pay</p>
+          <h3 id="qrScannerTitle" class="mt-1 text-lg font-bold">Scan a QR code</h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="qrFlashButton" type="button" onclick="toggleQrFlash()" aria-label="Toggle camera flash" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors">
+            <i data-lucide="zap" class="w-4 h-4"></i>
+          </button>
+          <button type="button" onclick="closeScannerModal()" aria-label="Close QR scanner" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
       </header>
+      <p class="mt-1 text-xs text-slate-500">Align a KHQR or merchant code inside the frame.</p>
 
-      <div class="absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 w-[min(58vw,240px)] aspect-square rounded-[22px] overflow-hidden bg-black/30">
-        <video id="qrCameraVideo" class="absolute inset-0 w-full h-full object-cover opacity-40" autoplay playsinline muted></video>
+      <div class="relative mt-4 mx-auto w-full max-w-[280px] aspect-square rounded-2xl overflow-hidden bg-slate-950">
+        <video id="qrCameraVideo" class="absolute inset-0 w-full h-full object-cover opacity-80" autoplay playsinline muted></video>
         <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
           <i data-lucide="qr-code" class="w-[72px] h-[72px] text-white/20"></i>
         </div>
-        <div class="absolute inset-0 rounded-[22px] border border-sky-500/50 pointer-events-none"></div>
-        <i class="absolute -top-px -left-px w-8 h-8 border-t-[3px] border-l-[3px] border-sky-500 rounded-tl-[22px]"></i>
-        <i class="absolute -top-px -right-px w-8 h-8 border-t-[3px] border-r-[3px] border-sky-500 rounded-tr-[22px]"></i>
-        <i class="absolute -bottom-px -left-px w-8 h-8 border-b-[3px] border-l-[3px] border-sky-500 rounded-bl-[22px]"></i>
-        <i class="absolute -bottom-px -right-px w-8 h-8 border-b-[3px] border-r-[3px] border-sky-500 rounded-br-[22px]"></i>
+        <div class="absolute inset-0 rounded-2xl border border-sky-500/50 pointer-events-none"></div>
+        <i class="absolute -top-px -left-px w-8 h-8 border-t-[3px] border-l-[3px] border-sky-400 rounded-tl-2xl"></i>
+        <i class="absolute -top-px -right-px w-8 h-8 border-t-[3px] border-r-[3px] border-sky-400 rounded-tr-2xl"></i>
+        <i class="absolute -bottom-px -left-px w-8 h-8 border-b-[3px] border-l-[3px] border-sky-400 rounded-bl-2xl"></i>
+        <i class="absolute -bottom-px -right-px w-8 h-8 border-b-[3px] border-r-[3px] border-sky-400 rounded-br-2xl"></i>
         <div class="absolute inset-x-0 top-1/2 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_12px_#38BDF8] faceid-laser-sweep pointer-events-none"></div>
       </div>
-      <p id="qrCameraStatus" class="absolute top-[calc(38%+145px)] left-5 right-5 text-center text-[12px] text-slate-300">Align KHQR or Merchant QR in box</p>
+      <p id="qrCameraStatus" class="mt-4 min-h-8 text-center text-xs text-slate-500">Align KHQR or merchant QR in frame.</p>
     </div>
   </div>
 
